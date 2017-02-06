@@ -1,0 +1,7 @@
+<lms-header *ngIf="auth.loggedIn()"></lms-header>
+<div id="wrapper">
+    <lms-sidebar *ngIf="auth.loggedIn()"></lms-sidebar>
+    <main id="page-content-wrapper" role="main">
+        <router-outlet></router-outlet>
+    </main>
+</div>
