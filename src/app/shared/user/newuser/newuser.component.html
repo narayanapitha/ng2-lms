@@ -1,0 +1,124 @@
+<h1 class="page-header">Create a new user</h1>
+
+<form class="form-horizontal">
+  <fieldset>
+  <!-- Text input-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="firstname">First name</label>  
+    <div class="col-md-4">
+    <input id="firstname" name="firstname" type="text" placeholder="Jhon" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Text input-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="lastname">Last name</label>  
+    <div class="col-md-4">
+    <input id="lastname" name="lastname" type="text" placeholder="Deo" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Photo --> 
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="Photo">Photo</label>
+    <div class="col-md-4">
+      <input id="Photo" name="Photo" class="input-file" type="file">
+    </div>
+  </div>
+
+  <!-- Birthday-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="birthday">Birthday</label>  
+    <div class="col-md-4">
+    <input id="birthday" name="birthday" type="date" placeholder="birthday" class="form-control input-md">
+    </div>
+  </div>
+
+  <!-- E-Mail address-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="email">E-Mail address</label>  
+    <div class="col-md-4">
+    <input id="email" name="email" type="email" placeholder="E-Mail Address" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Role -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="selectbasic">Role</label>
+    <div class="col-md-4">
+      <select id="selectrole" name="selectrole" class="form-control">
+        <option value="1">User</option>
+        <option value="2">Manager</option>
+        <option value="2">Admin</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Gender -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="gender">Gender</label>
+    <div class="col-md-4">
+      <select id="gender" name="gender" class="form-control">
+        <option value="1">Male</option>
+        <option value="2">Female</option>
+      </select>
+    </div>
+  </div>
+
+
+  <!-- Select Manager -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="reportingmanager">Reporting Manager</label>
+    <div class="col-md-4">
+      <select id="reportingmanager" name="reportingmanager" class="form-control">
+        <option value="1">self</option>
+        <option value="2">manager one</option>
+        <option value="2">manager two</option>
+        <option value="2">manager three</option>
+        <option value="2">manager four</option>
+        <option value="2">manager five</option>
+      </select>
+    </div>
+    <span>If a user has no manager (itself), it can validate its leave requests.</span>
+  </div>
+
+  <!-- Date Hired/Started-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="employmentdate">Date Hired/Started</label>  
+    <div class="col-md-4">
+    <input id="employmentdate" name="employmentdate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Phone-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="phone">Phone</label>  
+    <div class="col-md-4">
+    <input id="phone" name="phone" type="tel" placeholder="phone" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Address -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="address">Address</label>
+    <div class="col-md-4">                     
+      <textarea class="form-control" id="address" name="address">address</textarea>
+    </div>
+  </div>
+
+
+  <!-- Button -->
+  <div class="form-group">
+    <div class="col-md-4">
+      <button type="submit" id="submituser" name="submituser" class="btn btn-primary">Submit</button>
+      <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+    </div>
+  </div>
+
+  </fieldset>
+</form>

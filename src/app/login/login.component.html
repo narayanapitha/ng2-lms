@@ -22,8 +22,8 @@
     <label for="password">Password</label>
     <input class="form-control" type="password" placeholder="password" formControlName="password">
   </div>
-  <button type="submit" [disabled]="!loginForm.valid" class="btn btn-md btn-primary">Sign in</button>
-  <button type="clear" class="btn btn-md btn-info">clear</button>
+  <button type="submit" [disabled]="!loginForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Sign in</button>
+  <button type="clear" class="btn btn-md btn-info">Clear</button>
 </form>
   </div>
 </div>
