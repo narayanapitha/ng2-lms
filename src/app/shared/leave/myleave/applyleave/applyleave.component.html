@@ -2,35 +2,41 @@
 
 <form class="form-horizontal">
   <fieldset>
-  <!-- Holiday Name-->
-  <div class="form-group">
-    <label class="col-md-4 control-label" for="holidayname">Holiday Name</label>  
-    <div class="col-md-4">
-    <input id="holidayname" name="holidayname" type="text" placeholder="e.g Holi" class="form-control input-md">
-      
-    </div>
-  </div>
 
-  <!-- Date-->
+  <!-- Select Leave type -->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="holidaydate">Holiday Date</label>  
+    <label class="col-md-4 control-label" for="leavetype">Leave type</label>
     <div class="col-md-4">
-    <input id="holidaydate" name="holidaydate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
-      
-    </div>
-  </div>
-
-  <!-- Select year -->
-  <div class="form-group">
-    <label class="col-md-4 control-label" for="financialyear">Year</label>
-    <div class="col-md-4">
-      <select id="financialyear" name="financialyear" class="form-control">
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
+      <select id="leavetype" name="leavetype" class="form-control">
+        <option value="cl">Casual Leave</option>
+        <option value="ml">Maternity Leave</option>
       </select>
+    </div>
+  </div>
+
+  <!-- Start Date-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="startdate">Start Date</label>  
+    <div class="col-md-4">
+    <input id="startdate" name="startdate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
+      
+    </div>
+  </div>
+
+    <!-- End Date-->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="enddate">End Date</label>  
+    <div class="col-md-4">
+    <input id="enddate" name="enddate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
+      
+    </div>
+  </div>
+
+  <!-- Leave Description  -->
+  <div class="form-group">
+    <label class="col-md-4 control-label" for="description">Description</label>
+    <div class="col-md-4">                     
+      <textarea class="form-control" id="description" name="description">description</textarea>
     </div>
   </div>
 

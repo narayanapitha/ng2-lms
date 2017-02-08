@@ -12,9 +12,7 @@ export class AuthService {
   constructor(private http: Http, private router:Router) {}
 
   login(credentials) {
-   return this.http.post(
-        'http://192.168.0.106/laravel-api-boilerplate-jwt-master/public/api/auth/login', credentials )
-      .map(res => res.json());
+   return this.http.post('http://192.168.0.123/laravelinfyomtest/public/api/loginuser', credentials).map(res => res.json());
   }
   loggedIn() {
     return tokenNotExpired();
