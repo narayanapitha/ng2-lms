@@ -1,0 +1,17 @@
+{
+  "name": "lms-server",
+  "main": "server.js",
+  "description": "A simple Angular 2 Leave managment system project server api in nodejs.",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "jwt-simple": "^0.5.1",
+    "mongoose": "^4.8.2",
+    "morgan": "^1.8.1",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1"
+  }
+}

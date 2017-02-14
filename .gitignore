@@ -2,3 +2,5 @@
 /node_modules/
 /typings/
 /.idea/
+
+/server/node_modules/
