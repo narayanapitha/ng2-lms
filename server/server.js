@@ -21,13 +21,11 @@ app.use(morgan('dev'));
 app.use(passport.initialize());
  
 // CORS
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
-
 
 // demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
@@ -81,7 +79,7 @@ apiRoutes.post('/login', function(req, res) {
         if (isMatch && !err) {
           // if user is found and password is right create a token
           var token = jwt.sign(user, config.secret, {
-            expiresIn: 60 // expires in 1 minute
+            expiresIn: 300 // expires in 1 minute
           });
           //var token = jwt.encode(user, config.secret);
           // return the information including token as JSON
@@ -99,14 +97,16 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    console.log(decoded._doc);
     jwt.verify(token, config.secret, function(err, decoded) {      
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
+        decoded_user = decoded._doc;
         User.findOne({
-          username: decoded.username
+          username: decoded_user.username
           }, function(err, user) {
               if (err) throw err;
       
@@ -135,8 +135,6 @@ getToken = function (headers) {
     return null;
   }
 };
-
-
 
 // connect the api routes under /api/*
 app.use('/api', apiRoutes);
