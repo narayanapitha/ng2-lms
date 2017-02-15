@@ -7,7 +7,8 @@ var passport	= require('passport');
 var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
 var port        = process.env.PORT || 9000;
-var jwt         = require('jwt-simple');
+//var jwt         = require('jwt-simple');
+var jwt = require('jsonwebtoken');
  
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -66,7 +67,7 @@ apiRoutes.post('/signup', function(req, res) {
 });
  
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
-apiRoutes.post('/authenticate', function(req, res) {
+apiRoutes.post('/login', function(req, res) {
   User.findOne({
     username: req.body.username
   }, function(err, user) {
@@ -79,7 +80,10 @@ apiRoutes.post('/authenticate', function(req, res) {
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (isMatch && !err) {
           // if user is found and password is right create a token
-          var token = jwt.encode(user, config.secret);
+          var token = jwt.sign(user, config.secret, {
+            expiresIn: 60 // expires in 1 minute
+          });
+          //var token = jwt.encode(user, config.secret);
           // return the information including token as JSON
           res.json({success: true, token: token});
         } else {
@@ -94,17 +98,25 @@ apiRoutes.post('/authenticate', function(req, res) {
 apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
-    User.findOne({
-      username: decoded.username
-    }, function(err, user) {
-        if (err) throw err;
- 
-        if (!user) {
-          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
-        } else {
-          res.json({success: true, data: user});
-        }
+    // verifies secret and checks exp
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        User.findOne({
+          username: decoded.username
+          }, function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, data: user});
+              }
+            });
+      }
     });
   } else {
     return res.status(403).send({success: false, msg: 'No token provided.'});
