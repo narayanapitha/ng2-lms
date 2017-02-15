@@ -19,6 +19,15 @@ app.use(morgan('dev'));
 // Use the passport package in our application
 app.use(passport.initialize());
  
+// CORS
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  next();
+});
+
+
 // demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
   res.send('Hello! The API is at http://localhost:' + port + '/api');
@@ -39,11 +48,11 @@ var apiRoutes = express.Router();
  
 // create a new user account (POST http://localhost:8080/api/signup)
 apiRoutes.post('/signup', function(req, res) {
-  if (!req.body.name || !req.body.password) {
-    res.json({success: false, msg: 'Please pass name and password.'});
+  if (!req.body.username || !req.body.password) {
+    res.json({success: false, msg: 'Please pass username and password.'});
   } else {
     var newUser = new User({
-      name: req.body.name,
+      username: req.body.username,
       password: req.body.password
     });
     // save the user
@@ -59,7 +68,7 @@ apiRoutes.post('/signup', function(req, res) {
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 apiRoutes.post('/authenticate', function(req, res) {
   User.findOne({
-    name: req.body.name
+    username: req.body.username
   }, function(err, user) {
     if (err) throw err;
  
@@ -72,7 +81,7 @@ apiRoutes.post('/authenticate', function(req, res) {
           // if user is found and password is right create a token
           var token = jwt.encode(user, config.secret);
           // return the information including token as JSON
-          res.json({success: true, token: 'JWT ' + token});
+          res.json({success: true, token: token});
         } else {
           res.send({success: false, msg: 'Authentication failed. Wrong password.'});
         }
@@ -87,14 +96,14 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
-      name: decoded.name
+      username: decoded.username
     }, function(err, user) {
         if (err) throw err;
  
         if (!user) {
           return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
         } else {
-          res.json({success: true, msg: 'Welcome in the member area ' + user.name + '!'});
+          res.json({success: true, data: user});
         }
     });
   } else {

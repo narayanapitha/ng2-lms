@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
         // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
-                this.username = users.user.name;
+                this.username = users.data.username;
             });
     }
 }

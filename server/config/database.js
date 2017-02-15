@@ -1,4 +1,6 @@
+require('dotenv').config()
+
 module.exports = {
   'secret': 'devdacticIsAwesome',
-  'database': 'mongodb://localhost/lms'
+  'database': process.env.DB_URL
 };

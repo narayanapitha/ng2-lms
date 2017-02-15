@@ -14,7 +14,7 @@ export class LoginComponent {
   loading: boolean = false;
   
   public loginForm = this.fb.group({
-    email: ["", Validators.required],
+    username: ["", Validators.required],
     password: ["", Validators.required]
   });
    
@@ -27,9 +27,14 @@ export class LoginComponent {
     this.error = "";
     this.auth.login(this.loginForm.value).subscribe(
         data => {
-            localStorage.setItem('id_token', data.token);
-            this.router.navigateByUrl('/');
-            this.loading = false;
+            if(data.token){
+              localStorage.setItem('id_token', data.token);
+              this.router.navigateByUrl('/');
+              this.loading = false;
+            }else{
+              this.error = "Invalid token. Try again !!!";
+            }
+            
         },
         error => {
           this.error = "Authentication fail. Try again !!!";
