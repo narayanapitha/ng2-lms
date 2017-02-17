@@ -290,7 +290,7 @@ body {
 }
 
 /*-------------------Login Page----------------*/
-input.ng-invalid{
+input.ng-invalid, select.ng-invalid{
     border-color: red;
 }
 

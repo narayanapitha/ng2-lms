@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private http: Http, private router:Router) {}
 
   login(credentials) {
-   return this.http.post('http://localhost:9000/api/authenticate', credentials).map(res => res.json());
+   return this.http.post('http://localhost:9000/api/login', credentials).map(res => res.json());
   }
   loggedIn() {
     return tokenNotExpired();

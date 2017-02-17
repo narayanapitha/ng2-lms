@@ -10,11 +10,53 @@ var UserSchema = new Schema({
         type: String,
         unique: true,
         required: true
-    },
+  },
   password: {
         type: String,
         required: true
-    }
+  },
+  firstname: {
+        type: String,
+        required: true
+  },
+  lastname: {
+        type: String,
+        required: true
+  },
+  photo: {
+        type: String,
+        required: true
+  },
+  birthday: {
+        type: String,
+        required: true
+  },
+  emailaddress: {
+        type: String,
+        required: true
+  },
+  role: {
+        type: String,
+        required: true
+  },
+  gender: {
+        type: String,
+        required: true
+  },
+  reportingmanager: {
+        type: String,
+        required: true
+  },
+  employmentdate: {
+        type: String,
+        required: true
+  },
+  phone: {
+        type: String
+  },
+  address: {
+        type: String
+  }
 });
  
 UserSchema.pre('save', function (next) {
