@@ -1,35 +1,39 @@
 import { Component, OnInit } from '@angular/core';
 import { DataTableResource } from 'angular-2-data-table';
-import persons from './userdata';
+//import persons from './userdata';
+import { AdduserService } from '../../service/adduser.service';
 
 @Component({
     selector: 'lms-user',
-    templateUrl: 'user.component.html'
+    templateUrl: 'user.component.html',
+	providers: [AdduserService]
 })
 export class UserComponent {
     
-   itemResource = new DataTableResource(persons);
     items = [];
     itemCount = 0;
 
-    constructor() {
-        this.itemResource.count().then(count => this.itemCount = count);
+    constructor(private adduserService: AdduserService) {
+        this.adduserService.listusers().subscribe(res => {
+			this.items = res.data,
+			this.itemCount = res.data.length
+		});		
+    }
+	
+    reloadItems() {
+        this.adduserService.listusers().subscribe(res => {
+			this.items = res.data,
+			this.itemCount = res.data.length
+		});
     }
 
-    reloadItems(params) {
-        this.itemResource.query(params).then(items => this.items = items);
+    rowTooltip(item) { return item.firstname; }
+	
+	editUser(item) {
+        alert(item._id);
     }
-
-    // special properties:
-
-    rowClick(rowEvent) {
-        console.log('Clicked: ' + rowEvent.row.item.name);
+	
+	deleteUser(item) {
+        alert(item._id);
     }
-
-    rowDoubleClick(rowEvent) {
-        alert('Double clicked: ' + rowEvent.row.item.name);
-    }
-
-    rowTooltip(item) { return item.jobTitle; }
-
 }

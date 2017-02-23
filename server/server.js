@@ -90,7 +90,7 @@ apiRoutes.post('/login', function(req, res) {
         if (isMatch && !err) {
           // if user is found and password is right create a token
           var token = jwt.sign(user, config.secret, {
-            expiresIn: 300 // expires in 1 minute
+            expiresIn: 30000 // expires in 1 minute
           });
           //var token = jwt.encode(user, config.secret);
           // return the information including token as JSON
@@ -102,6 +102,62 @@ apiRoutes.post('/login', function(req, res) {
     }
   });
 });
+
+
+// route to a restricted info (GET http://localhost:9000/api/users)
+apiRoutes.get('/users', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        User.find(function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, data: user});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+
+// route to a restricted info (GET http://localhost:9000/api/users)
+apiRoutes.post('/getUser', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        User.findById(req.body.id, function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, data: user});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+
 
 // route to a restricted info (GET http://localhost:8080/api/memberinfo)
 apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {

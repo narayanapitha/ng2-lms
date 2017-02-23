@@ -1,19 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AdduserService } from '../../../service/adduser.service'
 @Component({
     selector: 'lms-newuser',
     templateUrl: 'newuser.component.html',
     providers: [AdduserService]
 })
-export class NewuserComponent {
+export class NewuserComponent implements OnInit {
     
     error: string;
     loading: boolean = false;
     success: string;
+	userData: any;
 
-    public userForm = this.fb.group({
+    constructor(private fb: FormBuilder, private router: Router, private user: AdduserService, private activatedRoute: ActivatedRoute) {
+		
+		//getUserData(params.id);	
+    }
+	
+	ngOnInit() {
+		let params: any = this.activatedRoute.snapshot.params;
+		this.getUserData(params.id);
+	}	
+	
+	getUserData(id){
+		this.user.getUser(id).subscribe(
+            data => {
+                if(data.success){
+                    this.success = data.msg;
+                    this.loading = false;
+                }else{
+                    this.error = data.msg;
+                }
+            },
+            error => {
+            this.error = error.msg;
+            this.loading = false;
+            }
+        );
+	}
+	
+	public userForm = this.fb.group({
         firstname: ["", Validators.required],
         lastname: ["", Validators.required],
         photo: [""],
@@ -26,10 +54,6 @@ export class NewuserComponent {
         phone: [""],
         address: [""]
     });
-
-     constructor(private fb: FormBuilder, private router: Router, private user: AdduserService) {
-      
-    }
 
     submitForm() {
 		this.loading = true;

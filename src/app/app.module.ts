@@ -64,6 +64,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'user/:id',
+    component: NewuserComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'myleave',
     component: MyleaveComponent,
     canActivate: [AuthGuard]
