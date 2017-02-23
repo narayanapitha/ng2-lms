@@ -89,7 +89,7 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     DataTableModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   declarations: [
     AppComponent,
