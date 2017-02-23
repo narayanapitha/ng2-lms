@@ -52,7 +52,18 @@ apiRoutes.post('/signup', function(req, res) {
   } else {
     var newUser = new User({
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+	  firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      photo: req.body.photo,
+      birthday: req.body.birthday,
+      emailaddress: req.body.email,
+      role: req.body.role,
+      gender: req.body.gender,
+      reportingmanager: req.body.reportingmanager,
+      employmentdate: req.body.employmentdate,
+      phone: req.body.phone,
+      address: req.body.address
     });
     // save the user
     newUser.save(function(err) {

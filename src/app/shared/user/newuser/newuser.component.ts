@@ -31,14 +31,14 @@ export class NewuserComponent {
       
     }
 
-    onLogin(credentials) {
-    this.loading = true;
-    this.error = "";
-    this.success = "";
-    this.userForm.value.username = this.userForm.value.email;
-    this.userForm.value.password = "test";
-    console.log("this.userForm.value ->"+this.userForm.value);
-    this.user.addUser(this.userForm.value).subscribe(
+    submitForm() {
+		this.loading = true;
+		this.error = "";
+		this.success = "";
+		this.userForm.value.username = this.userForm.value.email;
+		this.userForm.value.password = "test";
+		console.log("this.userForm.value ->"+this.userForm.value);
+		this.user.addUser(this.userForm.value).subscribe(
             data => {
                 if(data.success){
                     this.success = data.msg;

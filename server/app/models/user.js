@@ -24,8 +24,7 @@ var UserSchema = new Schema({
         required: true
   },
   photo: {
-        type: String,
-        required: true
+        type: String
   },
   birthday: {
         type: String,

@@ -13,4 +13,8 @@ export class AdduserService {
     addUser(userdata){
        return this.http.post('http://localhost:9000/api/signup', userdata).map(res => res.json());
     }
+	
+	listusers(){
+        return this.http.get('http://localhost:9000/api/users').map(res => res.json());
+    }
 }
