@@ -13,23 +13,42 @@ export class NewuserComponent implements OnInit {
     loading: boolean = false;
     success: string;
 	userData: any;
+    updatePage: boolean = false;
+    userid: string;
 
     constructor(private fb: FormBuilder, private router: Router, private user: AdduserService, private activatedRoute: ActivatedRoute) {
-		
-		//getUserData(params.id);	
     }
 	
 	ngOnInit() {
 		let params: any = this.activatedRoute.snapshot.params;
-		this.getUserData(params.id);
+        if(params.id){
+            this.getUserData(params.id);
+            this.userid = params.id;
+        }
+		
 	}	
 	
 	getUserData(id){
 		this.user.getUser(id).subscribe(
             data => {
                 if(data.success){
-                    this.success = data.msg;
+                    this.userData = data.data;
                     this.loading = false;
+                    this.updatePage = true;
+                    this.userForm = this.fb.group({
+                        firstname: [this.userData.firstname, Validators.required],
+                        lastname: [this.userData.lastname, Validators.required],
+                        photo: [""],
+                        email: [this.userData.emailaddress, Validators.required],
+                        birthday: [this.userData.birthday, Validators.required],
+                        role: [this.userData.role, Validators.required],
+                        gender: [this.userData.gender, Validators.required],
+                        reportingmanager: [this.userData.reportingmanager, Validators.required],
+                        employmentdate: [this.userData.employmentdate, Validators.required],
+                        phone: [this.userData.phone],
+                        address: [this.userData.address]
+                    });
+                    
                 }else{
                     this.error = data.msg;
                 }
@@ -42,6 +61,7 @@ export class NewuserComponent implements OnInit {
 	}
 	
 	public userForm = this.fb.group({
+        
         firstname: ["", Validators.required],
         lastname: ["", Validators.required],
         photo: [""],
@@ -56,26 +76,46 @@ export class NewuserComponent implements OnInit {
     });
 
     submitForm() {
-		this.loading = true;
+        this.loading = true;
 		this.error = "";
 		this.success = "";
-		this.userForm.value.username = this.userForm.value.email;
-		this.userForm.value.password = "test";
-		console.log("this.userForm.value ->"+this.userForm.value);
-		this.user.addUser(this.userForm.value).subscribe(
-            data => {
-                if(data.success){
-                    this.success = data.msg;
-                    this.loading = false;
-                }else{
-                    this.error = data.msg;
+
+        if(this.userid){
+            /*-----------edit user data code ----------*/
+            this.userForm.value.id = this.userid;
+            this.user.editUser(this.userForm.value).subscribe(
+                data => {
+                    if(data.success){
+                        this.success = data.msg;
+                        this.loading = false;
+                    }else{
+                        this.error = data.msg;
+                    }
+                },
+                error => {
+                this.error = error.msg;
+                this.loading = false;
                 }
-            },
-            error => {
-            this.error = error.msg;
-            this.loading = false;
-            }
-        );  
+            );
+        }else{
+            /*-----------add user data code ----------*/
+            this.userForm.value.username = this.userForm.value.email;
+            this.userForm.value.password = "test";
+            this.user.addUser(this.userForm.value).subscribe(
+                data => {
+                    if(data.success){
+                        this.success = data.msg;
+                        this.loading = false;
+                    }else{
+                        this.error = data.msg;
+                    }
+                },
+                error => {
+                this.error = error.msg;
+                this.loading = false;
+                }
+            );
+        }
     }
 
 }

@@ -15,9 +15,19 @@ export class AdduserService {
     addUser(userdata){
        return this.http.post('http://localhost:9000/api/signup', userdata).map(res => res.json());
     }
+
+    editUser(userdata){ 
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+       return this.http.post('http://localhost:9000/api/editUser', userdata, options).map(res => res.json());
+    }
 	
 	getUser(userdata){
-       return this.http.post('http://localhost:9000/api/getUser', userdata).map(res => res.json());
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+       return this.http.post('http://localhost:9000/api/getUser', {'id':userdata}, options).map(res => res.json());
     }
 	
 	listusers(){
