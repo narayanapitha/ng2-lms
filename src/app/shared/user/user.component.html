@@ -2,6 +2,17 @@
 
 <a routerLink="new" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add User</a>
 
+
+<div class="error" *ngIf="error">
+    <div class="alert alert-danger ng-binding ng-scope">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+    </div>
+</div>
+<div class="success" *ngIf="success">
+    <div class="alert alert-success ng-binding ng-scope">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+    </div>
+</div>
 <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
     <data-table id="persons-grid"
         headerTitle="Users"

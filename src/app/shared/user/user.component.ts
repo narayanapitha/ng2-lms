@@ -8,17 +8,24 @@ import { AdduserService } from '../../service/adduser.service';
     templateUrl: 'user.component.html',
 	providers: [AdduserService]
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
     
     items = [];
     itemCount = 0;
+    success: string;
+    error: string;
+    loading: boolean = false;
 
     constructor(private adduserService: AdduserService) {
-        this.adduserService.listusers().subscribe(res => {
+        /*this.adduserService.listusers().subscribe(res => {
 			this.items = res.data,
 			this.itemCount = res.data.length
-		});		
+		});	*/	
     }
+
+    ngOnInit() {
+		this.reloadItems();
+	}
 	
     reloadItems() {
         this.adduserService.listusers().subscribe(res => {
@@ -29,11 +36,21 @@ export class UserComponent {
 
     rowTooltip(item) { return item.firstname; }
 	
-	editUser(item) {
-        alert(item._id);
-    }
-	
 	deleteUser(item) {
-        alert(item._id);
+        this.loading = true;
+        this.adduserService.deleteUser(item._id).subscribe(
+			data => {
+                this.loading = false;
+                if(data.success){
+                    this.success = data.msg;
+                }else{
+                    this.error = data.msg;
+                }
+            },
+            error => {
+            this.error = error.msg;
+            this.loading = false;
+        });	
+        this.reloadItems();
     }
 }

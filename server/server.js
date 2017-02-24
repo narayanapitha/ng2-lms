@@ -173,6 +173,34 @@ apiRoutes.post('/editUser', passport.authenticate('jwt', { session: false}), fun
 });
 
 
+// route to a restricted info (GET http://localhost:9000/api/deleteUser)
+apiRoutes.post('/deleteUser', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        User.findByIdAndRemove(req.body.id, function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.json({success: false, msg: 'User not found.'});
+              } else {
+                res.json({success: true, msg: 'Successful delete user.'});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+
+
 // route to a restricted info (GET http://localhost:9000/api/users)
 apiRoutes.post('/getUser', passport.authenticate('jwt', { session: false}), function(req, res) {
   var token = getToken(req.headers);

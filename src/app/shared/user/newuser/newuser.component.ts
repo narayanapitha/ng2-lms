@@ -116,6 +116,7 @@ export class NewuserComponent implements OnInit {
                 }
             );
         }
+        this.router.navigateByUrl('/user');
     }
 
 }
