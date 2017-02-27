@@ -9,7 +9,8 @@ import { AdduserService } from '../../service/adduser.service';
 	providers: [AdduserService]
 })
 export class UserComponent implements OnInit {
-    
+
+    itemResource: any;
     items = [];
     itemCount = 0;
     success: string;
@@ -17,10 +18,10 @@ export class UserComponent implements OnInit {
     loading: boolean = false;
 
     constructor(private adduserService: AdduserService) {
-        /*this.adduserService.listusers().subscribe(res => {
-			this.items = res.data,
-			this.itemCount = res.data.length
-		});	*/	
+        this.adduserService.listusers().subscribe(res => {
+			/*this.items = res.data,
+			this.itemCount = res.data.length*/
+		});		
     }
 
     ngOnInit() {
@@ -46,6 +47,7 @@ export class UserComponent implements OnInit {
                 }else{
                     this.error = data.msg;
                 }
+                this.loading = false;
             },
             error => {
             this.error = error.msg;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AdduserService } from '../../../service/adduser.service'
+import { AdduserService } from '../../../service/adduser.service';
 @Component({
     selector: 'lms-newuser',
     templateUrl: 'newuser.component.html',
@@ -33,7 +33,6 @@ export class NewuserComponent implements OnInit {
             data => {
                 if(data.success){
                     this.userData = data.data;
-                    this.loading = false;
                     this.updatePage = true;
                     this.userForm = this.fb.group({
                         firstname: [this.userData.firstname, Validators.required],
@@ -52,6 +51,7 @@ export class NewuserComponent implements OnInit {
                 }else{
                     this.error = data.msg;
                 }
+                this.loading = false;
             },
             error => {
             this.error = error.msg;
@@ -87,10 +87,10 @@ export class NewuserComponent implements OnInit {
                 data => {
                     if(data.success){
                         this.success = data.msg;
-                        this.loading = false;
                     }else{
                         this.error = data.msg;
                     }
+                    this.loading = false;
                 },
                 error => {
                 this.error = error.msg;
@@ -105,10 +105,10 @@ export class NewuserComponent implements OnInit {
                 data => {
                     if(data.success){
                         this.success = data.msg;
-                        this.loading = false;
                     }else{
                         this.error = data.msg;
                     }
+                    this.loading = false;
                 },
                 error => {
                 this.error = error.msg;
@@ -116,7 +116,6 @@ export class NewuserComponent implements OnInit {
                 }
             );
         }
-        this.router.navigateByUrl('/user');
     }
 
 }
