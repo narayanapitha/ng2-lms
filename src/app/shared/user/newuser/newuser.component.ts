@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AdduserService } from '../../../service/adduser.service';
+import { UsersService } from '../../../service/users.service';
 @Component({
     selector: 'lms-newuser',
     templateUrl: 'newuser.component.html',
-    providers: [AdduserService]
+    providers: [UsersService]
 })
 export class NewuserComponent implements OnInit {
     
@@ -16,7 +16,7 @@ export class NewuserComponent implements OnInit {
     updatePage: boolean = false;
     userid: string;
 
-    constructor(private fb: FormBuilder, private router: Router, private user: AdduserService, private activatedRoute: ActivatedRoute) {
+    constructor(private fb: FormBuilder, private router: Router, private user: UsersService, private activatedRoute: ActivatedRoute) {
     }
 	
 	ngOnInit() {

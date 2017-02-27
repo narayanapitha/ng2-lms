@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DataTableResource } from 'angular-2-data-table';
 //import persons from './userdata';
-import { AdduserService } from '../../service/adduser.service';
+import { UsersService } from '../../service/users.service';
 
 @Component({
     selector: 'lms-user',
     templateUrl: 'user.component.html',
-	providers: [AdduserService]
+	providers: [UsersService]
 })
 export class UserComponent implements OnInit {
 
@@ -17,11 +17,11 @@ export class UserComponent implements OnInit {
     error: string;
     loading: boolean = false;
 
-    constructor(private adduserService: AdduserService) {
-        this.adduserService.listusers().subscribe(res => {
-			/*this.items = res.data,
-			this.itemCount = res.data.length*/
-		});		
+    constructor(private usersService: UsersService) {
+        /*this.usersService.listusers().subscribe(res => {
+			this.items = res.data,
+			this.itemCount = res.data.length
+		});	*/	
     }
 
     ngOnInit() {
@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
 	}
 	
     reloadItems() {
-        this.adduserService.listusers().subscribe(res => {
+        this.usersService.listusers().subscribe(res => {
 			this.items = res.data,
 			this.itemCount = res.data.length
 		});
@@ -39,7 +39,7 @@ export class UserComponent implements OnInit {
 	
 	deleteUser(item) {
         this.loading = true;
-        this.adduserService.deleteUser(item._id).subscribe(
+        this.usersService.deleteUser(item._id).subscribe(
 			data => {
                 this.loading = false;
                 if(data.success){

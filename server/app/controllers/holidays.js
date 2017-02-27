@@ -1,14 +1,41 @@
-var express     = require('express');
-var userRouter = express.Router();
-var User        = require('../app/models/user'); // get the mongoose model
+var User        = require('../models/user'); // get the mongoose model
 var mongoose    = require('mongoose');
-var config      = require('./config/database');
+var config      = require('../../config/database');
 var passport	= require('passport');
 var jwt = require('jsonwebtoken');
 // bundle our routes
 
-// create a new user account (POST http://localhost:8080/api/signup)
-apiRoutes.post('/users', function(req, res) {
+
+// get all users data (GET http://localhost:9000/api/users)
+exports.listUsers = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        User.find(function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, data: user});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
+
+// create a new user account (POST http://localhost:8080/api/users)
+exports.addUsers = (req, res) => {
   if (!req.body.username || !req.body.password) {
     res.json({success: false, msg: 'Please pass username and password.'});
   } else {
@@ -35,37 +62,10 @@ apiRoutes.post('/users', function(req, res) {
       res.json({success: true, msg: 'Successful created new user.'});
     });
   }
-});
+};
 
-// route to a restricted info (GET http://localhost:9000/api/users)
-apiRoutes.get('/users', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    // verifies secret and checks exp
-    var decoded = jwt.decode(token, config.secret, {complete: true});
-    jwt.verify(token, config.secret, function(err, decoded) {      
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
-      } else {
-        // if everything is good, save to request for use in other routes
-        User.find(function(err, user) {
-              if (err) throw err;
-      
-              if (!user) {
-                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
-              } else {
-                res.json({success: true, data: user});
-              }
-            });
-      }
-    });
-  } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
-  }
-});
-
-// route to a restricted info (GET http://localhost:9000/api/edituser)
-apiRoutes.post('/users/edit', passport.authenticate('jwt', { session: false}), function(req, res) {
+// edit user data (GET http://localhost:9000/api/users/edit)
+exports.editUsers = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -103,11 +103,11 @@ apiRoutes.post('/users/edit', passport.authenticate('jwt', { session: false}), f
   } else {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
-});
+};
 
 
-// route to a restricted info (GET http://localhost:9000/api/deleteUser)
-apiRoutes.get('/users/delete/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+// delete user data (GET http://localhost:9000/api/users/delete/123)
+exports.deleteUsers = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -131,11 +131,11 @@ apiRoutes.get('/users/delete/:id', passport.authenticate('jwt', { session: false
   } else {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
-});
+};
 
 
-// route to a restricted info (GET http://localhost:9000/api/users)
-apiRoutes.get('/users/:id', passport.authenticate('jwt', { session: false}), function(req, res) {
+// get perticular user data (GET http://localhost:9000/api/users/123)
+exports.getUser = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -166,4 +166,4 @@ apiRoutes.get('/users/:id', passport.authenticate('jwt', { session: false}), fun
   } else {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
-});
+};
