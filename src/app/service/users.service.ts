@@ -9,11 +9,12 @@ export class UsersService {
     constructor(
         private http: Http) {
     }
-	
-	
 
     addUser(data){
-       return this.http.post('http://localhost:9000/api/users', data).map(res => res.json());
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post('http://localhost:9000/api/users', data, options).map(res => res.json());
     }
 
     listusers(){

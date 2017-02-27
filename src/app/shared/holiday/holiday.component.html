@@ -1,3 +1,49 @@
 <h1 class="page-header">Holidays</h1>
 
 <a routerLink="new" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Holiday</a>
+
+<div class="error" *ngIf="error">
+    <div class="alert alert-danger ng-binding ng-scope">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+    </div>
+</div>
+<div class="success" *ngIf="success">
+    <div class="alert alert-success ng-binding ng-scope">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+    </div>
+</div>
+<div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
+    <data-table id="persons-grid"
+        headerTitle="Holidays"
+        [items]="items"
+        [itemCount]="itemCount"
+        (reload)="reloadItems($event)"
+        [rowTooltip]="rowTooltip"
+        >
+        <data-table-column
+            [property]="'holidayname'"
+            [header]="'Name'"
+            [sortable]="true"
+            [resizable]="true">
+        </data-table-column>
+        <data-table-column
+            [property]="'holidaydate'"
+            [header]="'Date'"
+            [sortable]="true"
+			[resizable]="true">
+            <template #dataTableCell let-item="item">
+                <span>{{item.holidaydate | date:'dd-MM-yyyy'}}</span>
+            </template>
+        </data-table-column>
+        <data-table-column
+            [header]="'Action'">
+			<template #dataTableHeader let-item="item">
+				<i>Actions</i>
+			</template>
+			<template #dataTableCell let-item="item">
+				<a routerLink="/holiday/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+				<button (click)="deleteHoliday(item)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+			</template>
+        </data-table-column>
+    </data-table>
+</div>

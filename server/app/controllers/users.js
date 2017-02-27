@@ -36,31 +36,40 @@ exports.listUsers = (req, res) => {
 
 // create a new user account (POST http://localhost:8080/api/users)
 exports.addUsers = (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    res.json({success: false, msg: 'Please pass username and password.'});
-  } else {
-    var newUser = new User({
-      username: req.body.username,
-      password: req.body.password,
-	    firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      photo: req.body.photo,
-      birthday: req.body.birthday,
-      emailaddress: req.body.email,
-      role: req.body.role,
-      gender: req.body.gender,
-      reportingmanager: req.body.reportingmanager,
-      employmentdate: req.body.employmentdate,
-      phone: req.body.phone,
-      address: req.body.address
-    });
-    // save the user
-    newUser.save(function(err) {
-      if (err) {
-        return res.json({success: false, msg: 'Username already exists.'});
-      }
-      res.json({success: true, msg: 'Successful created new user.'});
-    });
+  var token = getToken(req.headers);
+  if (token) {
+      // verifies secret and checks exp
+      var decoded = jwt.decode(token, config.secret, {complete: true});
+      jwt.verify(token, config.secret, function(err, decoded) {      
+        if (err) {
+          return res.json({ success: false, message: 'Failed to authenticate token.' });    
+        } else {
+          var newUser = new User({
+            username: req.body.username,
+            password: req.body.password,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            photo: req.body.photo,
+            birthday: req.body.birthday,
+            emailaddress: req.body.email,
+            role: req.body.role,
+            gender: req.body.gender,
+            reportingmanager: req.body.reportingmanager,
+            employmentdate: req.body.employmentdate,
+            phone: req.body.phone,
+            address: req.body.address
+          });
+          // save the user
+          newUser.save(function(err) {
+            if (err) {
+              return res.json({success: false, msg: 'Username already exists.'});
+            }
+            res.json({success: true, msg: 'Successful created new user.'});
+          });
+        }
+      });
+    } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 };
 

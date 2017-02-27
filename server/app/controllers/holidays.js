@@ -1,4 +1,4 @@
-var User        = require('../models/user'); // get the mongoose model
+var Holiday        = require('../models/holiday'); // get the mongoose model
 var mongoose    = require('mongoose');
 var config      = require('../../config/database');
 var passport	= require('passport');
@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken');
 
 
 // get all users data (GET http://localhost:9000/api/users)
-exports.listUsers = (req, res) => {
+exports.listHolidays = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -17,13 +17,13 @@ exports.listUsers = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        User.find(function(err, user) {
+        Holiday.find(function(err, holiday) {
               if (err) throw err;
       
-              if (!user) {
-                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              if (!holiday) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. Holiday not found.'});
               } else {
-                res.json({success: true, data: user});
+                res.json({success: true, data: holiday});
               }
             });
       }
@@ -35,37 +35,36 @@ exports.listUsers = (req, res) => {
 
 
 // create a new user account (POST http://localhost:8080/api/users)
-exports.addUsers = (req, res) => {
-  if (!req.body.username || !req.body.password) {
-    res.json({success: false, msg: 'Please pass username and password.'});
-  } else {
-    var newUser = new User({
-      username: req.body.username,
-      password: req.body.password,
-	    firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      photo: req.body.photo,
-      birthday: req.body.birthday,
-      emailaddress: req.body.email,
-      role: req.body.role,
-      gender: req.body.gender,
-      reportingmanager: req.body.reportingmanager,
-      employmentdate: req.body.employmentdate,
-      phone: req.body.phone,
-      address: req.body.address
-    });
-    // save the user
-    newUser.save(function(err) {
-      if (err) {
-        return res.json({success: false, msg: 'Username already exists.'});
-      }
-      res.json({success: true, msg: 'Successful created new user.'});
-    });
+exports.addHolidays = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+      // verifies secret and checks exp
+      var decoded = jwt.decode(token, config.secret, {complete: true});
+      jwt.verify(token, config.secret, function(err, decoded) {      
+        if (err) {
+          return res.json({ success: false, message: 'Failed to authenticate token.' });    
+        } else {
+          var newHoliday = new Holiday({
+            holidayname: req.body.holidayname,
+            holidaydate: req.body.holidaydate
+          });
+          // save the user
+          newHoliday.save(function(err) {
+            if (err) {
+              return res.json({success: false, msg: 'Holiday name or date already exists.'});
+            }
+            res.json({success: true, msg: 'Successful created new Holiday.'});
+          });
+        }
+      });
+    } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 };
 
+
 // edit user data (GET http://localhost:9000/api/users/edit)
-exports.editUsers = (req, res) => {
+exports.editHolidays = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -76,26 +75,17 @@ exports.editUsers = (req, res) => {
       } else {
           
         var updateData = { 
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            photo: req.body.photo,
-            birthday: req.body.birthday,
-            emailaddress: req.body.email,
-            role: req.body.role,
-            gender: req.body.gender,
-            reportingmanager: req.body.reportingmanager,
-            employmentdate: req.body.employmentdate,
-            phone: req.body.phone,
-            address: req.body.address
+            holidayname: req.body.holidayname,
+            holidaydate: req.body.holidaydate
         };
         // if everything is good, save to request for use in other routes
-        User.findByIdAndUpdate(req.body.id, updateData, function(err, user) {
+        Holiday.findByIdAndUpdate(req.body.id, updateData, function(err, holiday) {
               if (err) throw err;
       
-              if (!user) {
-                return res.json({success: false, msg: 'User not found.'});
+              if (!holiday) {
+                return res.json({success: false, msg: 'Holiday not found.'});
               } else {
-                res.json({success: true, msg: 'Successful edit user.'});
+                res.json({success: true, msg: 'Successful edit holiday.'});
               }
             });
       }
@@ -107,7 +97,7 @@ exports.editUsers = (req, res) => {
 
 
 // delete user data (GET http://localhost:9000/api/users/delete/123)
-exports.deleteUsers = (req, res) => {
+exports.deleteHolidays = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -117,13 +107,13 @@ exports.deleteUsers = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        User.findByIdAndRemove(req.params.id, function(err, user) {
+        Holiday.findByIdAndRemove(req.params.id, function(err, holiday) {
               if (err) throw err;
       
-              if (!user) {
-                return res.json({success: false, msg: 'User not found.'});
+              if (!holiday) {
+                return res.json({success: false, msg: 'Holiday not found.'});
               } else {
-                res.json({success: true, msg: 'Successful delete user.'});
+                res.json({success: true, msg: 'Successful delete holiday.'});
               }
             });
       }
@@ -135,7 +125,7 @@ exports.deleteUsers = (req, res) => {
 
 
 // get perticular user data (GET http://localhost:9000/api/users/123)
-exports.getUser = (req, res) => {
+exports.getHolidays = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -147,18 +137,17 @@ exports.getUser = (req, res) => {
 
         var dataProjection = { 
             _id: false,
-            __v: false,
-            password: false
+            __v: false
         };
 
         // if everything is good, save to request for use in other routes
-        User.findById(req.params.id, dataProjection,function(err, user) {
+        Holiday.findById(req.params.id, dataProjection,function(err, holiday) {
               if (err) throw err;
       
-              if (!user) {
-                return res.json({success: false, msg: 'User not found.'});
+              if (!holiday) {
+                return res.json({success: false, msg: 'Holiday not found.'});
               } else {
-                res.json({success: true, data: user});
+                res.json({success: true, data: holiday});
               }
             });
       }

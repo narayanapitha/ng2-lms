@@ -49,6 +49,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'holiday/:id',
+    component: NewholidayComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'contactus',
     component: ContactusComponent,
     canActivate: [AuthGuard]
