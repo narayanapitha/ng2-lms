@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { HolidayService } from '../../service/holiday.service';
+import { DataTableResource } from 'angular-2-data-table';
+import { LeavesService } from '../../service/leaves.service';
 
 @Component({
-    selector: 'lms-holiday',
-    templateUrl: 'holiday.component.html',
-    providers: [HolidayService]
+    selector: 'lms-myleave',
+    templateUrl: 'myleave.component.html',
+    providers: [LeavesService]
 })
-export class HolidayComponent implements OnInit {
-
+export class MyleaveComponent implements OnInit {
+    
     itemResource: any;
     items = [];
     itemCount = 0;
@@ -15,24 +16,24 @@ export class HolidayComponent implements OnInit {
     error: string;
     loading: boolean = false;
 
-    constructor(private holidayService: HolidayService) { }
+    constructor(private leavesService: LeavesService) { }
 
     ngOnInit() {
 		this.reloadItems();
 	}
-
+	
     reloadItems() {
-        this.holidayService.listHolidays().subscribe(res => {
+        this.leavesService.listLeaves().subscribe(res => {
 			this.items = res.data,
 			this.itemCount = res.data.length
 		});
     }
 
-    rowTooltip(item) { return item.firstname; }
+    rowTooltip(item) { return item.leavetype; }
 	
-	deleteHoliday(item) {
+	deleteLeave(item) {
         this.loading = true;
-        this.holidayService.deleteHoliday(item._id).subscribe(
+        this.leavesService.deleteLeave(item._id).subscribe(
 			data => {
                 this.loading = false;
                 if(data.success){

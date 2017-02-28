@@ -18,8 +18,8 @@ import { AuthService } from './service/auth.service';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
-import { MyleaveComponent } from './shared/leave/myleave/myleave.component';
-import { ApplyleaveComponent } from './shared/leave/myleave/applyleave/applyleave.component';
+import { MyleaveComponent } from './shared/leave/myleave.component';
+import { ApplyleaveComponent } from './shared/leave/applyleave/applyleave.component';
 import { MyprofileComponent } from './shared/myprofile/myprofile.component';
 
 const appRoutes: Routes = [
@@ -79,7 +79,12 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'myleave/apply',
+    path: 'myleave/new',
+    component: ApplyleaveComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'myleave/:id',
     component: ApplyleaveComponent,
     canActivate: [AuthGuard]
   },

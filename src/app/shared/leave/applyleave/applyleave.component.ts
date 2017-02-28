@@ -1,43 +1,44 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { HolidayService } from '../../../service/holiday.service';
+import { LeavesService } from '../../../service/leaves.service';
 
 @Component({
-    selector: 'lms-newholiday',
-    templateUrl: 'newholiday.component.html',
-    providers: [HolidayService]
+    selector: 'lms-applyleave',
+    templateUrl: 'applyleave.component.html',
+    providers: [LeavesService]
 })
-export class NewholidayComponent implements OnInit {
-  
+export class ApplyleaveComponent implements OnInit {
+    
     error: string;
     loading: boolean = false;
     success: string;
-	holidayData: any;
+	leaveData: any;
     updatePage: boolean = false;
-    holidayid: string;
+    leaveid: string;
 
-    constructor(private fb: FormBuilder, private router: Router, private holidayService: HolidayService, private activatedRoute: ActivatedRoute) {
-    }
-	
-	ngOnInit() {
-		let params: any = this.activatedRoute.snapshot.params;
+    constructor(private fb: FormBuilder, private router: Router, private leavesService: LeavesService, private activatedRoute: ActivatedRoute) { }
+
+    ngOnInit() { 
+        let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
-            console.log('id-->'+params.id);
-            this.getHolidayData(params.id);
-            this.holidayid = params.id;
+            console.log(params.id);
+            this.getLeaveData(params.id);
+            this.leaveid = params.id;
         }
-	}	
-	
-	getHolidayData(id){
-		this.holidayService.getHoliday(id).subscribe(
+    }
+
+    getLeaveData(id){
+		this.leavesService.getLeaves(id).subscribe(
             data => {
                 if(data.success){
-                    this.holidayData = data.data;
+                    this.leaveData = data.data;
                     this.updatePage = true;
-                    this.holidayForm = this.fb.group({
-                        holidayname: [this.holidayData.holidayname, Validators.required],
-                        holidaydate: [this.holidayData.holidaydate, Validators.required]
+                    this.leaveForm = this.fb.group({
+                        leavetype: [this.leaveData.leavetype, Validators.required],
+                        startdate: [this.leaveData.startdate, Validators.required],
+                        enddate: [this.leaveData.enddate, Validators.required],
+                        description: [this.leaveData.description, Validators.required]
                     });
                     
                 }else{
@@ -52,10 +53,12 @@ export class NewholidayComponent implements OnInit {
         );
 	}
 	
-	public holidayForm = this.fb.group({
+	public leaveForm = this.fb.group({
         
-        holidayname: ["", Validators.required],
-        holidaydate: ["", Validators.required]
+        leavetype: ["", Validators.required],
+        startdate: ["", Validators.required],
+        enddate: ["", Validators.required],
+        description: ["", Validators.required]
     });
 
     submitForm() {
@@ -63,10 +66,10 @@ export class NewholidayComponent implements OnInit {
 		this.error = "";
 		this.success = "";
 
-        if(this.holidayid){
+        if(this.leaveid){
             /*-----------edit user data code ----------*/
-            this.holidayForm.value.id = this.holidayid;
-            this.holidayService.editHoliday(this.holidayForm.value).subscribe(
+            this.leaveForm.value.id = this.leaveid;
+            this.leavesService.editLeave(this.leaveForm.value).subscribe(
                 data => {
                     if(data.success){
                         this.success = data.msg;
@@ -83,7 +86,7 @@ export class NewholidayComponent implements OnInit {
         }else{
     
             /*-----------add user data code ----------*/
-            this.holidayService.addHoliday(this.holidayForm.value).subscribe(
+            this.leavesService.addLeave(this.leaveForm.value).subscribe(
                 data => {
                     if(data.success){
                         this.success = data.msg;
@@ -99,4 +102,5 @@ export class NewholidayComponent implements OnInit {
             );
         }
     }
+
 }

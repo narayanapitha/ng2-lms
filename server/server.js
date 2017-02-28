@@ -47,6 +47,7 @@ var apiRoutes = express.Router();
 //define route constant
 const userController = require('./app/controllers/users');
 const holidayController = require('./app/controllers/holidays');
+const leaveController = require('./app/controllers/leaves');
 
 // users routes
 apiRoutes.get('/users', config.isAuthenticated, userController.listUsers);
@@ -61,6 +62,13 @@ apiRoutes.post('/holidays', config.isAuthenticated, holidayController.addHoliday
 apiRoutes.post('/holidays/edit', config.isAuthenticated, holidayController.editHolidays);
 apiRoutes.get('/holidays/delete/:id', config.isAuthenticated, holidayController.deleteHolidays);
 apiRoutes.get('/holidays/:id', config.isAuthenticated, holidayController.getHolidays);
+
+// Leaves routes
+apiRoutes.get('/leaves', config.isAuthenticated, leaveController.listLeaves);
+apiRoutes.post('/leaves', config.isAuthenticated, leaveController.addLeaves);
+apiRoutes.post('/leaves/edit', config.isAuthenticated, leaveController.editLeaves);
+apiRoutes.get('/leaves/delete/:id', config.isAuthenticated, leaveController.deleteLeaves);
+apiRoutes.get('/leaves/:id', config.isAuthenticated, leaveController.getLeaves);
 
 
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
