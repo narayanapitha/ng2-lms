@@ -23,7 +23,6 @@ export class NewholidayComponent implements OnInit {
 	ngOnInit() {
 		let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
-            console.log('id-->'+params.id);
             this.getHolidayData(params.id);
             this.holidayid = params.id;
         }

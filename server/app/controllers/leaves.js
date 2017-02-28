@@ -48,7 +48,8 @@ exports.addLeaves = (req, res) => {
             leavetype: req.body.leavetype,
             startdate: req.body.startdate,
             enddate: req.body.enddate,
-            description: req.body.description
+            description: req.body.description,
+            approve: req.body.approve
           });
           // save the user
           newLeave.save(function(err) {
@@ -152,6 +153,36 @@ exports.getLeaves = (req, res) => {
                 return res.json({success: false, msg: 'Holiday not found.'});
               } else {
                 res.json({success: true, data: leave});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
+// approve leave data (GET http://localhost:9000/api/users/delete/123)
+exports.approveLeave = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        var updateData = {
+            approve_status: req.body.approve_status
+        };
+        // if everything is good, save to request for use in other routes
+        Leave.findByIdAndUpdate(req.body.id, updateData, function(err, leave) {
+              if (err) throw err;
+      
+              if (!leave) {
+                return res.json({success: false, msg: 'Leave not found.'});
+              } else {
+                res.json({success: true, msg: 'Successful update leave status.'});
               }
             });
       }

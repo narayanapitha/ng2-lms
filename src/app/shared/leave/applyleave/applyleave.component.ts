@@ -22,7 +22,6 @@ export class ApplyleaveComponent implements OnInit {
     ngOnInit() { 
         let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
-            console.log(params.id);
             this.getLeaveData(params.id);
             this.leaveid = params.id;
         }
@@ -84,8 +83,9 @@ export class ApplyleaveComponent implements OnInit {
                 }
             );
         }else{
-    
+            
             /*-----------add user data code ----------*/
+            this.leaveForm.value.approve = '0';
             this.leavesService.addLeave(this.leaveForm.value).subscribe(
                 data => {
                     if(data.success){

@@ -44,5 +44,12 @@ export class LeavesService {
         let options = new RequestOptions({ headers: headers });
        return this.http.get('http://localhost:9000/api/leaves/'+data, options).map(res => res.json());
     }
+
+    approveLeave(data){ 
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+       return this.http.post('http://localhost:9000/api/leaves/approve', data, options).map(res => res.json());
+    }
 	
 }

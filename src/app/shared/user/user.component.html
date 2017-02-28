@@ -57,8 +57,8 @@
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-				<a routerLink="/user/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="deleteUser(item)" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+				<a routerLink="/user/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+				<button (click)="deleteUser(item)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 			</template>
         </data-table-column>
     </data-table>

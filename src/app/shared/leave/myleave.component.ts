@@ -49,4 +49,27 @@ export class MyleaveComponent implements OnInit {
         });	
         this.reloadItems();
     }
+
+    approveLeave(item) {
+        this.loading = true;
+        let makeapprove = (item.approve=='1') ? '0' : '1';
+        let data = {
+            approve_status: makeapprove,
+            id: item._id
+        };
+        this.leavesService.approveLeave(data).subscribe(
+			data => {
+                this.loading = false;
+                if(data.success){
+                    this.success = data.msg;
+                }else{
+                    this.error = data.msg;
+                }
+                this.loading = false;
+            },
+            error => {
+            this.error = error.msg;
+            this.loading = false;
+        });	
+    }
 }

@@ -30,7 +30,8 @@
             [property]="'startdate'"
             [header]="'Start Date'"
             [sortable]="true"
-			[resizable]="true">
+			[resizable]="true"
+            [width]="100">
             <template #dataTableCell let-item="item">
                 <span>{{item.startdate | date:'dd-MM-yyyy'}}</span>
             </template>
@@ -39,19 +40,34 @@
             [property]="'enddate'"
             [header]="'End Date'"
             [sortable]="true"
-			[resizable]="true">
+			[resizable]="true"
+            [width]="100">
             <template #dataTableCell let-item="item">
                 <span>{{item.enddate | date:'dd-MM-yyyy'}}</span>
             </template>
         </data-table-column>
         <data-table-column
-            [header]="'Action'">
+            [property]="'approve'"
+            [header]="'Status'"
+            [sortable]="true"
+			[resizable]="true"
+             [width]="150">
+            <template #dataTableCell let-item="item">
+                <span class="label label-success" *ngIf="item.approve_status == '0'">Pending</span>
+                <span class="label label-info" *ngIf="item.approve_status == '1'">Approved</span>
+            </template>
+        </data-table-column>
+        <data-table-column
+            [header]="'Action'"
+            [resizable]="true">
 			<template #dataTableHeader let-item="item">
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-				<a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="deleteLeave(item)" title="Delete" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '0'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span>Approve</button>
+                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '1'" title="Make Pending" class="btn btn-sm btn-default">Pending</button>
+				<a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+				<button (click)="deleteLeave(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 			</template>
         </data-table-column>
     </data-table>
