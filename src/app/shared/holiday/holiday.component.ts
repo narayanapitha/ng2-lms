@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HolidayService } from '../../service/holiday.service';
+import { ConstantService } from '../../service/constant.service';
 
 @Component({
     selector: 'lms-holiday',
     templateUrl: 'holiday.component.html',
-    providers: [HolidayService]
+    providers: [HolidayService, ConstantService]
 })
 export class HolidayComponent implements OnInit {
 
@@ -15,7 +16,7 @@ export class HolidayComponent implements OnInit {
     error: string;
     loading: boolean = false;
 
-    constructor(private holidayService: HolidayService) { }
+    constructor(private holidayService: HolidayService, private constantService: ConstantService) { }
 
     ngOnInit() {
 		this.reloadItems();
