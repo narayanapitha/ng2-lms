@@ -6,7 +6,7 @@ import { UserService } from '../../service/user.service';
 @Component({
     selector: 'lms-myleave',
     templateUrl: 'myleave.component.html',
-    providers: [LeavesService, UserService]
+    providers: [UserService, LeavesService]
 })
 export class MyleaveComponent implements OnInit {
     
@@ -16,25 +16,30 @@ export class MyleaveComponent implements OnInit {
     success: string;
     error: string;
     isAdmin: any;
+    userid: any;
     loading: boolean = false;
 
-    constructor(private leavesService: LeavesService, private userService: UserService) {
+    constructor(private userService: UserService, private leavesService: LeavesService) {
         // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
+                this.userid = users.data._id,
                 this.isAdmin = users.data.role
-            });
+            }); 
      }
+     
 
     ngOnInit() {
-		this.reloadItems();
+		//this.reloadItems();
 	}
 	
-    reloadItems() {
-        this.leavesService.listLeaves().subscribe(res => {
-			this.items = res.data,
-			this.itemCount = res.data.length
-		});
+    reloadItems() {      
+        this.userService.getUser()
+        .flatMap(user => this.leavesService.listLeavesByUser(user.data))
+        .subscribe(res => {
+            this.items = res.data,
+            this.itemCount = res.data.length
+        }); 
     }
 
     rowTooltip(item) { return item.leavetype; }

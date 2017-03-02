@@ -6,6 +6,9 @@ var bcrypt = require('bcrypt');
  
 // set up a mongoose model
 var LeaveSchema = new Schema({
+  userid: {
+        type: String
+  },
   leavetype: {
         type: String,
         required: true

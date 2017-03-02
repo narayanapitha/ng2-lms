@@ -33,6 +33,33 @@ exports.listLeaves = (req, res) => {
   }
 };
 
+// get all users data (GET http://localhost:9000/api/users)
+exports.listLeavesByUser = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        Leave.find({userid: req.params.userid}, function(err, leave) {
+              if (err) throw err;
+      
+              if (!leave) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. leaves not found.'});
+              } else {
+                res.json({success: true, data: leave});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
 
 // create a new user account (POST http://localhost:8080/api/users)
 exports.addLeaves = (req, res) => {
@@ -45,18 +72,19 @@ exports.addLeaves = (req, res) => {
           return res.json({ success: false, message: 'Failed to authenticate token.' });    
         } else {
           var newLeave = new Leave({
+            userid: req.body.userid,
             leavetype: req.body.leavetype,
             startdate: req.body.startdate,
             enddate: req.body.enddate,
             description: req.body.description,
-            approve: req.body.approve
+            approve_status: req.body.approve_status
           });
           // save the user
           newLeave.save(function(err) {
             if (err) {
               return res.json({success: false, msg: 'Holiday name or date already exists.'});
             }
-            res.json({success: true, msg: 'Successful created new Holiday.'});
+            return res.json({success: true, msg: 'Successful created new Holiday.'});
           });
         }
       });

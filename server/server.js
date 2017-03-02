@@ -70,6 +70,7 @@ apiRoutes.post('/leaves/edit', config.isAuthenticated, leaveController.editLeave
 apiRoutes.get('/leaves/delete/:id', config.isAuthenticated, leaveController.deleteLeaves);
 apiRoutes.get('/leaves/:id', config.isAuthenticated, leaveController.getLeaves);
 apiRoutes.post('/leaves/approve', config.isAuthenticated, leaveController.approveLeave);
+apiRoutes.get('/leavesuser/:userid', config.isAuthenticated, leaveController.listLeavesByUser);
 
 
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)

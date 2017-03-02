@@ -28,7 +28,7 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-		this.reloadItems();
+		//this.reloadItems();
 	}
 	
     reloadItems() {

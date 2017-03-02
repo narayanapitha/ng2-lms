@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LeavesService } from '../../../service/leaves.service';
+import { UserService } from '../../../service/user.service';
 
 @Component({
     selector: 'lms-applyleave',
     templateUrl: 'applyleave.component.html',
-    providers: [LeavesService]
+    providers: [LeavesService, UserService]
 })
 export class ApplyleaveComponent implements OnInit {
     
@@ -16,8 +17,15 @@ export class ApplyleaveComponent implements OnInit {
 	leaveData: any;
     updatePage: boolean = false;
     leaveid: string;
+    userid: any;
 
-    constructor(private fb: FormBuilder, private router: Router, private leavesService: LeavesService, private activatedRoute: ActivatedRoute) { }
+    constructor(private fb: FormBuilder, private router: Router, private leavesService: LeavesService, private userService: UserService, private activatedRoute: ActivatedRoute) {
+         // get users from secure api end point
+        this.userService.getUser()
+            .subscribe(users => {
+                this.userid = users.data._id
+            });
+     }
 
     ngOnInit() { 
         let params: any = this.activatedRoute.snapshot.params;
@@ -85,7 +93,8 @@ export class ApplyleaveComponent implements OnInit {
         }else{
             
             /*-----------add user data code ----------*/
-            this.leaveForm.value.approve = '0';
+            this.leaveForm.value.approve_status = '0';
+            this.leaveForm.value.userid = this.userid;
             this.leavesService.addLeave(this.leaveForm.value).subscribe(
                 data => {
                     if(data.success){

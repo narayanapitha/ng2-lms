@@ -19,6 +19,6 @@ Used to show how to set up a project build workflow from scratch.
 
 ## Backend Setup (expressjs)
 
-1.  open console and move to the downloaded directory\server. ex. if ng-lms is your downloaded directory  `D:\ng-lms\server`
+1.  open console and move to the downloaded directory\server. ex. if ng-lms is your downloaded directory then `cd` console to  `D:\ng-lms\server`
 2. Run `npm install` command
 3. Run `node server.js` command launches the server to make API call to the server.
