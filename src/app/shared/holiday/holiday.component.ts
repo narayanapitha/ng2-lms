@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { HolidayService } from '../../service/holiday.service';
-import { ConstantService } from '../../service/constant.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
     selector: 'lms-holiday',
     templateUrl: 'holiday.component.html',
-    providers: [HolidayService, ConstantService]
+    providers: [HolidayService, UserService]
 })
 export class HolidayComponent implements OnInit {
 
@@ -14,9 +14,16 @@ export class HolidayComponent implements OnInit {
     itemCount = 0;
     success: string;
     error: string;
+    isAdmin: any;
     loading: boolean = false;
 
-    constructor(private holidayService: HolidayService, private constantService: ConstantService) { }
+    constructor(private holidayService: HolidayService, private userService: UserService) {
+        // get users from secure api end point
+        this.userService.getUser()
+            .subscribe(users => {
+                this.isAdmin = users.data.role
+            });
+     }
 
     ngOnInit() {
 		this.reloadItems();

@@ -1,25 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../service/user.service';
 import { AuthService } from '../../service/auth.service';
-import { ConstantService } from '../../service/constant.service';
 
 @Component({
   selector: 'lms-header',
   templateUrl: './header.component.html',
-  providers: [UserService, ConstantService]
+  providers: [UserService]
 })
 export class HeaderComponent implements OnInit { 
-  
+  isAdmin: string = "";
   username: string = "";
 
-  constructor(private userService: UserService, private authService: AuthService, private constantService: ConstantService) { }
-
-    ngOnInit() {
-        // get users from secure api end point
+  constructor(private userService: UserService, private authService: AuthService) {
+       // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
-                this.username = users.data.username;
-                this.constantService.isAdmin = users.data.role;
+                this.username = users.data.username,
+                this.isAdmin = users.data.role
             });
+   }
+
+    ngOnInit() {
+       
+            
     }
 }

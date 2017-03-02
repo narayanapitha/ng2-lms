@@ -1,6 +1,6 @@
 <h1 class="page-header">Holidays</h1>
 
-<a routerLink="new" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Holiday</a>
+<a routerLink="new" *ngIf="isAdmin=='1'" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Holiday</a>
 
 <div class="error" *ngIf="error">
     <div class="alert alert-danger ng-binding ng-scope">
@@ -35,7 +35,7 @@
                 <span>{{item.holidaydate | date:'dd-MM-yyyy'}}</span>
             </template>
         </data-table-column>
-        <data-table-column
+        <data-table-column *ngIf="isAdmin=='1'"
             [header]="'Action'">
 			<template #dataTableHeader let-item="item">
 				<i>Actions</i>

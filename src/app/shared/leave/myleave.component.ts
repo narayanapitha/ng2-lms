@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DataTableResource } from 'angular-2-data-table';
 import { LeavesService } from '../../service/leaves.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
     selector: 'lms-myleave',
     templateUrl: 'myleave.component.html',
-    providers: [LeavesService]
+    providers: [LeavesService, UserService]
 })
 export class MyleaveComponent implements OnInit {
     
@@ -14,9 +15,16 @@ export class MyleaveComponent implements OnInit {
     itemCount = 0;
     success: string;
     error: string;
+    isAdmin: any;
     loading: boolean = false;
 
-    constructor(private leavesService: LeavesService) { }
+    constructor(private leavesService: LeavesService, private userService: UserService) {
+        // get users from secure api end point
+        this.userService.getUser()
+            .subscribe(users => {
+                this.isAdmin = users.data.role
+            });
+     }
 
     ngOnInit() {
 		this.reloadItems();

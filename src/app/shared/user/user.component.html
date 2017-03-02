@@ -1,6 +1,6 @@
 <h1 class="page-header">Users</h1>
 
-<a routerLink="new" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add User</a>
+<a routerLink="new" *ngIf="isAdmin=='1'" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add User</a>
 
 
 <div class="error" *ngIf="error">
@@ -52,7 +52,7 @@
 			[resizable]="true">
         </data-table-column>
         <data-table-column
-            [header]="'Action'">
+            [header]="'Action'" *ngIf="isAdmin=='1'">
 			<template #dataTableHeader let-item="item">
 				<i>Actions</i>
 			</template>

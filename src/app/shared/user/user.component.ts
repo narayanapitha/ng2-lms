@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DataTableResource } from 'angular-2-data-table';
 //import persons from './userdata';
 import { UsersService } from '../../service/users.service';
+import { UserService } from '../../service/user.service';
 
 @Component({
     selector: 'lms-user',
     templateUrl: 'user.component.html',
-	providers: [UsersService]
+	providers: [UsersService, UserService]
 })
 export class UserComponent implements OnInit {
 
@@ -15,13 +16,15 @@ export class UserComponent implements OnInit {
     itemCount = 0;
     success: string;
     error: string;
+    isAdmin: any;
     loading: boolean = false;
 
-    constructor(private usersService: UsersService) {
-        /*this.usersService.listusers().subscribe(res => {
-			this.items = res.data,
-			this.itemCount = res.data.length
-		});	*/	
+    constructor(private usersService: UsersService, private userService: UserService) {
+       // get users from secure api end point
+        this.userService.getUser()
+            .subscribe(users => {
+                this.isAdmin = users.data.role
+            });
     }
 
     ngOnInit() {
