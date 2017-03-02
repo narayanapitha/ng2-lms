@@ -21,6 +21,7 @@ import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { MyleaveComponent } from './shared/leave/myleave.component';
 import { ApplyleaveComponent } from './shared/leave/applyleave/applyleave.component';
 import { MyprofileComponent } from './shared/myprofile/myprofile.component';
+import { EditprofileComponent } from './shared/myprofile/editprofile/editprofile.component';
 
 const appRoutes: Routes = [
   {
@@ -93,6 +94,11 @@ const appRoutes: Routes = [
     component: MyprofileComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'myprofile/edit',
+    component: EditprofileComponent,
+    canActivate: [AuthGuard]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -120,7 +126,8 @@ const appRoutes: Routes = [
     NewuserComponent,
     MyleaveComponent,
     ApplyleaveComponent,
-    MyprofileComponent
+    MyprofileComponent,
+    EditprofileComponent
   ],
   providers: [
     AUTH_PROVIDERS,
