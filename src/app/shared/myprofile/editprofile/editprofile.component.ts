@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsersService } from '../../../service/users.service';
+import { UserService } from '../../../service/user.service';
 
 @Component({
     selector: 'lms-editprofile',
     templateUrl: 'editprofile.component.html',
-    providers: [UsersService]
+    providers: [UsersService, UserService]
 })
 export class EditprofileComponent implements OnInit {
     
@@ -17,7 +18,7 @@ export class EditprofileComponent implements OnInit {
     updatePage: boolean = false;
     userid: string;
 
-    constructor(private fb: FormBuilder, private router: Router, private user: UsersService, private activatedRoute: ActivatedRoute) {
+    constructor(private fb: FormBuilder, private router: Router, private users: UsersService, private user: UserService, private activatedRoute: ActivatedRoute) {
     }
 	
 	ngOnInit() {
@@ -30,7 +31,7 @@ export class EditprofileComponent implements OnInit {
 	}	
 	
 	getUserData(id){
-		this.user.getUser(id).subscribe(
+		this.users.getUser(id).subscribe(
             data => {
                 if(data.success){
                     this.userData = data.data;
@@ -84,7 +85,7 @@ export class EditprofileComponent implements OnInit {
         if(this.userid){
             /*-----------edit user data code ----------*/
             this.editUserForm.value.id = this.userid;
-            this.user.editUser(this.editUserForm.value).subscribe(
+            this.users.editUser(this.editUserForm.value).subscribe(
                 data => {
                     if(data.success){
                         this.success = data.msg;
@@ -102,7 +103,7 @@ export class EditprofileComponent implements OnInit {
             /*-----------add user data code ----------*/
             this.editUserForm.value.username = this.editUserForm.value.email;
             this.editUserForm.value.password = "test";
-            this.user.addUser(this.editUserForm.value).subscribe(
+            this.users.addUser(this.editUserForm.value).subscribe(
                 data => {
                     if(data.success){
                         this.success = data.msg;

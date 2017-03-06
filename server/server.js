@@ -114,9 +114,14 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
       } else {
         // if everything is good, save to request for use in other routes
         decoded_user = decoded._doc;
+        var dataProjection = {
+            __v: false,
+            password: false
+        };
+
         User.findOne({
           username: decoded_user.username
-          }, function(err, user) {
+          }, dataProjection, function(err, user) {
               if (err) throw err;
       
               if (!user) {

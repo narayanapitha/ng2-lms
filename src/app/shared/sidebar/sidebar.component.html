@@ -27,7 +27,7 @@
                     </a>
                     <ul id="submenu-2" class="panel-collapse collapse panel-switch" role="menu">
                         <li><a routerLink="/myleave" routerLinkActive="active"><i class="glyphicon glyphicon-triangle-right"></i> My Leave</a></li>
-                        <li><a routerLink="/myleave" routerLinkActive="active"><i class="glyphicon glyphicon-triangle-right"></i> Pandding For Approval</a></li>
+                        <li *ngIf="isAdmin=='2'"><a routerLink="/myleave" routerLinkActive="active"><i class="glyphicon glyphicon-triangle-right"></i> Panding For Approval</a></li>
                     </ul>
                 </li>
                 <li>
