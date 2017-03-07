@@ -65,7 +65,7 @@ export class MyleaveComponent implements OnInit {
 
     approveLeave(item) {
         this.loading = true;
-        let makeapprove = (item.approve_status==1) ? 0 : 1;
+        let makeapprove = (item.approve=='1') ? '0' : '1';
         let data = {
             approve_status: makeapprove,
             id: item._id

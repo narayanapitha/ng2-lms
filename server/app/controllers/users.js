@@ -176,3 +176,30 @@ exports.getUser = (req, res) => {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 };
+
+// get all users data (GET http://localhost:9000/api/users)
+exports.listManagers = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        User.find({ role: '2' }, function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, data: user});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};

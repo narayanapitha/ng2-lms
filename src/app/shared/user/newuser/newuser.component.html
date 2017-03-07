@@ -81,19 +81,14 @@
     </div>
   </div>
 
-
   <!-- Select Manager -->
   <div class="form-group">
     <label class="col-md-4 control-label" for="reportingmanager">Reporting Manager</label>
     <div class="col-md-4">
       <select formControlName="reportingmanager" class="form-control">
-		<option value="">Select Reporting Manager</option>
-        <option value="1">self</option>
-        <option value="2">manager one</option>
-        <option value="2">manager two</option>
-        <option value="2">manager three</option>
-        <option value="2">manager four</option>
-        <option value="2">manager five</option>
+		    <option value="">Select Reporting Manager</option>
+        <option value="{{ loginmember?._id }}">self</option>
+        <option *ngFor="let manager of managers" value="{{manager._id}}">{{manager.firstname}} {{manager.lastname}}</option>
       </select>
     </div>
     <span>If a user has no manager (itself), it can validate its leave requests.</span>

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsersService } from '../../../service/users.service';
+import { UserService } from '../../../service/user.service';
 @Component({
     selector: 'lms-newuser',
     templateUrl: 'newuser.component.html',
-    providers: [UsersService]
+    providers: [UsersService, UserService]
 })
 export class NewuserComponent implements OnInit {
     
@@ -13,10 +14,16 @@ export class NewuserComponent implements OnInit {
     loading: boolean = false;
     success: string;
 	userData: any;
+    loginmember: any;
+    managers: any;
     updatePage: boolean = false;
     userid: string;
 
-    constructor(private fb: FormBuilder, private router: Router, private user: UsersService, private activatedRoute: ActivatedRoute) {
+    constructor(private fb: FormBuilder, private router: Router, private user: UsersService, private loginuser: UserService, private activatedRoute: ActivatedRoute) {
+        this.loginuser.getUser()
+            .subscribe(users => {
+                this.loginmember = users.data
+            });
     }
 	
 	ngOnInit() {
@@ -25,6 +32,10 @@ export class NewuserComponent implements OnInit {
             this.getUserData(params.id);
             this.userid = params.id;
         }
+
+        this.user.listManagers().subscribe(data => {
+            this.managers = data.data;
+        });
 		
 	}	
 	
@@ -81,7 +92,7 @@ export class NewuserComponent implements OnInit {
 		this.success = "";
 
         if(this.userid){
-            /*-----------edit user data code ----------*/
+            //-----------edit user data code ----------
             this.userForm.value.id = this.userid;
             this.user.editUser(this.userForm.value).subscribe(
                 data => {
@@ -98,7 +109,7 @@ export class NewuserComponent implements OnInit {
                 }
             );
         }else{
-            /*-----------add user data code ----------*/
+            //-----------add user data code ----------
             this.userForm.value.username = this.userForm.value.email;
             this.userForm.value.password = "test";
             this.user.addUser(this.userForm.value).subscribe(
