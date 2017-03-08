@@ -58,4 +58,8 @@ export class UserComponent implements OnInit {
         });	
         this.reloadItems();
     }
+
+    deleteUserModal(item) {
+       
+    }
 }
