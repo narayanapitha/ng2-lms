@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DataTableModule } from 'angular-2-data-table';
@@ -20,6 +21,7 @@ import { HttpModule } from '@angular/http';
 import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { MyleaveComponent } from './shared/leave/myleave.component';
 import { ApplyleaveComponent } from './shared/leave/applyleave/applyleave.component';
+import { PandingleaveComponent } from './shared/pandingleave/pandingleave.component';
 import { MyprofileComponent } from './shared/myprofile/myprofile.component';
 import { EditprofileComponent } from './shared/myprofile/editprofile/editprofile.component';
 
@@ -90,6 +92,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'pandingleave',
+    component: PandingleaveComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'myprofile',
     component: MyprofileComponent,
     canActivate: [AuthGuard]
@@ -110,6 +117,7 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule,
     DataTableModule,
+    Ng2Bs3ModalModule,
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   declarations: [
@@ -126,6 +134,7 @@ const appRoutes: Routes = [
     NewuserComponent,
     MyleaveComponent,
     ApplyleaveComponent,
+    PandingleaveComponent,
     MyprofileComponent,
     EditprofileComponent
   ],

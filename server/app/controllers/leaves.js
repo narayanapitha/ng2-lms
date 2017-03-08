@@ -60,6 +60,33 @@ exports.listLeavesByUser = (req, res) => {
   }
 };
 
+// get all users data (GET http://localhost:9000/api/users)
+exports.listLeavesByManager = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        Leave.find({managerid: req.params.managerid}, function(err, leave) {
+              if (err) throw err;
+      
+              if (!leave) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. leaves not found.'});
+              } else {
+                res.json({success: true, data: leave});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
 
 // create a new user account (POST http://localhost:8080/api/users)
 exports.addLeaves = (req, res) => {
@@ -73,6 +100,7 @@ exports.addLeaves = (req, res) => {
         } else {
           var newLeave = new Leave({
             userid: req.body.userid,
+            managerid: req.body.managerid,
             leavetype: req.body.leavetype,
             startdate: req.body.startdate,
             enddate: req.body.enddate,
@@ -106,6 +134,7 @@ exports.editLeaves = (req, res) => {
       } else {
           
         var updateData = { 
+            managerid: req.body.managerid,
             leavetype: req.body.leavetype,
             startdate: req.body.startdate,
             enddate: req.body.enddate,

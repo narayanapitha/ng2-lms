@@ -4,11 +4,11 @@ import { LeavesService } from '../../service/leaves.service';
 import { UserService } from '../../service/user.service';
 
 @Component({
-    selector: 'lms-myleave',
-    templateUrl: 'myleave.component.html',
+    selector: 'lms-pandingleave',
+    templateUrl: 'pandingleave.component.html',
     providers: [UserService, LeavesService]
 })
-export class MyleaveComponent implements OnInit {
+export class PandingleaveComponent implements OnInit {
     
     itemResource: any;
     items = [];
@@ -35,7 +35,7 @@ export class MyleaveComponent implements OnInit {
 	
     reloadItems() {      
         this.userService.getUser()
-        .flatMap(user => this.leavesService.listLeavesByUser(user.data))
+        .flatMap(user => this.leavesService.listLeavesByManager(user.data))
         .subscribe(res => {
             this.items = res.data,
             this.itemCount = res.data.length

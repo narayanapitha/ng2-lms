@@ -33,7 +33,13 @@ export class LeavesService {
         }else{
             return this.http.get('http://localhost:9000/api/leavesuser/'+user._id, options).map(res => res.json());
         }
-        
+    }
+
+    listLeavesByManager(user){
+		// add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get('http://localhost:9000/api/leavesmanager/'+user._id, options).map(res => res.json()); 
     }
 
     editLeave(data){ 

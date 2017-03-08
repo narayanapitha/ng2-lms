@@ -9,6 +9,9 @@ var LeaveSchema = new Schema({
   userid: {
         type: String
   },
+  managerid: {
+        type: String
+  },
   leavetype: {
         type: String,
         required: true

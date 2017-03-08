@@ -1,6 +1,4 @@
-<h1 class="page-header">My Leave</h1>
-
-<a routerLink="new" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Apply Leave</a>
+<h1 class="page-header">Panding Leaves</h1>
 
 <div class="error" *ngIf="error">
     <div class="alert alert-danger ng-binding ng-scope">
@@ -14,7 +12,7 @@
 </div>
 <div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
     <data-table id="persons-grid"
-        headerTitle="Leaves"
+        headerTitle="Panding Leaves"
         [items]="items"
         [itemCount]="itemCount"
         (reload)="reloadItems($event)"
@@ -47,7 +45,7 @@
             </template>
         </data-table-column>
         <data-table-column
-            [property]="'approve'"
+            [property]="'approve_status'"
             [header]="'Status'"
             [sortable]="true"
 			[resizable]="true"
@@ -64,8 +62,8 @@
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '0' && isAdmin=='1'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok"></span>Approve</button>
-                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '1' && isAdmin=='1'" title="Make Pending" class="btn btn-sm btn-default">Pending</button>
+                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '0' && isAdmin!='3'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Approve</button>
+                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '1' && isAdmin!='3'" title="Make Pending" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-minus-sign"></span> Pending</button>
 				<a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
 				<button (click)="deleteLeave(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 			</template>

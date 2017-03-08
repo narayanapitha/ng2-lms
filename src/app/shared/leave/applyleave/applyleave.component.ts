@@ -17,13 +17,13 @@ export class ApplyleaveComponent implements OnInit {
 	leaveData: any;
     updatePage: boolean = false;
     leaveid: string;
-    userid: any;
+    loginuser: any;
 
     constructor(private fb: FormBuilder, private router: Router, private leavesService: LeavesService, private userService: UserService, private activatedRoute: ActivatedRoute) {
          // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
-                this.userid = users.data._id
+                this.loginuser = users.data
             });
      }
 
@@ -74,8 +74,10 @@ export class ApplyleaveComponent implements OnInit {
 		this.success = "";
 
         if(this.leaveid){
+            
             /*-----------edit user data code ----------*/
             this.leaveForm.value.id = this.leaveid;
+            this.leaveForm.value.managerid = this.loginuser.reportingmanager;
             this.leavesService.editLeave(this.leaveForm.value).subscribe(
                 data => {
                     if(data.success){
@@ -94,7 +96,8 @@ export class ApplyleaveComponent implements OnInit {
             
             /*-----------add user data code ----------*/
             this.leaveForm.value.approve_status = '0';
-            this.leaveForm.value.userid = this.userid;
+            this.leaveForm.value.userid = this.loginuser._id;
+            this.leaveForm.value.managerid = this.loginuser.reportingmanager;
             this.leavesService.addLeave(this.leaveForm.value).subscribe(
                 data => {
                     if(data.success){
