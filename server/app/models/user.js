@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
+var Leave        = require('../models/leave'); 
  
 // Thanks to http://blog.matoski.com/articles/jwt-express-node-mongoose/
  
@@ -56,6 +57,7 @@ var UserSchema = new Schema({
   address: {
         type: String
   }
+  
 });
  
 UserSchema.pre('save', function (next) {

@@ -58,23 +58,23 @@
 			</template>
 			<template #dataTableCell let-item="item">
 				<a routerLink="/user/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="deleteUserModal(item)" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+				<button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+
+                <modal #modal>
+                    <modal-header [show-close]="true">
+                        <h4 class="modal-title">Delete</h4>
+                    </modal-header>
+                    <modal-body>
+                    Are you sure, you want to delete these user ?
+                    </modal-body>
+                    <modal-footer>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+                        <button type="button" class="btn btn-primary" (click)="deleteUser(item)" (click)="modal.close()">Ok</button>
+                    </modal-footer>
+                </modal>
+
 			</template>
         </data-table-column>
     </data-table>
 </div>
 
-<button type="button" *ngIf="false" class="btn btn-default" id="modalButton" #modalButton  (click)="modal.open()"></button>
-
-<modal #modal>
-    <modal-header [show-close]="true">
-        <h4 class="modal-title">Delete</h4>
-    </modal-header>
-    <modal-body>
-       Are you sure, you want to delete these record ?
-    </modal-body>
-    <modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="deleteUser(item)" (click)="modal.close()">Ok</button>
-    </modal-footer>
-</modal>

@@ -1,17 +1,14 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
+var User = require('../models/user');
  
 // Thanks to http://blog.matoski.com/articles/jwt-express-node-mongoose/
  
 // set up a mongoose model
 var LeaveSchema = new Schema({
-  userid: {
-        type: String
-  },
-  managerid: {
-        type: String
-  },
+  userid: [{type: Schema.Types.ObjectId, ref: 'User' }],
+  managerid: [{type: Schema.Types.ObjectId, ref: 'User' }],
   leavetype: {
         type: String,
         required: true

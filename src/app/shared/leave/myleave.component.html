@@ -67,7 +67,20 @@
                 <!--<button (click)="approveLeave(item)" *ngIf="item.approve_status == '0' && isAdmin=='1'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Approve</button>
                 <button (click)="approveLeave(item)" *ngIf="item.approve_status == '1' && isAdmin=='1'" title="Make Pending" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-minus-sign"></span> Pending</button>-->
 				<a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="deleteLeave(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                <button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+
+                <modal #modal>
+                    <modal-header [show-close]="true">
+                        <h4 class="modal-title">Delete</h4>
+                    </modal-header>
+                    <modal-body>
+                    Are you sure, you want to delete these leave ?
+                    </modal-body>
+                    <modal-footer>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+                        <button type="button" class="btn btn-primary" (click)="deleteLeave(item)" (click)="modal.close()">Ok</button>
+                    </modal-footer>
+                </modal>
 			</template>
         </data-table-column>
     </data-table>

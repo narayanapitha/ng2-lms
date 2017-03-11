@@ -39,7 +39,8 @@ export class UserComponent implements OnInit {
     }
 
     rowTooltip(item) { return item.firstname; }
-	
+
+
 	deleteUser(item) {
         this.loading = true;
         this.usersService.deleteUser(item._id).subscribe(
@@ -57,9 +58,5 @@ export class UserComponent implements OnInit {
             this.loading = false;
         });	
         this.reloadItems();
-    }
-
-    deleteUserModal(item) {
-       
     }
 }

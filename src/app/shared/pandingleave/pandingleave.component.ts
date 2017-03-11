@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Directive, } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { DataTableResource } from 'angular-2-data-table';
 import { LeavesService } from '../../service/leaves.service';
 import { UserService } from '../../service/user.service';
@@ -18,8 +19,9 @@ export class PandingleaveComponent implements OnInit {
     isAdmin: any;
     userid: any;
     loading: boolean = false;
+    userData: any;
 
-    constructor(private userService: UserService, private leavesService: LeavesService) {
+    constructor(private fb: FormBuilder, private userService: UserService, private leavesService: LeavesService) {
         // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
@@ -62,6 +64,10 @@ export class PandingleaveComponent implements OnInit {
         });	
         this.reloadItems();
     }
+
+    public approveLeaveForm = this.fb.group({ 
+        comment: ["", Validators.required]
+    });
 
     approveLeave(item) {
         this.loading = true;

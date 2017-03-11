@@ -1,4 +1,5 @@
 var Leave        = require('../models/leave'); // get the mongoose model
+var User        = require('../models/user');
 var mongoose    = require('mongoose');
 var config      = require('../../config/database');
 var passport	= require('passport');
@@ -71,7 +72,7 @@ exports.listLeavesByManager = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        Leave.find({managerid: req.params.managerid}, function(err, leave) {
+        /*Leave.find({managerid: req.params.managerid}, function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -79,7 +80,17 @@ exports.listLeavesByManager = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            });
+            }).populate('userid');*/
+          Leave.find({managerid: req.params.managerid}).populate('userid')
+     .exec(function(err, leave){
+          if (err) throw err;
+      
+              if (!leave) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. leaves not found.'});
+              } else {
+                res.json({success: true, data: leave});
+              }
+     })
       }
     });
   } else {
