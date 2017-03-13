@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
-var Leave        = require('../models/leave'); 
  
 // Thanks to http://blog.matoski.com/articles/jwt-express-node-mongoose/
  
@@ -33,6 +32,7 @@ var UserSchema = new Schema({
   },
   emailaddress: {
         type: String,
+        unique: true,
         required: true
   },
   role: {
@@ -43,10 +43,7 @@ var UserSchema = new Schema({
         type: String,
         required: true
   },
-  reportingmanager: {
-        type: String,
-        required: true
-  },
+  reportingmanager: {type: Schema.Types.ObjectId, ref: 'User' },
   employmentdate: {
         type: String,
         required: true

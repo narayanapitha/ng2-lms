@@ -53,7 +53,7 @@ exports.listLeavesByUser = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            });
+            }).populate('userid', { firstname: 1, lastname: 1});
       }
     });
   } else {
@@ -72,7 +72,7 @@ exports.listLeavesByManager = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        /*Leave.find({managerid: req.params.managerid}, function(err, leave) {
+        Leave.find({managerid: req.params.managerid}, function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -80,8 +80,8 @@ exports.listLeavesByManager = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            }).populate('userid');*/
-          Leave.find({managerid: req.params.managerid}).populate('userid')
+            });
+          /*Leave.find({managerid: req.params.managerid}).populate('userid')
      .exec(function(err, leave){
           if (err) throw err;
       
@@ -90,7 +90,7 @@ exports.listLeavesByManager = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-     })
+     })*/
       }
     });
   } else {

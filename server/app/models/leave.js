@@ -7,8 +7,8 @@ var User = require('../models/user');
  
 // set up a mongoose model
 var LeaveSchema = new Schema({
-  userid: [{type: Schema.Types.ObjectId, ref: 'User' }],
-  managerid: [{type: Schema.Types.ObjectId, ref: 'User' }],
+  userid: {type: Schema.Types.ObjectId, ref: 'User' },
+  managerid: {type: Schema.Types.ObjectId, ref: 'User' },
   leavetype: {
         type: String,
         required: true

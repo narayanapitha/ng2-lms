@@ -1,8 +1,8 @@
-var User        = require('../models/user'); // get the mongoose model
 var mongoose    = require('mongoose');
 var config      = require('../../config/database');
 var passport	= require('passport');
 var jwt = require('jsonwebtoken');
+var User        = require('../models/user'); // get the mongoose model
 // bundle our routes
 
 
@@ -38,12 +38,12 @@ exports.listUsers = (req, res) => {
 exports.addUsers = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
-      // verifies secret and checks exp
       var decoded = jwt.decode(token, config.secret, {complete: true});
       jwt.verify(token, config.secret, function(err, decoded) {      
         if (err) {
           return res.json({ success: false, message: 'Failed to authenticate token.' });    
         } else {
+
           var newUser = new User({
             username: req.body.username,
             password: req.body.password,
@@ -59,7 +59,7 @@ exports.addUsers = (req, res) => {
             phone: req.body.phone,
             address: req.body.address
           });
-          // save the user
+         
           newUser.save(function(err) {
             if (err) {
               return res.json({success: false, msg: 'Username already exists.'});
@@ -161,7 +161,7 @@ exports.getUser = (req, res) => {
         };
 
         // if everything is good, save to request for use in other routes
-        User.findById(req.params.id, dataProjection,function(err, user) {
+        User.findById(req.params.id, dataProjection, function(err, user) {
               if (err) throw err;
       
               if (!user) {

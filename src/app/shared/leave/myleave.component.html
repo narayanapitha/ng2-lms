@@ -21,6 +21,12 @@
         [rowTooltip]="rowTooltip"
         >
         <data-table-column
+            [property]="'userid.firstname'"
+            [header]="'User'"
+            [sortable]="true"
+            [resizable]="true">
+        </data-table-column>
+        <data-table-column
             [property]="'leavetype'"
             [header]="'Leave Type'"
             [sortable]="true"
