@@ -20,11 +20,13 @@
         (reload)="reloadItems($event)"
         [rowTooltip]="rowTooltip"
         >
-        <data-table-column
-            [property]="'userid.firstname'"
+         <data-table-column
             [header]="'User'"
             [sortable]="true"
             [resizable]="true">
+            <template #dataTableCell let-item="item">
+                <span>{{item.userid.firstname}} {{item.userid.lastname}}</span>
+            </template>
         </data-table-column>
         <data-table-column
             [property]="'leavetype'"
@@ -57,10 +59,11 @@
             [header]="'Status'"
             [sortable]="true"
 			[resizable]="true"
-             [width]="150">
+             [width]="80">
             <template #dataTableCell let-item="item">
-                <span class="label label-success" *ngIf="item.approve_status == '0'">Pending</span>
-                <span class="label label-info" *ngIf="item.approve_status == '1'">Approved</span>
+                <span class="label label-warning" *ngIf="item.approve_status == '0'">Pending</span>
+                <span class="label label-success" *ngIf="item.approve_status == '1'">Approved</span>
+                <span class="label label-danger" *ngIf="item.approve_status == '2'">Rejected</span>
             </template>
         </data-table-column>
         <data-table-column
@@ -70,8 +73,7 @@
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-                <!--<button (click)="approveLeave(item)" *ngIf="item.approve_status == '0' && isAdmin=='1'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Approve</button>
-                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '1' && isAdmin=='1'" title="Make Pending" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-minus-sign"></span> Pending</button>-->
+               
 				<a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                 <button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 

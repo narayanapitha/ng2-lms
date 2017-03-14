@@ -26,7 +26,7 @@ exports.listLeaves = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            });
+            }).populate('userid', { firstname: 1, lastname: 1});
       }
     });
   } else {
@@ -80,17 +80,7 @@ exports.listLeavesByManager = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            });
-          /*Leave.find({managerid: req.params.managerid}).populate('userid')
-     .exec(function(err, leave){
-          if (err) throw err;
-      
-              if (!leave) {
-                return res.status(403).send({success: false, msg: 'Authentication failed. leaves not found.'});
-              } else {
-                res.json({success: true, data: leave});
-              }
-     })*/
+            }).populate('userid', { firstname: 1, lastname: 1});
       }
     });
   } else {
@@ -116,7 +106,7 @@ exports.addLeaves = (req, res) => {
             startdate: req.body.startdate,
             enddate: req.body.enddate,
             description: req.body.description,
-            approve_status: req.body.approve_status
+            approve_status: req.body.approve_status,
           });
           // save the user
           newLeave.save(function(err) {
@@ -149,7 +139,9 @@ exports.editLeaves = (req, res) => {
             leavetype: req.body.leavetype,
             startdate: req.body.startdate,
             enddate: req.body.enddate,
-            description: req.body.description
+            description: req.body.description,
+            approve_status: req.body.approve_status,
+            comment: req.body.comment
         };
         // if everything is good, save to request for use in other routes
         Leave.findByIdAndUpdate(req.body.id, updateData, function(err, leave) {
@@ -222,7 +214,7 @@ exports.getLeaves = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            });
+            }).populate('userid', { firstname: 1, lastname: 1}).populate('managerid', { firstname: 1, lastname: 1});
       }
     });
   } else {
@@ -231,7 +223,7 @@ exports.getLeaves = (req, res) => {
 };
 
 // approve leave data (GET http://localhost:9000/api/users/delete/123)
-exports.approveLeave = (req, res) => {
+exports.confirmLeave = (req, res) => {
   var token = getToken(req.headers);
   if (token) {
     // verifies secret and checks exp
@@ -241,6 +233,7 @@ exports.approveLeave = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         var updateData = {
+            comment : req.body.comment,
             approve_status: req.body.approve_status
         };
         // if everything is good, save to request for use in other routes

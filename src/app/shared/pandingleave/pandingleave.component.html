@@ -19,6 +19,14 @@
         [rowTooltip]="rowTooltip"
         >
         <data-table-column
+            [header]="'User'"
+            [sortable]="true"
+            [resizable]="true">
+            <template #dataTableCell let-item="item">
+                <span>{{item.userid.firstname}} {{item.userid.lastname}}</span>
+            </template>
+        </data-table-column>
+        <data-table-column
             [property]="'leavetype'"
             [header]="'Leave Type'"
             [sortable]="true"
@@ -42,7 +50,6 @@
             [width]="100">
             <template #dataTableCell let-item="item">
                 <span>{{item.enddate | date:'dd-MM-yyyy'}}</span>
-                <span>{{item | json}}</span>
             </template>
         </data-table-column>
         <data-table-column
@@ -50,66 +57,120 @@
             [header]="'Status'"
             [sortable]="true"
 			[resizable]="true"
-             [width]="150">
+             [width]="80">
             <template #dataTableCell let-item="item">
-                <span class="label label-success" *ngIf="item.approve_status == '0'">Pending</span>
-                <span class="label label-info" *ngIf="item.approve_status == '1'">Approved</span>
+                <span class="label label-warning" *ngIf="item.approve_status == '0'">Pending</span>
+                <span class="label label-success" *ngIf="item.approve_status == '1'">Approved</span>
+                <span class="label label-danger" *ngIf="item.approve_status == '2'">Rejected</span>
             </template>
         </data-table-column>
         <data-table-column
             [header]="'Action'"
-            [resizable]="true">
+            [resizable]="true"
+            [width]="250">
 			<template #dataTableHeader let-item="item">
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
                 <!--<button (click)="approveLeave(item)" *ngIf="item.approve_status == '0' && isAdmin!='3'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Approve</button>-->
-                <button (click)="modalApprove.open()" *ngIf="item.approve_status == '0' && isAdmin!='3'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Approve</button>
-                <button (click)="approveLeave(item)" *ngIf="item.approve_status == '1' && isAdmin!='3'" title="Make Pending" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-minus-sign"></span> Pending</button>
+                <button (click)="openConfirmLeaveModal(item)" class="btn btn-sm btn-default">
+                    <i *ngIf="item.approve_status == '0' && isAdmin!='3'"><span class="glyphicon glyphicon-ok-sign"></span> Approve</i>
+                    <i *ngIf="item.approve_status == '1' && isAdmin!='3'"><span class="glyphicon glyphicon-ok-sign"></span> Reject</i>
+                    <i *ngIf="item.approve_status == '2' && isAdmin!='3'"><span class="glyphicon glyphicon-ok-sign"></span> Approve</i>
+                </button>
+                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-eye-open"></span> View</button>
 				<a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="modal.open()" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-
-                <modal #modal>
-                    <modal-header [show-close]="true">
-                        <h4 class="modal-title">Delete</h4>
-                    </modal-header>
-                    <modal-body>
-                    Are you sure, you want to delete these leave ?
-                    </modal-body>
-                    <modal-footer>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-                        <button type="button" class="btn btn-primary" (click)="deleteLeave(item)" (click)="modal.close()">Ok</button>
-                    </modal-footer>
-                </modal>
-
-                <modal #modalApprove>
-                    <modal-header [show-close]="true">
-                        <h4 class="modal-title">Approve</h4>
-                    </modal-header>
-                    <modal-body>
-                        <form class="form-horizontal" [formGroup]="approveLeaveForm" (ngSubmit)="approveLeaveSubmitForm($event)">
-                            <div class="form-group">
-                                <label class="col-md-2 control-label" for="comment">Comment</label>
-                                <div class="col-md-4">                     
-                                <textarea class="form-control" formControlName="comment" placeholder="Comment"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-2 control-label" for="comment"></label>
-                                <div class="col-md-4">
-                                <button type="submit" class="btn btn-primary"> Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                    </modal-body>
-                    <modal-footer>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-                    </modal-footer>
-                </modal>
-
+				<!--<button (click)="openDeleteModal(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>-->
 
 			</template>
         </data-table-column>
     </data-table>
 </div>
+
+<modal #modal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Delete</h4>
+    </modal-header>
+    <modal-body>
+    Are you sure, you want to delete these leave ?
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="deleteLeave(modalDel)" (click)="modal.close()">Ok</button>
+    </modal-footer>
+</modal>
+
+<modal #modalView>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">View</h4>
+    </modal-header>
+    <modal-body>
+    <div>
+        <dl>
+            <b>User : </b> {{ modalData?.userid.firstname }} {{ modalData?.userid.lastname }}
+        </dl>
+        <dl>
+            <b>LeaveType : </b> {{ modalData?.leavetype }}
+        </dl>
+        <dl>
+            <b>Leave Start Date : </b> {{ modalData?.startdate }}
+        </dl>
+        <dl>
+            <b>Leave End Date : </b> {{ modalData?.enddate }}
+        </dl>
+        <dl>
+            <b>Description : </b> {{ modalData?.description }}
+        </dl>
+        <dl>
+            <b>Leave status : </b> 
+                <span class="label label-warning" *ngIf="modalData?.approve_status == '0'">Pending</span>
+                <span class="label label-success" *ngIf="modalData?.approve_status == '1'">Approved</span>
+                <span class="label label-danger" *ngIf="modalData?.approve_status == '2'">Rejected</span>
+        </dl>
+        <dl>
+            <b>Status Comment : </b> {{ modalData?.comment }}
+        </dl>
+    </div>
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
+    </modal-footer>
+</modal>
+
+
+<modal #modalApprove>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Approve</h4>
+    </modal-header>
+    <modal-body>
+        <form class="form-horizontal" [formGroup]="confirmLeaveForm" (ngSubmit)="confirmLeaveSubmitForm($event)">
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="comment">Comment</label>
+                <div class="col-md-8">                     
+                <textarea class="form-control" formControlName="comment" placeholder="Comment"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">Status</label>
+                <div class="col-md-8">
+                <select formControlName="approve_status" class="form-control">
+                    <option value="">Select Leave Status</option>
+                    <option value="1">Approve</option>
+                    <option value="2">Reject</option>
+                </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" ></label>
+                <div class="col-md-4">
+                <button [disabled]="!confirmLeaveForm.valid || loading" type="submit" class="btn btn-primary"> Submit</button>
+                </div>
+            </div>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+    </modal-footer>
+</modal>

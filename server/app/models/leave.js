@@ -27,6 +27,9 @@ var LeaveSchema = new Schema({
   },
   approve_status: {
         type: Number
+  },
+  comment: {
+      type: String,  
   }
 });
  

@@ -45,9 +45,11 @@ export class ApplyleaveComponent implements OnInit {
                         leavetype: [this.leaveData.leavetype, Validators.required],
                         startdate: [this.leaveData.startdate, Validators.required],
                         enddate: [this.leaveData.enddate, Validators.required],
-                        description: [this.leaveData.description, Validators.required]
+                        description: [this.leaveData.description, Validators.required],
+                        approve_status: [this.leaveData.approve_status],
+                        comment: [this.leaveData.comment]
                     });
-                    
+
                 }else{
                     this.error = data.msg;
                 }
@@ -56,8 +58,7 @@ export class ApplyleaveComponent implements OnInit {
             error => {
             this.error = error.msg;
             this.loading = false;
-            }
-        );
+            });
 	}
 	
 	public leaveForm = this.fb.group({
@@ -65,7 +66,9 @@ export class ApplyleaveComponent implements OnInit {
         leavetype: ["", Validators.required],
         startdate: ["", Validators.required],
         enddate: ["", Validators.required],
-        description: ["", Validators.required]
+        description: ["", Validators.required],
+        approve_status: [""],
+        comment: [""]
     });
 
     submitForm() {

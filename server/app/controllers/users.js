@@ -44,6 +44,8 @@ exports.addUsers = (req, res) => {
           return res.json({ success: false, message: 'Failed to authenticate token.' });    
         } else {
 
+
+          var reporting = req.body.reportingmanager;
           var newUser = new User({
             username: req.body.username,
             password: req.body.password,
@@ -54,17 +56,36 @@ exports.addUsers = (req, res) => {
             emailaddress: req.body.email,
             role: req.body.role,
             gender: req.body.gender,
-            reportingmanager: req.body.reportingmanager,
             employmentdate: req.body.employmentdate,
             phone: req.body.phone,
             address: req.body.address
           });
          
-          newUser.save(function(err) {
+          newUser.save(function(err, adduser) {
+            
             if (err) {
               return res.json({success: false, msg: 'Username already exists.'});
             }
-            res.json({success: true, msg: 'Successful created new user.'});
+
+            if(reporting=='self'){
+                var updateData = { 
+                    reportingmanager: adduser._id
+                };
+            }else{
+                var updateData = { 
+                    reportingmanager: req.body.reportingmanager
+                };
+            }
+           
+              User.findByIdAndUpdate(adduser._id, updateData, function(err, user) {
+                if (err) throw err;
+        
+                if (!user) {
+                  return res.json({success: false, msg: 'User not created successfully.'});
+                } else {
+                  res.json({success: true, msg: 'Successful created new user.'});
+                }
+              });
           });
         }
       });
@@ -83,7 +104,8 @@ exports.editUsers = (req, res) => {
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
-          
+
+        var reporting = req.body.reportingmanager;  
         var updateData = { 
             firstname: req.body.firstname,
             lastname: req.body.lastname,
@@ -92,7 +114,6 @@ exports.editUsers = (req, res) => {
             emailaddress: req.body.email,
             role: req.body.role,
             gender: req.body.gender,
-            reportingmanager: req.body.reportingmanager,
             employmentdate: req.body.employmentdate,
             phone: req.body.phone,
             address: req.body.address
@@ -100,11 +121,30 @@ exports.editUsers = (req, res) => {
         // if everything is good, save to request for use in other routes
         User.findByIdAndUpdate(req.body.id, updateData, function(err, user) {
               if (err) throw err;
-      
+              
+              //res.json({success: true, msg: 'Successful edit user.'});
+              if(reporting=='self'){
+                  var updateRportingData = { 
+                      reportingmanager: user._id
+                  };
+              }else{
+                 var updateRportingData = { 
+                      reportingmanager: req.body.reportingmanager
+                  };
+              }
+
+    
               if (!user) {
                 return res.json({success: false, msg: 'User not found.'});
+
               } else {
-                res.json({success: true, msg: 'Successful edit user.'});
+
+                User.findByIdAndUpdate(user._id, updateRportingData, function(err, userreporting) {
+                  if (err) throw err;
+                  
+                   res.json({success: true, msg: 'Successful edit user.'});
+                });
+               
               }
             });
       }

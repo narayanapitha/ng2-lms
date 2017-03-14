@@ -70,7 +70,7 @@ apiRoutes.post('/leaves', config.isAuthenticated, leaveController.addLeaves);
 apiRoutes.post('/leaves/edit', config.isAuthenticated, leaveController.editLeaves);
 apiRoutes.get('/leaves/delete/:id', config.isAuthenticated, leaveController.deleteLeaves);
 apiRoutes.get('/leaves/:id', config.isAuthenticated, leaveController.getLeaves);
-apiRoutes.post('/leaves/approve', config.isAuthenticated, leaveController.approveLeave);
+apiRoutes.post('/leaves/confirm', config.isAuthenticated, leaveController.confirmLeave);
 apiRoutes.get('/leavesuser/:userid', config.isAuthenticated, leaveController.listLeavesByUser);
 apiRoutes.get('/leavesmanager/:managerid', config.isAuthenticated, leaveController.listLeavesByManager);
 

@@ -87,7 +87,7 @@
     <div class="col-md-4">
       <select formControlName="reportingmanager" class="form-control">
 		    <option value="">Select Reporting Manager</option>
-        <option value="{{ loginmember?._id }}">self</option>
+        <option value="self">self</option>
         <option *ngFor="let manager of managers" value="{{manager._id}}">{{manager.firstname}} {{manager.lastname}}</option>
       </select>
     </div>
