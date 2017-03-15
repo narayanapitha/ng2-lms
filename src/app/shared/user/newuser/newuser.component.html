@@ -15,7 +15,7 @@
   <fieldset>
   <!-- Text input-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="firstname">First name</label>  
+    <label class="col-md-2 control-label" for="firstname">First name</label>  
     <div class="col-md-4">
     <input type="text" placeholder="Jhon" class="form-control input-md" formControlName="firstname">
       
@@ -24,7 +24,7 @@
 
   <!-- Text input-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="lastname">Last name</label>  
+    <label class="col-md-2 control-label" for="lastname">Last name</label>  
     <div class="col-md-4">
     <input formControlName="lastname" type="text" placeholder="Deo" class="form-control input-md">
       
@@ -33,15 +33,15 @@
 
   <!-- Photo --> 
   <div class="form-group">
-    <label class="col-md-4 control-label" for="Photo">Photo</label>
+    <label class="col-md-2 control-label" for="Photo">Photo</label>
     <div class="col-md-4">
-      <input formControlName="photo" class="input-file" type="file">
+      <input formControlName="photo" class="input-file" type="file" >
     </div>
   </div>
 
   <!-- Birthday-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="birthday">Birthday</label>  
+    <label class="col-md-2 control-label" for="birthday">Birthday</label>  
     <div class="col-md-4">
     <input formControlName="birthday" type="date" placeholder="birthday" class="form-control input-md">
     </div>
@@ -49,7 +49,7 @@
 
   <!-- E-Mail address-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="email">E-Mail address</label>  
+    <label class="col-md-2 control-label" for="email">E-Mail address</label>  
     <div class="col-md-4">
     <input formControlName="email" type="email" placeholder="E-Mail Address" class="form-control input-md">
       
@@ -58,7 +58,7 @@
 
   <!-- Role -->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="role">Role</label>
+    <label class="col-md-2 control-label" for="role">Role</label>
     <div class="col-md-4">
       <select formControlName="role" class="form-control">
 		    <option value="">Select Role</option>
@@ -71,7 +71,7 @@
 
   <!-- Gender -->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="gender">Gender</label>
+    <label class="col-md-2 control-label" for="gender">Gender</label>
     <div class="col-md-4">
       <select formControlName="gender" class="form-control">
 		<option value="">Select Gender</option>
@@ -83,7 +83,7 @@
 
   <!-- Select Manager -->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="reportingmanager">Reporting Manager</label>
+    <label class="col-md-2 control-label" for="reportingmanager">Reporting Manager</label>
     <div class="col-md-4">
       <select formControlName="reportingmanager" class="form-control">
 		    <option value="">Select Reporting Manager</option>
@@ -96,7 +96,7 @@
 
   <!-- Date Hired/Started-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="employmentdate">Date Hired/Started</label>  
+    <label class="col-md-2 control-label" for="employmentdate">Date Hired/Started</label>  
     <div class="col-md-4">
     <input formControlName="employmentdate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
       
@@ -105,7 +105,7 @@
 
   <!-- Phone-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="phone">Phone</label>  
+    <label class="col-md-2 control-label" for="phone">Phone</label>  
     <div class="col-md-4">
     <input formControlName="phone" type="tel" placeholder="phone" class="form-control input-md">
       
@@ -114,7 +114,7 @@
 
   <!-- Address -->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="address">Address</label>
+    <label class="col-md-2 control-label" for="address">Address</label>
     <div class="col-md-4">                     
       <textarea class="form-control" formControlName="address">address</textarea>
     </div>
@@ -123,6 +123,7 @@
 
   <!-- Button -->
   <div class="form-group">
+    <label class="col-md-2 control-label"></label>
     <div class="col-md-4">
       <button type="submit" [disabled]="!userForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
       <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
@@ -131,3 +132,13 @@
 
   </fieldset>
 </form>
+
+
+ Single
+            <input type="file" ng2FileSelect [uploader]="uploader" />
+  
+
+                        <button type="button" class="btn btn-success btn-s"
+                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                </button>

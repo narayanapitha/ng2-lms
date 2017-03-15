@@ -35,28 +35,49 @@
                 <span>{{item.holidaydate | date:'dd-MM-yyyy'}}</span>
             </template>
         </data-table-column>
-        <data-table-column *ngIf="isAdmin=='1'"
+        <data-table-column
             [header]="'Action'">
 			<template #dataTableHeader let-item="item">
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-				<a routerLink="/holiday/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="modal.open()" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-eye-open"></span> View</button>
+				<a routerLink="/holiday/{{item._id}}" *ngIf="isAdmin=='1'" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+				<button (click)="openDeleteModal(item)" *ngIf="isAdmin=='1'" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 
-                <modal #modal>
-                    <modal-header [show-close]="true">
-                        <h4 class="modal-title">Delete</h4>
-                    </modal-header>
-                    <modal-body>
-                    Are you sure, you want to delete these holiday ?
-                    </modal-body>
-                    <modal-footer>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-                        <button type="button" class="btn btn-primary" (click)="deleteHoliday(item)" (click)="modal.close()">Ok</button>
-                    </modal-footer>
-                </modal>
 			</template>
         </data-table-column>
     </data-table>
 </div>
+
+<modal #modal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Delete</h4>
+    </modal-header>
+    <modal-body>
+    Are you sure, you want to delete these holiday ?
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="deleteHoliday(item)" (click)="modal.close()">Ok</button>
+    </modal-footer>
+</modal>
+
+<modal #modalView>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">View</h4>
+    </modal-header>
+    <modal-body>
+    <div>
+        <dl>
+            <b>Holiday : </b> {{ modalData?.holidayname }}
+        </dl>
+        <dl>
+            <b>Date : </b> {{ modalData?.holidaydate }}
+        </dl>
+    </div>
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()">Close</button>
+    </modal-footer>
+</modal>

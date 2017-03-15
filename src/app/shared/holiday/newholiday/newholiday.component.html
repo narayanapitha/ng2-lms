@@ -16,7 +16,7 @@
   <fieldset>
   <!-- Holiday Name-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="holidayname">Holiday Name</label>  
+    <label class="col-md-2 control-label" for="holidayname">Holiday Name</label>  
     <div class="col-md-4">
     <input id="holidayname" formControlName="holidayname" type="text" placeholder="e.g Holi" class="form-control input-md">
       
@@ -25,29 +25,16 @@
 
   <!-- Date-->
   <div class="form-group">
-    <label class="col-md-4 control-label" for="holidaydate">Holiday Date</label>  
+    <label class="col-md-2 control-label" for="holidaydate">Holiday Date</label>  
     <div class="col-md-4">
     <input id="holidaydate" formControlName="holidaydate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
       
     </div>
   </div>
 
-  <!-- Select year -->
-  <!--<div class="form-group">
-    <label class="col-md-4 control-label" for="financialyear">Year</label>
-    <div class="col-md-4">
-      <select id="financialyear" name="financialyear" class="form-control">
-        <option value="2016">2016</option>
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
-      </select>
-    </div>
-  </div>-->
-
   <!-- Button -->
   <div class="form-group">
+    <label class="col-md-2 control-label"></label> 
     <div class="col-md-4">
       <button type="submit" [disabled]="!holidayForm.valid || loading" class="btn btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
       <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>

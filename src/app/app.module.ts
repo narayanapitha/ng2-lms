@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { FileUploadModule } from 'ng2-file-upload';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DataTableModule } from 'angular-2-data-table';
@@ -118,6 +119,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     DataTableModule,
     Ng2Bs3ModalModule,
+    FileUploadModule,
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   declarations: [

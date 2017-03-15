@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FileUploader } from 'ng2-file-upload';
 import { UsersService } from '../../../service/users.service';
 import { UserService } from '../../../service/user.service';
+
+// const URL = '/api/';
+const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+
 @Component({
     selector: 'lms-newuser',
     templateUrl: 'newuser.component.html',
     providers: [UsersService, UserService]
 })
 export class NewuserComponent implements OnInit {
-    
+    public uploader:FileUploader = new FileUploader({url: URL});
     error: string;
     loading: boolean = false;
     success: string;

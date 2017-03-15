@@ -135,4 +135,9 @@ export class PandingleaveComponent implements OnInit {
         this.modalView.open();
     }
 
+    closeModal(){
+        this.modal.close();
+        this.modalView.close();
+    }
+
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableResource } from 'angular-2-data-table';
 //import persons from './userdata';
 import { UsersService } from '../../service/users.service';
 import { UserService } from '../../service/user.service';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     selector: 'lms-user',
@@ -18,6 +19,8 @@ export class UserComponent implements OnInit {
     error: string;
     isAdmin: any;
     loading: boolean = false;
+    modalDel: any;
+    modalData: any;
 
     constructor(private usersService: UsersService, private userService: UserService) {
        // get users from secure api end point
@@ -40,6 +43,13 @@ export class UserComponent implements OnInit {
 
     rowTooltip(item) { return item.firstname; }
 
+    @ViewChild('modal')
+    modal: ModalComponent;
+
+    openDeleteModal(data){
+        this.modalDel = data;
+        this.modal.open();
+    }
 
 	deleteUser(item) {
         this.loading = true;
@@ -58,5 +68,30 @@ export class UserComponent implements OnInit {
             this.loading = false;
         });	
         this.reloadItems();
+    }
+
+    @ViewChild('modalView')
+    modalView: ModalComponent;
+
+    openViewModal(data){
+        this.usersService.getUser(data._id).subscribe(
+			data => {
+                this.loading = false;
+                if(data.success){
+                    this.modalData = data.data;
+                }else{
+                    this.error = data.msg;
+                }
+            },
+            error => {
+            this.error = error.msg;
+        });	
+
+        this.modalView.open();
+    }
+
+    closeModal(){
+        this.modal.close();
+        this.modalView.close();
     }
 }

@@ -52,29 +52,75 @@
 			[resizable]="true">
         </data-table-column>
         <data-table-column
-            [header]="'Action'" *ngIf="isAdmin=='1'">
+            [header]="'Action'" [width]="240" *ngIf="isAdmin=='1'">
 			<template #dataTableHeader let-item="item">
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
+                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-eye-open"></span> View</button>
 				<a routerLink="/user/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
-
-                <modal #modal>
-                    <modal-header [show-close]="true">
-                        <h4 class="modal-title">Delete</h4>
-                    </modal-header>
-                    <modal-body>
-                    Are you sure, you want to delete these user ?
-                    </modal-body>
-                    <modal-footer>
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-                        <button type="button" class="btn btn-primary" (click)="deleteUser(item)" (click)="modal.close()">Ok</button>
-                    </modal-footer>
-                </modal>
+				<!--<button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>-->
+                <button (click)="openDeleteModal(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 
 			</template>
         </data-table-column>
     </data-table>
 </div>
 
+<modal #modal>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">Delete</h4>
+    </modal-header>
+    <modal-body>
+    Are you sure, you want to delete these user ?
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="deleteUser(modalDel)" (click)="modal.close()">Ok</button>
+    </modal-footer>
+</modal>
+
+<modal #modalView>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title">View</h4>
+    </modal-header>
+    <modal-body>
+    <div>
+        <dl>
+            <b>Name : </b> {{ modalData?.firstname }} {{ modalData?.lastname }}
+        </dl>
+        <dl>
+            <b>Username : </b> {{ modalData?.username }}
+        </dl>
+        <dl>
+            <b>Email : </b> {{ modalData?.emailaddress }}
+        </dl>
+        <dl>
+            <b>Birth Date : </b> {{ modalData?.birthday }}
+        </dl>
+        <dl>
+            <b>Role : </b> 
+                <span class="label label-success" *ngIf="modalData?.role == '1'">Admin</span>
+                <span class="label label-success" *ngIf="modalData?.role == '2'">Manager</span>
+                <span class="label label-success" *ngIf="modalData?.role == '3'">User</span>
+        </dl>
+        <dl>
+            <b>Gender : </b> 
+                <span class="label label-warning" *ngIf="modalData?.gender == '1'">Male</span>
+                <span class="label label-warning" *ngIf="modalData?.gender == '2'">Female</span>
+        </dl>
+        <dl>
+            <b>Employment Date : </b> {{ modalData?.employmentdate }}
+        </dl>
+        <dl>
+            <b>Phone : </b> {{ modalData?.phone }}
+        </dl>
+        <dl>
+            <b>Address : </b> {{ modalData?.address }}
+        </dl>
+    </div>
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModal()">Close</button>
+    </modal-footer>
+</modal>
