@@ -17,6 +17,13 @@ exports.listUsers = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
+
+       /* var perPage = req.query._limit;
+        var startPage =  req.query._start;
+        var sortField = req.query._sort;
+        var orderBy = req.query._order;*/
+
+
         User.find(function(err, user) {
               if (err) throw err;
       
@@ -32,6 +39,31 @@ exports.listUsers = (req, res) => {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 };
+
+/*exports.listUsers = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        
+        User.find(function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, data: user});
+              }
+            });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};*/
 
 
 // create a new user account (POST http://localhost:8080/api/users)

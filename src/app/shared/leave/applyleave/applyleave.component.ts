@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LeavesService } from '../../../service/leaves.service';
 import { UserService } from '../../../service/user.service';
 
+
 @Component({
     selector: 'lms-applyleave',
     templateUrl: 'applyleave.component.html',
@@ -22,16 +23,22 @@ export class ApplyleaveComponent implements OnInit {
     constructor(private fb: FormBuilder, private router: Router, private leavesService: LeavesService, private userService: UserService, private activatedRoute: ActivatedRoute) {
          // get users from secure api end point
         this.userService.getUser()
-            .subscribe(users => {
-                this.loginuser = users.data
-            });
+            .subscribe(users => { this.loginuser = users.data });
      }
 
-    ngOnInit() { 
+     ngOnInit() { 
         let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
-            this.getLeaveData(params.id);
-            this.leaveid = params.id;
+
+            this.userService.getUser()
+            .subscribe(users => { 
+                this.loginuser = users.data,
+                this.getLeaveData(params.id);
+                this.leaveid = params.id;
+             });
+            
+            //this.getLeaveData(params.id);
+            //this.leaveid = params.id;
         }
     }
 

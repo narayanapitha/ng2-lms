@@ -41,6 +41,13 @@ export class UserComponent implements OnInit {
 		});
     }
 
+    /*reloadItems(params) {
+        this.usersService.query(params).then(result => {
+            this.items = result.items;
+            this.itemCount = result.count;
+        });
+    }*/
+
     rowTooltip(item) { return item.firstname; }
 
     @ViewChild('modal')

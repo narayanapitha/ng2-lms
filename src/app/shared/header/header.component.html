@@ -25,7 +25,7 @@
                             <a id="user-profile" href="#" class="dropdown-toggle" data-toggle="dropdown"><img src='../../server/uploads/users/{{imageName}}' class="img-responsive img-thumbnail img-circle"> {{username}}</a>
                             <ul class="dropdown-menu dropdown-block" role="menu">
                                 <li><a routerLink="/myprofile" routerLinkActive="active">My Profile</a></li>
-                                <li><a (click)="authService.logout()">Logout</a></li>
+                                <li><a (click)="authService.logout()" style="cursor: pointer;">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
