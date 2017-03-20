@@ -5,8 +5,8 @@ import { FileUploader } from 'ng2-file-upload';
 import { UsersService } from '../../../service/users.service';
 import { UserService } from '../../../service/user.service';
 
-// const URL = '/api/';
-const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+
+const URL = 'http://localhost:9000/api/imageupload';
 
 @Component({
     selector: 'lms-newuser',
@@ -14,7 +14,8 @@ const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
     providers: [UsersService, UserService]
 })
 export class NewuserComponent implements OnInit {
-    public uploader:FileUploader = new FileUploader({url: URL});
+    
+    
     error: string;
     loading: boolean = false;
     success: string;
@@ -23,6 +24,7 @@ export class NewuserComponent implements OnInit {
     managers: any;
     updatePage: boolean = false;
     userid: string;
+    imageUrl: string = '';
 
     constructor(private fb: FormBuilder, private router: Router, private user: UsersService, private loginuser: UserService, private activatedRoute: ActivatedRoute) {
         this.loginuser.getUser()
@@ -31,6 +33,10 @@ export class NewuserComponent implements OnInit {
             });
     }
 	
+    public uploader:FileUploader = new FileUploader(
+        {url: URL }
+    );
+
 	ngOnInit() {
 		let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
@@ -41,6 +47,17 @@ export class NewuserComponent implements OnInit {
         this.user.listManagers().subscribe(data => {
             this.managers = data.data;
         });
+
+        //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
+       this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+       //overide the onCompleteItem property of the uploader so we are 
+       //able to deal with the server response.
+       this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+            var responsePath = JSON.parse(response);
+            //console.log(responsePath);// the url will be in the response
+            this.imageUrl = responsePath.msg;
+        };
+        
 		
 	}	
 	
@@ -49,11 +66,12 @@ export class NewuserComponent implements OnInit {
             data => {
                 if(data.success){
                     this.userData = data.data;
+                    this.imageUrl = this.userData.photo;
                     this.updatePage = true;
                     this.userForm = this.fb.group({
                         firstname: [this.userData.firstname, Validators.required],
                         lastname: [this.userData.lastname, Validators.required],
-                        photo: [""],
+                        file: [""],
                         email: [this.userData.emailaddress, Validators.required],
                         birthday: [this.userData.birthday, Validators.required],
                         role: [this.userData.role, Validators.required],
@@ -80,7 +98,7 @@ export class NewuserComponent implements OnInit {
         
         firstname: ["", Validators.required],
         lastname: ["", Validators.required],
-        photo: [""],
+        file: [""],
         email: ["", Validators.required],
         birthday: ["", Validators.required],
         role: ["", Validators.required],
@@ -99,6 +117,7 @@ export class NewuserComponent implements OnInit {
         if(this.userid){
             //-----------edit user data code ----------
             this.userForm.value.id = this.userid;
+            this.userForm.value.photo = this.imageUrl;
             this.user.editUser(this.userForm.value).subscribe(
                 data => {
                     if(data.success){
@@ -117,6 +136,7 @@ export class NewuserComponent implements OnInit {
             //-----------add user data code ----------
             this.userForm.value.username = this.userForm.value.email;
             this.userForm.value.password = "test";
+            this.userForm.value.photo = this.imageUrl;
             this.user.addUser(this.userForm.value).subscribe(
                 data => {
                     if(data.success){

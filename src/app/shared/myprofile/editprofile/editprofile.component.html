@@ -33,7 +33,7 @@
   <div class="form-group">
     <label class="col-md-4 control-label" for="Photo">Photo</label>
     <div class="col-md-4">
-      <input formControlName="photo" class="input-file" type="file">
+      <input formControlName="file" name="file" class="input-file" type="file" ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()">
     </div>
   </div>
 

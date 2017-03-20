@@ -35,7 +35,7 @@
   <div class="form-group">
     <label class="col-md-2 control-label" for="Photo">Photo</label>
     <div class="col-md-4">
-      <input formControlName="photo" class="input-file" type="file" >
+      <input formControlName="file" name="file" class="input-file" type="file" ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()">
     </div>
   </div>
 
@@ -129,16 +129,5 @@
       <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
     </div>
   </div>
-
   </fieldset>
 </form>
-
-
- Single
-            <input type="file" ng2FileSelect [uploader]="uploader" />
-  
-
-                        <button type="button" class="btn btn-success btn-s"
-                        (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                    <span class="glyphicon glyphicon-upload"></span> Upload all
-                </button>

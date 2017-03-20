@@ -99,6 +99,9 @@
             <b>Birth Date : </b> {{ modalData?.birthday }}
         </dl>
         <dl>
+            <b>Photo : </b>  <img src='../../server/uploads/users/{{!modalData?.photo ? "default.png" : modalData?.photo}}' height="200" width="200">
+        </dl>
+        <dl>
             <b>Role : </b> 
                 <span class="label label-success" *ngIf="modalData?.role == '1'">Admin</span>
                 <span class="label label-success" *ngIf="modalData?.role == '2'">Manager</span>

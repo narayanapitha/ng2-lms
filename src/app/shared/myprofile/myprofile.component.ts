@@ -9,6 +9,7 @@ import { UserService } from '../../service/user.service';
 export class MyprofileComponent implements OnInit {
     
     user : any;
+    imageName: string  = '';
 
     constructor(
         private userService: UserService
@@ -16,7 +17,8 @@ export class MyprofileComponent implements OnInit {
 
     ngOnInit() { 
         this.userService.getUser().subscribe(users => {
-                this.user = users.data;
+                this.user = users.data,
+                this.imageName = !users.data.photo  ? 'default.png' :  users.data.photo
         });
     }
 }

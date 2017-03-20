@@ -8,7 +8,27 @@ var config      = require('./config/database'); // get db config file
 var User        = require('./app/models/user'); // get the mongoose model
 var port        = process.env.PORT || 9000;
 var jwt = require('jsonwebtoken');
- 
+var multer = require('multer');
+var fs = require('fs');
+var cors = require('cors')
+
+var storageUser = multer.diskStorage({ //multers disk storage settings
+    destination: function (req, file, cb) {
+        cb(null, './uploads/users/')
+    },
+    filename: function (req, file, cb) {
+        var datetimestamp = Date.now();
+        cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+});
+var uploadUser = multer({ //multer settings
+    storage: storageUser
+}).single('file');
+
+
+//cors enable
+app.use(cors());
+
 // get our request parameters
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -23,8 +43,10 @@ app.use(passport.initialize());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header('Access-Control-Allow-Credentials', true);
   next();
 });
+
 
 // demo Route (GET http://localhost:8080)
 app.get('/', function(req, res) {
@@ -43,6 +65,21 @@ require('./config/passport')(passport);
  
 // bundle our routes
 var apiRoutes = express.Router();
+
+apiRoutes.post('/imageupload', function (req, res) {
+  uploadUser(req, res, function (err) {
+    if (err) {
+      return res.end(err.toString());
+    }
+
+    var Filename = req.file.filename;
+    var Destination = req.file.destination;
+    var Path = req.file.path;
+     //console.log(Filename + ' ====== '+ Destination + '========' + Path);
+ 
+    res.send({success: true, msg: Filename});
+  });
+});
 
 //define route constant
 const userController = require('./app/controllers/users');

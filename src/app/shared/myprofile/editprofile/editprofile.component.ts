@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FileUploader } from 'ng2-file-upload';
 import { UsersService } from '../../../service/users.service';
 import { UserService } from '../../../service/user.service';
+
+const URL = 'http://localhost:9000/api/imageupload';
 
 @Component({
     selector: 'lms-editprofile',
@@ -17,9 +20,14 @@ export class EditprofileComponent implements OnInit {
 	userData: any;
     updatePage: boolean = false;
     userid: string;
+    imageUrl: string = '';
 
     constructor(private fb: FormBuilder, private router: Router, private users: UsersService, private user: UserService, private activatedRoute: ActivatedRoute) {
     }
+
+    public uploader:FileUploader = new FileUploader(
+        {url: URL }
+    );
 	
 	ngOnInit() {
 		let params: any = this.activatedRoute.snapshot.params;
@@ -27,6 +35,16 @@ export class EditprofileComponent implements OnInit {
             this.getUserData(params.id);
             this.userid = params.id;
         }
+
+        //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
+       this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+       //overide the onCompleteItem property of the uploader so we are 
+       //able to deal with the server response.
+       this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+            var responsePath = JSON.parse(response);
+            //console.log(responsePath);// the url will be in the response
+            this.imageUrl = responsePath.msg;
+        };
 		
 	}	
 	
@@ -35,11 +53,12 @@ export class EditprofileComponent implements OnInit {
             data => {
                 if(data.success){
                     this.userData = data.data;
+                    this.imageUrl = this.userData.photo;
                     this.updatePage = true;
                     this.editUserForm = this.fb.group({
                         firstname: [this.userData.firstname, Validators.required],
                         lastname: [this.userData.lastname, Validators.required],
-                        photo: [""],
+                        file: [""],
                         email: [this.userData.emailaddress, Validators.required],
                         birthday: [this.userData.birthday, Validators.required],
                         role: [this.userData.role, Validators.required],
@@ -66,7 +85,7 @@ export class EditprofileComponent implements OnInit {
         
         firstname: ["", Validators.required],
         lastname: ["", Validators.required],
-        photo: [""],
+        file: [""],
         email: ["", Validators.required],
         birthday: ["", Validators.required],
         role: ["", Validators.required],
@@ -82,41 +101,22 @@ export class EditprofileComponent implements OnInit {
 		this.error = "";
 		this.success = "";
 
-        if(this.userid){
-            /*-----------edit user data code ----------*/
-            this.editUserForm.value.id = this.userid;
-            this.users.editUser(this.editUserForm.value).subscribe(
-                data => {
-                    if(data.success){
-                        this.success = data.msg;
-                    }else{
-                        this.error = data.msg;
-                    }
-                    this.loading = false;
-                },
-                error => {
-                this.error = error.msg;
-                this.loading = false;
+        /*-----------edit user data code ----------*/
+        this.editUserForm.value.id = this.userid;
+        this.editUserForm.value.photo = this.imageUrl;
+        this.users.editUser(this.editUserForm.value).subscribe(
+            data => {
+                if(data.success){
+                    this.success = data.msg;
+                }else{
+                    this.error = data.msg;
                 }
-            );
-        }else{
-            /*-----------add user data code ----------*/
-            this.editUserForm.value.username = this.editUserForm.value.email;
-            this.editUserForm.value.password = "test";
-            this.users.addUser(this.editUserForm.value).subscribe(
-                data => {
-                    if(data.success){
-                        this.success = data.msg;
-                    }else{
-                        this.error = data.msg;
-                    }
-                    this.loading = false;
-                },
-                error => {
-                this.error = error.msg;
                 this.loading = false;
-                }
-            );
-        }
+            },
+            error => {
+            this.error = error.msg;
+            this.loading = false;
+            }
+        );
     }
 }
