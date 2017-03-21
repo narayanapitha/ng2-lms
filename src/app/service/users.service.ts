@@ -18,12 +18,12 @@ function paramsToQueryString(params: DataTableParams) {
     if (params.sortBy != null) {
         result.push(['_sort', params.sortBy]);
     }else{
-         result.push(['_sort', 'firstname']);
+         result.push(['_sort', 'lastname']);
     }
     if (params.sortAsc != null) {
-        result.push(['_order', params.sortAsc ? 'ASC' : 'DESC']);
+        result.push(['_order', params.sortAsc ? '1' : '-1']);
     }else{
-         result.push(['_order', 'ASC']);
+         result.push(['_order', '1']);
     }
 
     return result.map(param => param.join('=')).join('&');
@@ -36,16 +36,6 @@ export class UsersService {
         private http: Http) {
     }
 
-    query(params: DataTableParams) {
-         let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get('http://localhost:9000/api/users?' + paramsToQueryString(params), options).toPromise()
-            .then((resp: Response) => ({
-                items: resp.json().data,
-                count: Number(resp.headers.get('X-Total-Count'))
-            }));
-    }
-
     addUser(data){
         // add authorization header with jwt token
         let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
@@ -53,12 +43,22 @@ export class UsersService {
         return this.http.post('http://localhost:9000/api/users', data, options).map(res => res.json());
     }
 
-    listusers(){
+    listusers(params: DataTableParams) {
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get('http://localhost:9000/api/users?' + paramsToQueryString(params), options).toPromise()
+            .then((resp: Response) => ({
+                items: resp.json().data,
+                count: resp.json().total
+            }));
+    }
+
+    /*listusers(){
 		// add authorization header with jwt token
         let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
         let options = new RequestOptions({ headers: headers });
         return this.http.get('http://localhost:9000/api/users', options).map(res => res.json());
-    }
+    }*/
 
     editUser(data){ 
         // add authorization header with jwt token

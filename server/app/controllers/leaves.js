@@ -18,7 +18,25 @@ exports.listLeaves = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        Leave.find(function(err, leave) {
+        var perPage = parseInt(req.query._limit);
+        var startPage =  parseInt(req.query._start);
+        var sortField = req.query._sort;
+        var orderBy = parseInt(req.query._order);
+
+        Leave.find().count(function(err, count){
+            var totalDoc = count;
+            Leave.find().limit(perPage).skip(startPage).sort({ sortField: orderBy }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
+              if (err) throw err;
+      
+              if (!leave) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. leave not found.'});
+              } else {
+                res.json({success: true, total: totalDoc,  data: leave});
+              }
+            });
+        });
+
+        /*Leave.find(function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -26,7 +44,9 @@ exports.listLeaves = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            }).populate('userid', { firstname: 1, lastname: 1});
+            }).populate('userid', { firstname: 1, lastname: 1});*/
+
+
       }
     });
   } else {
@@ -44,8 +64,29 @@ exports.listLeavesByUser = (req, res) => {
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
+
+
         // if everything is good, save to request for use in other routes
-        Leave.find({userid: req.params.userid}, function(err, leave) {
+        var perPage = parseInt(req.query._limit);
+        var startPage =  parseInt(req.query._start);
+        var sortField = req.query._sort;
+        var orderBy = parseInt(req.query._order);
+
+        Leave.find({userid: req.params.userid}).count(function(err, count){
+            var totalDoc = count;
+            Leave.find({userid: req.params.userid}).limit(perPage).skip(startPage).sort({ sortField: orderBy }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
+              if (err) throw err;
+      
+              if (!leave) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. leave not found.'});
+              } else {
+                res.json({success: true, total: totalDoc,  data: leave});
+              }
+            });
+        });
+
+
+       /* Leave.find({userid: req.params.userid}, function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -53,7 +94,9 @@ exports.listLeavesByUser = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            }).populate('userid', { firstname: 1, lastname: 1});
+            }).populate('userid', { firstname: 1, lastname: 1});*/
+
+
       }
     });
   } else {
@@ -71,8 +114,28 @@ exports.listLeavesByManager = (req, res) => {
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
+
         // if everything is good, save to request for use in other routes
-        Leave.find({managerid: req.params.managerid}, function(err, leave) {
+        var perPage = parseInt(req.query._limit);
+        var startPage =  parseInt(req.query._start);
+        var sortField = req.query._sort;
+        var orderBy = parseInt(req.query._order);
+
+        Leave.find({managerid: req.params.managerid}).count(function(err, count){
+            var totalDoc = count;
+            Leave.find({managerid: req.params.managerid}).limit(perPage).skip(startPage).sort({ sortField: orderBy }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
+              if (err) throw err;
+      
+              if (!leave) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. leave not found.'});
+              } else {
+                res.json({success: true, total: totalDoc,  data: leave});
+              }
+            });
+        });
+
+
+        /*Leave.find({managerid: req.params.managerid}, function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -80,7 +143,8 @@ exports.listLeavesByManager = (req, res) => {
               } else {
                 res.json({success: true, data: leave});
               }
-            }).populate('userid', { firstname: 1, lastname: 1});
+            }).populate('userid', { firstname: 1, lastname: 1});*/
+
       }
     });
   } else {

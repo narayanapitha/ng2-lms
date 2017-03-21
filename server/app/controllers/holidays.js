@@ -17,15 +17,24 @@ exports.listHolidays = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
-        Holiday.find(function(err, holiday) {
+        var perPage = parseInt(req.query._limit);
+        var startPage =  parseInt(req.query._start);
+        var sortField = req.query._sort;
+        var orderBy = parseInt(req.query._order);
+
+        Holiday.find().count(function(err, count){
+            var totalDoc = count;
+            Holiday.find().limit(perPage).skip(startPage).sort({ sortField: orderBy }).exec(function(err, holiday) {
               if (err) throw err;
       
               if (!holiday) {
                 return res.status(403).send({success: false, msg: 'Authentication failed. Holiday not found.'});
               } else {
-                res.json({success: true, data: holiday});
+                res.json({success: true, total: totalDoc,  data: holiday});
               }
             });
+        });
+
       }
     });
   } else {

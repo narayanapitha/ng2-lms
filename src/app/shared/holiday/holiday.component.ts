@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableResource } from 'angular-2-data-table';
 import { HolidayService } from '../../service/holiday.service';
 import { UserService } from '../../service/user.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -29,14 +30,21 @@ export class HolidayComponent implements OnInit {
      }
 
     ngOnInit() {
-		this.reloadItems();
+		/*this.reloadItems();*/
 	}
 
-    reloadItems() {
+   /* reloadItems() {
         this.holidayService.listHolidays().subscribe(res => {
 			this.items = res.data,
 			this.itemCount = res.data.length
 		});
+    }*/
+
+    reloadItems(params) {
+        this.holidayService.listHolidays(params).then(result => {
+            this.items = result.items;
+            this.itemCount = result.count;
+        });
     }
 
     rowTooltip(item) { return item.firstname; }
@@ -65,7 +73,7 @@ export class HolidayComponent implements OnInit {
             this.error = error.msg;
             this.loading = false;
         });	
-        this.reloadItems();
+        //this.reloadItems();
     }
 
     @ViewChild('modalView')

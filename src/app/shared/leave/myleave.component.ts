@@ -36,12 +36,21 @@ export class MyleaveComponent implements OnInit {
 		//this.reloadItems();
 	}
 	
-    reloadItems() {      
+    /*reloadItems() {      
         this.userService.getUser()
         .flatMap(user => this.leavesService.listLeavesByUser(user.data))
         .subscribe(res => {
             this.items = res.data,
             this.itemCount = res.data.length
+        }); 
+    }*/
+
+    reloadItems(params) {
+        this.userService.getUser()
+        .flatMap(user => this.leavesService.listLeavesByUser(user.data, params))
+        .subscribe(res => {
+            this.items = res.items,
+            this.itemCount = res.count;
         }); 
     }
 
@@ -71,7 +80,7 @@ export class MyleaveComponent implements OnInit {
             this.error = error.msg;
             this.loading = false;
         });	
-        this.reloadItems();
+        //this.reloadItems();
     }
 
     @ViewChild('modalView')

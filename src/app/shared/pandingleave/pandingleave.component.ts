@@ -39,12 +39,21 @@ export class PandingleaveComponent implements OnInit {
 		//this.reloadItems();
 	}
 	
-    reloadItems() {      
+    /*reloadItems() {      
         this.userService.getUser()
         .flatMap(user => this.leavesService.listLeavesByManager(user.data))
         .subscribe(res => {
             this.items = res.data,
             this.itemCount = res.data.length
+        }); 
+    }*/
+
+    reloadItems(params) {
+        this.userService.getUser()
+        .flatMap(user => this.leavesService.listLeavesByManager(user.data, params))
+        .subscribe(res => {
+            this.items = res.items,
+            this.itemCount = res.count;
         }); 
     }
 
@@ -76,7 +85,7 @@ export class PandingleaveComponent implements OnInit {
             this.error = error.msg;
             this.loading = false;
         });	
-        this.reloadItems();
+        //this.reloadItems();
     }
 
     public confirmLeaveForm = this.fb.group({ 
@@ -112,7 +121,7 @@ export class PandingleaveComponent implements OnInit {
             this.error = error.msg;
             this.loading = false;
         });	
-        this.reloadItems();
+        //this.reloadItems();
     }
 
     @ViewChild('modalView')

@@ -33,20 +33,13 @@ export class UserComponent implements OnInit {
     ngOnInit() {
 		//this.reloadItems();
 	}
-	
-    reloadItems() {
-        this.usersService.listusers().subscribe(res => {
-			this.items = res.data,
-			this.itemCount = res.data.length
-		});
-    }
 
-    /*reloadItems(params) {
-        this.usersService.query(params).then(result => {
+    reloadItems(params) {
+        this.usersService.listusers(params).then(result => {
             this.items = result.items;
             this.itemCount = result.count;
         });
-    }*/
+    }
 
     rowTooltip(item) { return item.firstname; }
 
@@ -74,7 +67,7 @@ export class UserComponent implements OnInit {
             this.error = error.msg;
             this.loading = false;
         });	
-        this.reloadItems();
+        //this.reloadItems();
     }
 
     @ViewChild('modalView')
