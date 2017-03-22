@@ -24,7 +24,7 @@ exports.listHolidays = (req, res) => {
 
         Holiday.find().count(function(err, count){
             var totalDoc = count;
-            Holiday.find().limit(perPage).skip(startPage).sort({ sortField: orderBy }).exec(function(err, holiday) {
+            Holiday.find().limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, holiday) {
               if (err) throw err;
       
               if (!holiday) {

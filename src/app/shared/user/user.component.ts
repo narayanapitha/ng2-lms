@@ -67,7 +67,6 @@ export class UserComponent implements OnInit {
             this.error = error.msg;
             this.loading = false;
         });	
-        //this.reloadItems();
     }
 
     @ViewChild('modalView')

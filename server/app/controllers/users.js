@@ -25,7 +25,7 @@ exports.listUsers = (req, res) => {
 
         User.find().count(function(err, count){
             var totalDoc = count;
-            User.find().limit(perPage).skip(startPage).sort({ sortField: orderBy }).exec(function(err, user) {
+            User.find().limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
               if (err) throw err;
       
               if (!user) {

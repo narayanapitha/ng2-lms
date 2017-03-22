@@ -25,7 +25,7 @@ exports.listLeaves = (req, res) => {
 
         Leave.find().count(function(err, count){
             var totalDoc = count;
-            Leave.find().limit(perPage).skip(startPage).sort({ sortField: orderBy }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
+            Leave.find().limit(perPage).skip(startPage).sort({ '_id': -1 }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -74,7 +74,7 @@ exports.listLeavesByUser = (req, res) => {
 
         Leave.find({userid: req.params.userid}).count(function(err, count){
             var totalDoc = count;
-            Leave.find({userid: req.params.userid}).limit(perPage).skip(startPage).sort({ sortField: orderBy }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
+            Leave.find({userid: req.params.userid}).limit(perPage).skip(startPage).sort({ '_id': -1 }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
@@ -123,7 +123,7 @@ exports.listLeavesByManager = (req, res) => {
 
         Leave.find({managerid: req.params.managerid}).count(function(err, count){
             var totalDoc = count;
-            Leave.find({managerid: req.params.managerid}).limit(perPage).skip(startPage).sort({ sortField: orderBy }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
+            Leave.find({managerid: req.params.managerid}).limit(perPage).skip(startPage).sort({ '_id': -1 }).populate('userid', { firstname: 1, lastname: 1}).exec(function(err, leave) {
               if (err) throw err;
       
               if (!leave) {
