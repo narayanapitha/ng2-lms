@@ -1,67 +1,53 @@
 <h1 class="page-header">My Profile</h1>
-
-<div class="container-fluid well span6">
-	<div class="row-fluid">
-        <div class="span2" >
-		    <img src='../../server/uploads/users/{{imageName}}' height="200" width="200" class="img-circle">
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                    {{user?.username}}
-            </div>
-            <div class="panel-body">
-                <table class="table table-striped">
-                    <tbody>
-                    <tr>
-                        <td>Name</td>
-                        <td>{{user?.firstname}} {{user?.lastname}}</td>
-                    </tr>
-                    <tr>
-                        <td>Birthdate</td>
-                        <td>{{user?.birthday}}</td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td>{{user?.emailaddress}}</td>
-                    </tr>
-                    <tr>
-                        <td>Gender</td>
-                        <td>{{user?.gender ? 'Male' : 'Female'}}</td>
-                    </tr>
-                     <tr [ngSwitch]="user?.role">
-                        <td>Role</td>
-                        <td *ngSwitchCase="'1'">Admin</td>
-                        <td *ngSwitchCase="'2'">Manager</td>
-                        <td *ngSwitchCase="'3'">User</td>
-                    </tr>
-                     <tr>
-                        <td>Employment Date</td>
-                        <td>{{user?.employmentdate}}</td>
-                    </tr>
-                    <tr *ngIf="user?.phone != ''">
-                        <td>Phone</td>
-                        <td>{{user?.phone}}</td>
-                    </tr>
-                   <tr *ngIf="user?.address != ''">
-                        <td>Address</td>
-                        <td>{{user?.address}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-        
-        <div class="span2">
-            <div class="btn-group">
-                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
-                    Action 
-                    <span class="icon-cog icon-white"></span><span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a routerLink="{{user?._id}}" routerLinkActive="active"><span class="icon-wrench"></span> Modify</a></li>
-                </ul>
-            </div>
-        </div>
-</div>
+<div class="container-fluid">
+<div class="panel panel-default">
+   <div class="panel-heading">
+      <h3 class="panel-title"><b> {{user?.firstname}} {{user?.lastname}}</b></h3>
+   </div>
+   <div class="panel-body">
+      <div class="row">
+         <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src='../../server/uploads/users/{{imageName}}' class="img-circle img-responsive"> </div>
+         <div class=" col-md-9 col-lg-9 ">
+            <table class="table table-user-information">
+               <tbody>
+                  <tr>
+                     <td>Username:</td>
+                     <td>{{user?.username}}</td>
+                  </tr>
+                  <tr>
+                     <td>Email:</td>
+                     <td>{{user?.emailaddress}}</td>
+                  </tr>
+                  <tr>
+                     <td>Hire date:</td>
+                     <td>{{user?.employmentdate}}</td>
+                  </tr>
+                  <tr>
+                     <td>Date of Birth</td>
+                     <td>{{user?.birthday}}</td>
+                  </tr>
+                  <tr>
+                     <td>Gender</td>
+                     <td>{{user?.gender ? 'Male' : 'Female'}}</td>
+                  </tr>
+                  <tr [ngSwitch]="user?.role">
+                     <td>Role</td>
+                     <td *ngSwitchCase="'1'">Admin</td>
+                     <td *ngSwitchCase="'2'">Manager</td>
+                     <td *ngSwitchCase="'3'">User</td>
+                  </tr>
+                  <tr *ngIf="user?.phone != ''">
+                     <td>Phone</td>
+                     <td>{{user?.phone}}</td>
+                  </tr>
+                  <tr *ngIf="user?.address != ''">
+                     <td>Address</td>
+                     <td>{{user?.address}}</td>
+                  </tr>
+               </tbody>
+            </table>
+            <a href="#" routerLink="{{user?._id}}" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit Profile</a>
+         </div>
+      </div>
+   </div>
 </div>

@@ -1,5 +1,5 @@
 body {
-    background: lightgray;
+    /*background: lightgray;*/
 }
 
 .navbar-fixed-top {
@@ -296,7 +296,7 @@ body {
 }
 
 /*-------------------Login Page----------------*/
-input.ng-invalid, select.ng-invalid{
+input.ng-invalid, select.ng-invalid, textarea.ng-invalid{
     border-color: red;
 }
 

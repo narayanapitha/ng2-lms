@@ -19,4 +19,18 @@ export class UserService {
         return this.http.get('http://localhost:9000/api/memberinfo', options)
             .map((response: Response) => response.json());
     }
+
+    editSetting(data){
+       // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+       return this.http.post('http://localhost:9000/api/settings', data, options).map(res => res.json());
+    }
+
+    getSetting(){
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get('http://localhost:9000/api/settings', options).map(res => res.json());
+    }
 }

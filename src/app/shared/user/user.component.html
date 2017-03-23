@@ -57,7 +57,7 @@
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-eye-open"></span> View</button>
+                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span> View</button>
 				<a routerLink="/user/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
 				<!--<button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>-->
                 <button (click)="openDeleteModal(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>

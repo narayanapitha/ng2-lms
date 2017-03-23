@@ -25,6 +25,7 @@ import { ApplyleaveComponent } from './shared/leave/applyleave/applyleave.compon
 import { PandingleaveComponent } from './shared/pandingleave/pandingleave.component';
 import { MyprofileComponent } from './shared/myprofile/myprofile.component';
 import { EditprofileComponent } from './shared/myprofile/editprofile/editprofile.component';
+import { SettingsComponent } from './shared/settings/settings.component';
 
 const appRoutes: Routes = [
   {
@@ -107,6 +108,11 @@ const appRoutes: Routes = [
     component: EditprofileComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [AuthGuard]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -138,7 +144,8 @@ const appRoutes: Routes = [
     ApplyleaveComponent,
     PandingleaveComponent,
     MyprofileComponent,
-    EditprofileComponent
+    EditprofileComponent,
+    SettingsComponent
   ],
   providers: [
     AUTH_PROVIDERS,

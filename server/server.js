@@ -86,6 +86,7 @@ apiRoutes.post('/imageupload', function (req, res) {
 const userController = require('./app/controllers/users');
 const holidayController = require('./app/controllers/holidays');
 const leaveController = require('./app/controllers/leaves');
+const settingController = require('./app/controllers/setting');
 
 // users routes
 apiRoutes.get('/users', config.isAuthenticated, userController.listUsers);
@@ -111,6 +112,10 @@ apiRoutes.get('/leaves/:id', config.isAuthenticated, leaveController.getLeaves);
 apiRoutes.post('/leaves/confirm', config.isAuthenticated, leaveController.confirmLeave);
 apiRoutes.get('/leavesuser/:userid', config.isAuthenticated, leaveController.listLeavesByUser);
 apiRoutes.get('/leavesmanager/:managerid', config.isAuthenticated, leaveController.listLeavesByManager);
+
+// Setting routes
+apiRoutes.get('/settings', config.isAuthenticated, settingController.getSetting);
+apiRoutes.post('/settings', config.isAuthenticated, settingController.editSetting);
 
 
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
@@ -176,6 +181,69 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 });
+
+
+/*apiRoutes.post('/settings', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    console.log(decoded._doc);
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+       
+          var updateData = { 
+              leavepermonth: req.body.leavepermonth,
+              leaveperyear: req.body.leaveperyear
+          };
+         
+          Setting.findByIdAndUpdate("58d39e3d4c5bbb40411de9e2", updateData, function(err, setting) {
+              if (err) throw err;
+      
+              if (!setting) {
+                return res.json({success: false, msg: 'settings not found.'});
+              } else {
+                res.json({success: true, msg: 'Successful edit settings.'});
+              }
+            });
+
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});
+
+
+apiRoutes.get('/settings', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    console.log(decoded._doc);
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        
+          Setting.findById("58d39e3d4c5bbb40411de9e2", function(err, setting) {
+              if (err) throw err;
+      
+              if (!setting) {
+                return res.json({success: false, msg: 'Settings not found.'});
+              } else {
+                res.json({success: true, data: setting});
+              }
+            });
+
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+});*/
  
 getToken = function (headers) {
   if (headers && headers.authorization) {

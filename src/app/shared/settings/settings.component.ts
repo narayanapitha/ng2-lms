@@ -1,72 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FileUploader } from 'ng2-file-upload';
-import { UsersService } from '../../service/users.service';
 import { UserService } from '../../service/user.service';
 
-const URL = 'http://localhost:9000/api/imageupload';
 
 @Component({
-    selector: 'lms-editprofile',
-    templateUrl: 'editprofile.component.html',
-    providers: [UsersService, UserService]
+    selector: 'lms-settings',
+    templateUrl: 'settings.component.html',
+    providers: [UserService]
 })
-export class EditprofileComponent implements OnInit {
+export class SettingsComponent implements OnInit {
     
     error: string;
     loading: boolean = false;
     success: string;
-	userData: any;
-    updatePage: boolean = false;
-    userid: string;
-    imageUrl: string = '';
+	settingData: any;
 
-    constructor(private fb: FormBuilder, private router: Router, private users: UsersService, private user: UserService, private activatedRoute: ActivatedRoute) {
+    constructor(private fb: FormBuilder, private user: UserService) {
     }
 
-    public uploader:FileUploader = new FileUploader(
-        {url: URL }
-    );
-	
+    
 	ngOnInit() {
-		let params: any = this.activatedRoute.snapshot.params;
-        if(params.id){
-            this.getUserData(params.id);
-            this.userid = params.id;
-        }
-
-        //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
-       this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
-       //overide the onCompleteItem property of the uploader so we are 
-       //able to deal with the server response.
-       this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-            var responsePath = JSON.parse(response);
-            //console.log(responsePath);// the url will be in the response
-            this.imageUrl = responsePath.msg;
-        };
-		
+        this.getSettingData();
 	}	
-	
-	getUserData(id){
-		this.users.getUser(id).subscribe(
+
+    getSettingData(){
+        this.loading = true;
+		this.error = "";
+		this.success = "";
+
+        this.user.getSetting().subscribe(
             data => {
                 if(data.success){
-                    this.userData = data.data;
-                    this.imageUrl = this.userData.photo;
-                    this.updatePage = true;
-                    this.editUserForm = this.fb.group({
-                        firstname: [this.userData.firstname, Validators.required],
-                        lastname: [this.userData.lastname, Validators.required],
-                        file: [""],
-                        email: [this.userData.emailaddress, Validators.required],
-                        birthday: [this.userData.birthday, Validators.required],
-                        role: [this.userData.role, Validators.required],
-                        gender: [this.userData.gender, Validators.required],
-                        reportingmanager: [this.userData.reportingmanager, Validators.required],
-                        employmentdate: [this.userData.employmentdate, Validators.required],
-                        phone: [this.userData.phone],
-                        address: [this.userData.address]
+                    this.settingData = data.data;
+                    this.settingForm = this.fb.group({
+                        leavepermonth: [this.settingData.leavepermonth, Validators.required],
+                        leaveperyear: [this.settingData.leaveperyear, Validators.required],
+                        leavesstartmonth: [this.settingData.leavesstartmonth, Validators.required]
                     });
                     
                 }else{
@@ -79,21 +48,12 @@ export class EditprofileComponent implements OnInit {
             this.loading = false;
             }
         );
-	}
-	
-	public editUserForm = this.fb.group({
-        
-        firstname: ["", Validators.required],
-        lastname: ["", Validators.required],
-        file: [""],
-        email: ["", Validators.required],
-        birthday: ["", Validators.required],
-        role: ["", Validators.required],
-        gender: ["", Validators.required],
-        reportingmanager: ["", Validators.required],
-        employmentdate: ["", Validators.required],
-        phone: [""],
-        address: [""]
+    }
+    
+    public settingForm = this.fb.group({
+        leavepermonth: ["", Validators.required],
+        leaveperyear: ["", Validators.required],
+        leavesstartmonth: ["", Validators.required]
     });
 
     submitForm() {
@@ -102,9 +62,7 @@ export class EditprofileComponent implements OnInit {
 		this.success = "";
 
         /*-----------edit user data code ----------*/
-        this.editUserForm.value.id = this.userid;
-        this.editUserForm.value.photo = this.imageUrl;
-        this.users.editUser(this.editUserForm.value).subscribe(
+        this.user.editSetting(this.settingForm.value).subscribe(
             data => {
                 if(data.success){
                     this.success = data.msg;

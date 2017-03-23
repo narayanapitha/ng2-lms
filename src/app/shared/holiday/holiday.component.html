@@ -41,7 +41,7 @@
 				<i>Actions</i>
 			</template>
 			<template #dataTableCell let-item="item">
-                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-eye-open"></span> View</button>
+                <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span> View</button>
 				<a routerLink="/holiday/{{item._id}}" *ngIf="isAdmin=='1'" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
 				<button (click)="openDeleteModal(item)" *ngIf="isAdmin=='1'" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 
