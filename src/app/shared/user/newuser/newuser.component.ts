@@ -97,7 +97,7 @@ export class NewuserComponent implements OnInit {
                         employmentdate: [this.userData.employmentdate, Validators.required],
                         phone: [this.userData.phone],
                         address: [this.userData.address],
-                        leaveperyearval: [(!this.userData.leaveperyear) ? this.settingData.leaveperyear : this.userData.leaveperyear, Validators.required]
+                        leaveperyearval: [(this.userData.leaveperyear!= null && this.userData.leaveflag!= 0) ? this.userData.leaveperyear : this.settingData.leaveperyear, Validators.required]
                     });
                     
                 }else{
@@ -139,7 +139,7 @@ export class NewuserComponent implements OnInit {
             this.userForm.value.leaveperyear = this.userForm.value.leaveperyearval;
             this.userForm.value.leaveflag = 1;
         }else{
-            this.userForm.value.leaveperyear = this.settingData.leaveperyear;
+            this.userForm.value.leaveperyear = '';
             this.userForm.value.leaveflag = 0; 
         }
 
