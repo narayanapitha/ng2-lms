@@ -1,133 +1,142 @@
-<h1 class="page-header" *ngIf="!updatePage">Create user</h1>
-<h1 class="page-header" *ngIf="updatePage">Update user</h1>
+<div class="col-md-12">
+  <h1 class="page-header" *ngIf="!updatePage">Create user</h1>
+  <h1 class="page-header" *ngIf="updatePage">Update user</h1>
 
-<div class="error" *ngIf="error">
-    <div class="alert alert-danger ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
-    </div>
-</div>
-<div class="success" *ngIf="success">
-    <div class="alert alert-success ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
-    </div>
-</div>
-<form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="submitForm($event)">
-  <fieldset>
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="firstname">First name</label>  
-    <div class="col-md-4">
-    <input type="text" placeholder="Jhon" class="form-control input-md" formControlName="firstname">
-      
-    </div>
+  <div class="error" *ngIf="error">
+      <div class="alert alert-danger ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+      </div>
   </div>
-
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="lastname">Last name</label>  
-    <div class="col-md-4">
-    <input formControlName="lastname" type="text" placeholder="Deo" class="form-control input-md">
-      
-    </div>
+  <div class="success" *ngIf="success">
+      <div class="alert alert-success ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+      </div>
   </div>
+  <form class="form-horizontal" [formGroup]="userForm" (ngSubmit)="submitForm($event)">
 
-  <!-- Photo --> 
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="Photo">Photo</label>
-    <div class="col-md-4">
-      <input formControlName="file" name="file" class="input-file" type="file" ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()">
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="firstname">First name</label>  
+      <div class="col-md-4">
+      <input type="text" placeholder="Jhon" class="form-control input-md" formControlName="firstname">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- Birthday-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="birthday">Birthday</label>  
-    <div class="col-md-4">
-    <input formControlName="birthday" type="date" placeholder="birthday" class="form-control input-md">
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="lastname">Last name</label>  
+      <div class="col-md-4">
+      <input formControlName="lastname" type="text" placeholder="Deo" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- E-Mail address-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="email">E-Mail address</label>  
-    <div class="col-md-4">
-    <input formControlName="email" type="email" placeholder="E-Mail Address" class="form-control input-md">
-      
+    <!-- Photo --> 
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="Photo">Photo</label>
+      <div class="col-md-4">
+        <input formControlName="file" name="file" class="input-file" type="file" ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()">
+      </div>
     </div>
-  </div>
 
-  <!-- Role -->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="role">Role</label>
-    <div class="col-md-4">
-      <select formControlName="role" class="form-control">
-		    <option value="">Select Role</option>
-        <option value="1">Admin</option>
-        <option value="2">Manager</option>
-        <option value="3">User</option>
-      </select>
+    <!-- Birthday-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="birthday">Birthday</label>  
+      <div class="col-md-4">
+      <input formControlName="birthday" type="date" placeholder="birthday" class="form-control input-md">
+      </div>
     </div>
-  </div>
 
-  <!-- Gender -->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="gender">Gender</label>
-    <div class="col-md-4">
-      <select formControlName="gender" class="form-control">
-		<option value="">Select Gender</option>
-        <option value="1">Male</option>
-        <option value="2">Female</option>
-      </select>
+    <!-- E-Mail address-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="email">E-Mail address</label>  
+      <div class="col-md-4">
+      <input formControlName="email" type="email" placeholder="E-Mail Address" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- Select Manager -->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="reportingmanager">Reporting Manager</label>
-    <div class="col-md-4">
-      <select formControlName="reportingmanager" class="form-control">
-		    <option value="">Select Reporting Manager</option>
-        <option value="self">self</option>
-        <option *ngFor="let manager of managers" value="{{manager._id}}">{{manager.firstname}} {{manager.lastname}}</option>
-      </select>
+    <!-- Role -->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="role">Role</label>
+      <div class="col-md-4">
+        <select formControlName="role" class="form-control">
+          <option value="">Select Role</option>
+          <option value="1">Admin</option>
+          <option value="2">Manager</option>
+          <option value="3">User</option>
+        </select>
+      </div>
     </div>
-    <span>If a user has no manager (itself), it can validate its leave requests.</span>
-  </div>
 
-  <!-- Date Hired/Started-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="employmentdate">Date Hired/Started</label>  
-    <div class="col-md-4">
-    <input formControlName="employmentdate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
-      
+    <!-- Gender -->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="gender">Gender</label>
+      <div class="col-md-4">
+        <select formControlName="gender" class="form-control">
+      <option value="">Select Gender</option>
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+        </select>
+      </div>
     </div>
-  </div>
 
-  <!-- Phone-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="phone">Phone</label>  
-    <div class="col-md-4">
-    <input formControlName="phone" type="tel" placeholder="phone" class="form-control input-md">
-      
+    <!-- Select Manager -->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="reportingmanager">Reporting Manager</label>
+      <div class="col-md-4">
+        <select formControlName="reportingmanager" class="form-control">
+          <option value="">Select Reporting Manager</option>
+          <option value="self">self</option>
+          <option *ngFor="let manager of managers" value="{{manager._id}}">{{manager.firstname}} {{manager.lastname}}</option>
+        </select>
+      </div>
+      <span>If a user has no manager (itself), it can validate its leave requests.</span>
     </div>
-  </div>
 
-  <!-- Address -->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="address">Address</label>
-    <div class="col-md-4">                     
-      <textarea class="form-control" formControlName="address">address</textarea>
+    <!-- Date Hired/Started-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="employmentdate">Date Hired/Started</label>  
+      <div class="col-md-4">
+      <input formControlName="employmentdate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-
-  <!-- Button -->
-  <div class="form-group">
-    <label class="col-md-2 control-label"></label>
-    <div class="col-md-4">
-      <button type="submit" [disabled]="!userForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
-      <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+    <!-- Phone-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="phone">Phone</label>  
+      <div class="col-md-4">
+      <input formControlName="phone" type="tel" placeholder="phone" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
-  </fieldset>
-</form>
+
+    <!-- Address -->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="address">Address</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" formControlName="address">address</textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label">Leave Per Year</label>  
+      <div class="col-md-4">
+          <input type="number" class="form-control input-md" formControlName="leaveperyearval" >
+      </div>
+    </div>
+
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-2 control-label"></label>
+      <div class="col-md-4">
+        <button type="submit" [disabled]="!userForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
+        <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+      </div>
+    </div>
+
+  </form>
+</div>  

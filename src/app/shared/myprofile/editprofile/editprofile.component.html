@@ -1,88 +1,89 @@
-<h1 class="page-header">Edit user</h1>
+<div class="col-md-12">
+  <h1 class="page-header">Edit user</h1>
 
-<div class="error" *ngIf="error">
-    <div class="alert alert-danger ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
-    </div>
-</div>
-<div class="success" *ngIf="success">
-    <div class="alert alert-success ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
-    </div>
-</div>
-<form class="form-horizontal" [formGroup]="editUserForm" (ngSubmit)="submitForm($event)">
-  <fieldset>
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="firstname">First name</label>  
-    <div class="col-md-4">
-        <input type="text" placeholder="Jhon" class="form-control input-md" formControlName="firstname">
-    </div>
+  <div class="error" *ngIf="error">
+      <div class="alert alert-danger ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+      </div>
   </div>
-
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="lastname">Last name</label>  
-    <div class="col-md-4">
-    <input formControlName="lastname" type="text" placeholder="Deo" class="form-control input-md">
-      
-    </div>
+  <div class="success" *ngIf="success">
+      <div class="alert alert-success ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+      </div>
   </div>
+  <form class="form-horizontal" [formGroup]="editUserForm" (ngSubmit)="submitForm($event)">
 
-  <!-- Photo --> 
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="Photo">Photo</label>
-    <div class="col-md-4">
-      <input formControlName="file" name="file" class="input-file" type="file" ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()">
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="firstname">First name</label>  
+      <div class="col-md-4">
+          <input type="text" placeholder="Jhon" class="form-control input-md" formControlName="firstname">
+      </div>
     </div>
-  </div>
 
-  <!-- Birthday-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="birthday">Birthday</label>  
-    <div class="col-md-4">
-    <input formControlName="birthday" type="date" placeholder="birthday" class="form-control input-md">
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="lastname">Last name</label>  
+      <div class="col-md-4">
+      <input formControlName="lastname" type="text" placeholder="Deo" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- Gender -->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="gender">Gender</label>
-    <div class="col-md-4">
-      <select formControlName="gender" class="form-control">
-		<option value="">Select Gender</option>
-        <option value="1">Male</option>
-        <option value="2">Female</option>
-      </select>
+    <!-- Photo --> 
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="Photo">Photo</label>
+      <div class="col-md-4">
+        <input formControlName="file" name="file" class="input-file" type="file" ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()">
+      </div>
     </div>
-  </div>
 
-  <!-- Phone-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="phone">Phone</label>  
-    <div class="col-md-4">
-    <input formControlName="phone" type="tel" placeholder="phone" class="form-control input-md">
-      
+    <!-- Birthday-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="birthday">Birthday</label>  
+      <div class="col-md-4">
+      <input formControlName="birthday" type="date" placeholder="birthday" class="form-control input-md">
+      </div>
     </div>
-  </div>
 
-  <!-- Address -->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="address">Address</label>
-    <div class="col-md-4">                     
-      <textarea class="form-control" formControlName="address">address</textarea>
+    <!-- Gender -->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="gender">Gender</label>
+      <div class="col-md-4">
+        <select formControlName="gender" class="form-control">
+      <option value="">Select Gender</option>
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+        </select>
+      </div>
     </div>
-  </div>
 
-
-  <!-- Button -->
-  <div class="form-group">
-    <label class="col-md-2 control-label"></label>
-    <div class="col-md-4">
-      <button type="submit" [disabled]="!editUserForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
-      <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+    <!-- Phone-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="phone">Phone</label>  
+      <div class="col-md-4">
+      <input formControlName="phone" type="tel" placeholder="phone" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  </fieldset>
-</form>
+    <!-- Address -->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="address">Address</label>
+      <div class="col-md-4">                     
+        <textarea class="form-control" formControlName="address">address</textarea>
+      </div>
+    </div>
+
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-2 control-label"></label>
+      <div class="col-md-4">
+        <button type="submit" [disabled]="!editUserForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
+        <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+      </div>
+    </div>
+
+  </form>
+</div>  

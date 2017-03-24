@@ -13,6 +13,10 @@ var SettingSchema = new Schema({
   leaveperyear: {
         type: Number,
         required: true
+  },
+  leavesstartmonth: {
+        type: Number,
+        required: true
   }
   
 });

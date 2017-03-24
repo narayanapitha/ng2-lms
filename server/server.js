@@ -182,69 +182,6 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   }
 });
 
-
-/*apiRoutes.post('/settings', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    
-    var decoded = jwt.decode(token, config.secret, {complete: true});
-    console.log(decoded._doc);
-    jwt.verify(token, config.secret, function(err, decoded) {      
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
-      } else {
-       
-          var updateData = { 
-              leavepermonth: req.body.leavepermonth,
-              leaveperyear: req.body.leaveperyear
-          };
-         
-          Setting.findByIdAndUpdate("58d39e3d4c5bbb40411de9e2", updateData, function(err, setting) {
-              if (err) throw err;
-      
-              if (!setting) {
-                return res.json({success: false, msg: 'settings not found.'});
-              } else {
-                res.json({success: true, msg: 'Successful edit settings.'});
-              }
-            });
-
-      }
-    });
-  } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
-  }
-});
-
-
-apiRoutes.get('/settings', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
-  if (token) {
-    
-    var decoded = jwt.decode(token, config.secret, {complete: true});
-    console.log(decoded._doc);
-    jwt.verify(token, config.secret, function(err, decoded) {      
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
-      } else {
-        
-          Setting.findById("58d39e3d4c5bbb40411de9e2", function(err, setting) {
-              if (err) throw err;
-      
-              if (!setting) {
-                return res.json({success: false, msg: 'Settings not found.'});
-              } else {
-                res.json({success: true, data: setting});
-              }
-            });
-
-      }
-    });
-  } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
-  }
-});*/
- 
 getToken = function (headers) {
   if (headers && headers.authorization) {
     var parted = headers.authorization.split(' ');

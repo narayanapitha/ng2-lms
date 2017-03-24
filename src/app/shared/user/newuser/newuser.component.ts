@@ -25,6 +25,7 @@ export class NewuserComponent implements OnInit {
     updatePage: boolean = false;
     userid: string;
     imageUrl: string = '';
+    settingData: any;
 
     constructor(private fb: FormBuilder, private router: Router, private user: UsersService, private loginuser: UserService, private activatedRoute: ActivatedRoute) {
         this.loginuser.getUser()
@@ -38,15 +39,31 @@ export class NewuserComponent implements OnInit {
     );
 
 	ngOnInit() {
+        this.loginuser.getSetting().subscribe(data => { 
+            this.settingData = data.data;
+            this.userForm = this.fb.group({
+                firstname: ["", Validators.required],
+                lastname: ["", Validators.required],
+                file: [""],
+                email: ["", Validators.required],
+                birthday: ["", Validators.required],
+                role: ["", Validators.required],
+                gender: ["", Validators.required],
+                reportingmanager: ["", Validators.required],
+                employmentdate: ["", Validators.required],
+                phone: [""],
+                address: [""],
+                leaveperyearval: [this.settingData.leaveperyear, Validators.required]
+            });
+         });
+
 		let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
             this.getUserData(params.id);
             this.userid = params.id;
         }
 
-        this.user.listManagers().subscribe(data => {
-            this.managers = data.data;
-        });
+        this.user.listManagers().subscribe(data => { this.managers = data.data; });
 
         //override the onAfterAddingfile property of the uploader so it doesn't authenticate with //credentials.
        this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
@@ -79,7 +96,8 @@ export class NewuserComponent implements OnInit {
                         reportingmanager: [this.userData.reportingmanager, Validators.required],
                         employmentdate: [this.userData.employmentdate, Validators.required],
                         phone: [this.userData.phone],
-                        address: [this.userData.address]
+                        address: [this.userData.address],
+                        leaveperyearval: [(!this.userData.leaveperyear) ? this.settingData.leaveperyear : this.userData.leaveperyear, Validators.required]
                     });
                     
                 }else{
@@ -93,8 +111,9 @@ export class NewuserComponent implements OnInit {
             }
         );
 	}
+
 	
-	public userForm = this.fb.group({
+    public userForm = this.fb.group({
         
         firstname: ["", Validators.required],
         lastname: ["", Validators.required],
@@ -106,13 +125,23 @@ export class NewuserComponent implements OnInit {
         reportingmanager: ["", Validators.required],
         employmentdate: ["", Validators.required],
         phone: [""],
-        address: [""]
+        address: [""],
+        leaveperyearval: ["", Validators.required]
     });
+
 
     submitForm() {
         this.loading = true;
 		this.error = "";
 		this.success = "";
+
+        if(this.userForm.value.leaveperyearval !== this.settingData.leaveperyear){
+            this.userForm.value.leaveperyear = this.userForm.value.leaveperyearval;
+            this.userForm.value.leaveflag = 1;
+        }else{
+            this.userForm.value.leaveperyear = this.settingData.leaveperyear;
+            this.userForm.value.leaveflag = 0; 
+        }
 
         if(this.userid){
             //-----------edit user data code ----------

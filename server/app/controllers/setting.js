@@ -16,8 +16,11 @@ exports.getSetting = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
         // if everything is good, save to request for use in other routes
+        var dataProjection = {
+            _id: false
+        };
 
-        Setting.findById("58d39e3d4c5bbb40411de9e2", function(err, setting) {
+        Setting.findById("58d39e3d4c5bbb40411de9e2", dataProjection, function(err, setting) {
               if (err) throw err;
             
               if (!setting) {
@@ -48,7 +51,8 @@ exports.editSetting = (req, res) => {
 
            var updateData = { 
               leavepermonth: req.body.leavepermonth,
-              leaveperyear: req.body.leaveperyear
+              leaveperyear: req.body.leaveperyear,
+              leavesstartmonth: req.body.leavesstartmonth
           };
          
           Setting.findByIdAndUpdate("58d39e3d4c5bbb40411de9e2", updateData, function(err, setting) {

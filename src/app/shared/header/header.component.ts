@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
        // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
-                this.username = users.data.username,
+                this.username = users.data.firstname + ' ' + users.data.lastname,
                 this.imageName = !users.data.photo  ? 'default.png' :  users.data.photo,
                 this.isAdmin = users.data.role
             });

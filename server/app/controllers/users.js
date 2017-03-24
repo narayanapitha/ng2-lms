@@ -68,7 +68,9 @@ exports.addUsers = (req, res) => {
             gender: req.body.gender,
             employmentdate: req.body.employmentdate,
             phone: req.body.phone,
-            address: req.body.address
+            address: req.body.address,
+            leaveperyear: req.body.leaveperyear,
+            leaveflag: req.body.leaveflag
           });
          
           newUser.save(function(err, adduser) {
@@ -126,7 +128,9 @@ exports.editUsers = (req, res) => {
             gender: req.body.gender,
             employmentdate: req.body.employmentdate,
             phone: req.body.phone,
-            address: req.body.address
+            address: req.body.address,
+            leaveperyear: req.body.leaveperyear,
+            leaveflag: req.body.leaveflag
         };
         // if everything is good, save to request for use in other routes
         User.findByIdAndUpdate(req.body.id, updateData, function(err, user) {

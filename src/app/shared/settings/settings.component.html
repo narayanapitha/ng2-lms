@@ -1,49 +1,66 @@
-<h1 class="page-header">Setting</h1>
+<div class="col-md-12">
 
-<div class="error" *ngIf="error">
-    <div class="alert alert-danger ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
-    </div>
-</div>
-<div class="success" *ngIf="success">
-    <div class="alert alert-success ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
-    </div>
-</div>
-<form class="form-horizontal" [formGroup]="settingForm" (ngSubmit)="submitForm($event)">
-  <fieldset>
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-3 control-label">Leave Per Month</label>  
-    <div class="col-md-4">
-        <input type="number" class="form-control input-md" formControlName="leavepermonth">
-    </div>
+  <h1 class="page-header">Setting</h1>
+
+  <div class="error" *ngIf="error">
+      <div class="alert alert-danger ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+      </div>
   </div>
-
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-3 control-label">Leave Per Year</label>  
-    <div class="col-md-4">
-        <input type="number" class="form-control input-md" formControlName="leaveperyear">
-    </div>
+  <div class="success" *ngIf="success">
+      <div class="alert alert-success ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+      </div>
   </div>
-
-  <!-- Text input-->
-  <div class="form-group">
-    <label class="col-md-3 control-label">Leaves Start Month</label>  
-    <div class="col-md-4">
-        <input type="number" class="form-control input-md" formControlName="leavesstartmonth">
+  <form class="form-horizontal" [formGroup]="settingForm" (ngSubmit)="submitForm($event)">
+ 
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-3 control-label">Leave Per Month</label>  
+      <div class="col-md-4">
+          <input type="number" class="form-control input-md" formControlName="leavepermonth">
+      </div>
     </div>
-  </div>
 
-  <!-- Button -->
-  <div class="form-group">
-    <label class="col-md-3 control-label"></label> 
-    <div class="col-md-4">
-      <button type="submit" [disabled]="!settingForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
-      <button type="reset" class="btn btn-danger">Clear</button>
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-3 control-label">Leave Per Year</label>  
+      <div class="col-md-4">
+          <input type="number" class="form-control input-md" formControlName="leaveperyear">
+      </div>
     </div>
-  </div>
 
-  </fieldset>
-</form>
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-3 control-label">Leaves Start Month</label>  
+      <div class="col-md-4">
+          <!--<input type="number" class="form-control input-md" formControlName="leavesstartmonth">-->
+          <select formControlName="leavesstartmonth" class="form-control">
+            <option value="">Select Month</option>
+            <option value="0">January</option>
+            <option value="1">February</option>
+            <option value="2">March</option>
+            <option value="3">April</option>
+            <option value="4">May</option>
+            <option value="5">June</option>
+            <option value="6">July</option>
+            <option value="7">August</option>
+            <option value="8">September</option>
+            <option value="9">October</option>
+            <option value="10">November</option>
+            <option value="12">December</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-3 control-label"></label> 
+      <div class="col-md-4">
+        <button type="submit" [disabled]="!settingForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
+        <button type="reset" class="btn btn-danger">Clear</button>
+      </div>
+    </div>
+
+  </form>
+</div>  

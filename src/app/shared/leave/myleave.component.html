@@ -1,20 +1,39 @@
-<h1 class="page-header">My Leave</h1>
+<div class="col-md-12">
+    <h1 class="page-header">My Leave</h1>
 
-<a routerLink="new" routerLinkActive="active" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>Apply Leave</a>
+    <a routerLink="new" routerLinkActive="active" class="btn btn-primary m-b-10"><i class="glyphicon glyphicon-plus"></i>Apply Leave</a>
+        
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Total Comapny Leaves</th>
+            <th>Total Taken Leaves</th>
+            <th>Total Available Leaves</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>12</td>
+            <td>5</td>
+            <td>7</td>
+        </tr>
+        </tbody>
+    </table>
 
-<div class="error" *ngIf="error">
-    <div class="alert alert-danger ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+
+    <div class="error" *ngIf="error">
+        <div class="alert alert-danger ng-binding ng-scope">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+        </div>
     </div>
-</div>
-<div class="success" *ngIf="success">
-    <div class="alert alert-success ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+    <div class="success" *ngIf="success">
+        <div class="alert alert-success ng-binding ng-scope">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+        </div>
     </div>
-</div>
-<div style="margin: auto; max-width: 1000px; margin-bottom: 50px;">
+
     <data-table id="persons-grid"
-        headerTitle="Leaves"
+        headerTitle="Leaves List"
         [items]="items"
         [itemCount]="itemCount"
         (reload)="reloadItems($event)"

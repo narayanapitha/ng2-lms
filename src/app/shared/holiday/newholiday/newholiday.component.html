@@ -1,45 +1,46 @@
-<h1 class="page-header" *ngIf="!updatePage">Create Holiday</h1>
-<h1 class="page-header" *ngIf="updatePage">Update Holiday</h1>
+<div class="col-md-12">
+  <h1 class="page-header" *ngIf="!updatePage">Create Holiday</h1>
+  <h1 class="page-header" *ngIf="updatePage">Update Holiday</h1>
 
-<div class="error" *ngIf="error">
-    <div class="alert alert-danger ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
-    </div>
-</div>
-<div class="success" *ngIf="success">
-    <div class="alert alert-success ng-binding ng-scope">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
-    </div>
-</div>
-
-<form class="form-horizontal" [formGroup]="holidayForm" (ngSubmit)="submitForm($event)">
-  <fieldset>
-  <!-- Holiday Name-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="holidayname">Holiday Name</label>  
-    <div class="col-md-4">
-    <input id="holidayname" formControlName="holidayname" type="text" placeholder="e.g Holi" class="form-control input-md">
-      
-    </div>
+  <div class="error" *ngIf="error">
+      <div class="alert alert-danger ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{error}}
+      </div>
+  </div>
+  <div class="success" *ngIf="success">
+      <div class="alert alert-success ng-binding ng-scope">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{success}}
+      </div>
   </div>
 
-  <!-- Date-->
-  <div class="form-group">
-    <label class="col-md-2 control-label" for="holidaydate">Holiday Date</label>  
-    <div class="col-md-4">
-    <input id="holidaydate" formControlName="holidaydate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
-      
+  <form class="form-horizontal" [formGroup]="holidayForm" (ngSubmit)="submitForm($event)">
+  
+    <!-- Holiday Name-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="holidayname">Holiday Name</label>  
+      <div class="col-md-4">
+      <input id="holidayname" formControlName="holidayname" type="text" placeholder="e.g Holi" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  <!-- Button -->
-  <div class="form-group">
-    <label class="col-md-2 control-label"></label> 
-    <div class="col-md-4">
-      <button type="submit" [disabled]="!holidayForm.valid || loading" class="btn btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
-      <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+    <!-- Date-->
+    <div class="form-group">
+      <label class="col-md-2 control-label" for="holidaydate">Holiday Date</label>  
+      <div class="col-md-4">
+      <input id="holidaydate" formControlName="holidaydate" type="date" placeholder="DD/MM/YYYY" class="form-control input-md">
+        
+      </div>
     </div>
-  </div>
 
-  </fieldset>
-</form>
+    <!-- Button -->
+    <div class="form-group">
+      <label class="col-md-2 control-label"></label> 
+      <div class="col-md-4">
+        <button type="submit" [disabled]="!holidayForm.valid || loading" class="btn btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
+        <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+      </div>
+    </div>
+
+  </form>
+</div>  

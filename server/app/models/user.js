@@ -53,6 +53,12 @@ var UserSchema = new Schema({
   },
   address: {
         type: String
+  },
+  leaveperyear: {
+        type: Number
+  },
+  leaveflag: {
+        type: Number
   }
   
 });
