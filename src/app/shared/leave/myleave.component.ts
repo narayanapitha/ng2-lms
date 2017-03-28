@@ -21,29 +21,28 @@ export class MyleaveComponent implements OnInit {
     loading: boolean = false;
     modalData: any;
     modalDel: any;
+    loggedInData: any;
+    settingData: any;
 
     constructor(private userService: UserService, private leavesService: LeavesService) {
         // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
                 this.userid = users.data._id,
-                this.isAdmin = users.data.role
+                this.isAdmin = users.data.role,
+                this.loggedInData = users.data
+                console.log(this.loggedInData)
             }); 
+
+        this.userService.getSetting().subscribe(res => this.settingData = res);  
+        
      }
      
 
     ngOnInit() {
-		//this.reloadItems();
+        
 	}
 	
-    /*reloadItems() {      
-        this.userService.getUser()
-        .flatMap(user => this.leavesService.listLeavesByUser(user.data))
-        .subscribe(res => {
-            this.items = res.data,
-            this.itemCount = res.data.length
-        }); 
-    }*/
 
     reloadItems(params) {
         this.userService.getUser()
