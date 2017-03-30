@@ -43,22 +43,24 @@ export class UsersService {
         return this.http.post('http://localhost:9000/api/users', data, options).map(res => res.json());
     }
 
-    listusers(params: DataTableParams) {
+    listusers(user, params: DataTableParams) {
         let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
         let options = new RequestOptions({ headers: headers });
-        return this.http.get('http://localhost:9000/api/users?' + paramsToQueryString(params), options).toPromise()
-            .then((resp: Response) => ({
-                items: resp.json().data,
-                count: resp.json().total
-            }));
-    }
 
-    /*listusers(){
-		// add authorization header with jwt token
-        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.get('http://localhost:9000/api/users', options).map(res => res.json());
-    }*/
+        if(user.role==1){
+            return this.http.get('http://localhost:9000/api/users?' + paramsToQueryString(params), options).toPromise()
+                .then((resp: Response) => ({
+                    items: resp.json().data,
+                    count: resp.json().total
+                }));
+        }else{
+            return this.http.get('http://localhost:9000/api/usersmanager/'+user._id+'?' + paramsToQueryString(params), options).toPromise()
+                .then((resp: Response) => ({
+                    items: resp.json().data,
+                    count: resp.json().total
+                }));
+        }
+    }
 
     editUser(data){ 
         // add authorization header with jwt token

@@ -95,6 +95,7 @@ apiRoutes.post('/users/edit', config.isAuthenticated, userController.editUsers);
 apiRoutes.get('/users/delete/:id', config.isAuthenticated, userController.deleteUsers);
 apiRoutes.get('/users/:id', config.isAuthenticated, userController.getUser);
 apiRoutes.get('/managers', config.isAuthenticated, userController.listManagers);
+apiRoutes.get('/usersmanager/:id', config.isAuthenticated, userController.usersManager);
 
 // holidays routes
 apiRoutes.get('/holidays', config.isAuthenticated, holidayController.listHolidays);

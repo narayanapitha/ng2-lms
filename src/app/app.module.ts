@@ -26,6 +26,8 @@ import { PandingleaveComponent } from './shared/pandingleave/pandingleave.compon
 import { MyprofileComponent } from './shared/myprofile/myprofile.component';
 import { EditprofileComponent } from './shared/myprofile/editprofile/editprofile.component';
 import { SettingsComponent } from './shared/settings/settings.component';
+import { ControlMessagesComponent } from './shared/validation/message.component';
+import { ValidationService } from './shared/validation/validation.service';
 
 const appRoutes: Routes = [
   {
@@ -129,6 +131,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   declarations: [
+    ControlMessagesComponent,
     AppComponent,
     HeaderComponent,
     SidebarComponent,
@@ -150,7 +153,8 @@ const appRoutes: Routes = [
   providers: [
     AUTH_PROVIDERS,
     AuthService,
-    AuthGuard
+    AuthGuard,
+    ValidationService
   ],
   bootstrap: [AppComponent]
 })

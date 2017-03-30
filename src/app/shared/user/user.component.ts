@@ -21,24 +21,37 @@ export class UserComponent implements OnInit {
     loading: boolean = false;
     modalDel: any;
     modalData: any;
+    //loggedInData: any;
 
     constructor(private usersService: UsersService, private userService: UserService) {
        // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
                 this.isAdmin = users.data.role
+                //this.loggedInData = users.data
             });
     }
 
     ngOnInit() {
 		//this.reloadItems();
+        /*if(){
+
+        }*/
 	}
 
     reloadItems(params) {
-        this.usersService.listusers(params).then(result => {
+
+        this.userService.getUser()
+        .flatMap(user => this.usersService.listusers(user.data, params))
+        .subscribe(res => {
+            this.items = res.items,
+            this.itemCount = res.count;
+        }); 
+
+       /* this.usersService.listusers(params).then(result => {
             this.items = result.items;
             this.itemCount = result.count;
-        });
+        });*/
     }
 
     rowTooltip(item) { return item.firstname; }

@@ -19,7 +19,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="leavetype">Leave type</label>
       <div class="col-md-4">
-        <select id="leavetype" formControlName="leavetype" class="form-control">
+        <select id="leavetype" formControlName="leavetype" class="form-control" required>
           <option value="">Select Leave</option>
           <option value="Casual Leave">Casual Leave</option>
           <option value="Maternity Leave">Maternity Leave</option>
@@ -31,7 +31,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="startdate">Start Date</label>  
       <div class="col-md-4">
-      <input id="startdate" formControlName="startdate" type="date" class="form-control input-md">
+      <input id="startdate" required formControlName="startdate" type="date" class="form-control input-md">
         
       </div>
     </div>
@@ -40,7 +40,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="enddate">End Date</label>  
       <div class="col-md-4">
-      <input id="enddate" formControlName="enddate" type="date" class="form-control input-md">
+      <input id="enddate" required formControlName="enddate" type="date" class="form-control input-md">
         
       </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="description">Description</label>
       <div class="col-md-4">                     
-        <textarea class="form-control" id="description" formControlName="description" placeholder="Description"></textarea>
+        <textarea class="form-control" required id="description" formControlName="description" placeholder="Description"></textarea>
       </div>
     </div>
     <div *ngIf="leaveForm.value.approve_status != 0 && loginuser.role != '3'">

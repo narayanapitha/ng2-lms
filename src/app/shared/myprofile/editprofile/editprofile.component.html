@@ -17,7 +17,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="firstname">First name</label>  
       <div class="col-md-4">
-          <input type="text" placeholder="Jhon" class="form-control input-md" formControlName="firstname">
+          <input type="text" placeholder="Jhon" required class="form-control input-md" formControlName="firstname">
       </div>
     </div>
 
@@ -25,7 +25,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="lastname">Last name</label>  
       <div class="col-md-4">
-      <input formControlName="lastname" type="text" placeholder="Deo" class="form-control input-md">
+      <input formControlName="lastname" required type="text" placeholder="Deo" class="form-control input-md">
         
       </div>
     </div>
@@ -42,7 +42,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="birthday">Birthday</label>  
       <div class="col-md-4">
-      <input formControlName="birthday" type="date" placeholder="birthday" class="form-control input-md">
+      <input formControlName="birthday" required type="date" placeholder="birthday" class="form-control input-md">
       </div>
     </div>
 
@@ -50,7 +50,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="gender">Gender</label>
       <div class="col-md-4">
-        <select formControlName="gender" class="form-control">
+        <select formControlName="gender" class="form-control" required>
       <option value="">Select Gender</option>
           <option value="1">Male</option>
           <option value="2">Female</option>

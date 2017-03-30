@@ -296,8 +296,17 @@ body {
 }
 
 /*-------------------Login Page----------------*/
-input.ng-invalid, select.ng-invalid, textarea.ng-invalid{
-    border-color: red;
+/*input.ng-invalid, select.ng-invalid, textarea.ng-invalid{
+    border-color: #a94442;
+}*/
+
+
+.ng-valid[required], .ng-valid.required  {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form)  {
+  border-left: 5px solid #a94442; /* red */
 }
 
 .gly-spin {

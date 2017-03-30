@@ -31,7 +31,7 @@ export class MyleaveComponent implements OnInit {
                 this.userid = users.data._id,
                 this.isAdmin = users.data.role,
                 this.loggedInData = users.data
-                console.log(this.loggedInData)
+               
             }); 
 
         this.userService.getSetting().subscribe(res => this.settingData = res);  

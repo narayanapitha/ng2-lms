@@ -16,13 +16,13 @@
    <form [formGroup]="loginForm" (ngSubmit)="onLogin($event)">
   <div class="form-group">
     <label for="username">Username</label>
-    <input class="form-control" type="text" placeholder="username" formControlName="username"> 
+    <input class="form-control required" type="text" placeholder="Email" formControlName="username"> 
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input class="form-control" type="password" placeholder="password" formControlName="password">
+    <input class="form-control required" type="password" placeholder="Password" formControlName="password">
   </div>
-  <button type="submit" [disabled]="!loginForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Sign in</button>
+  <button type="submit" [disabled]="!loginForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Login</button>
   <button type="reset" class="btn btn-md btn-default">Clear</button>
 </form>
   </div>

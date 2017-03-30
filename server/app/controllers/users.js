@@ -257,3 +257,41 @@ exports.listManagers = (req, res) => {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 };
+
+// get all users data (GET http://localhost:9000/api/users)
+exports.usersManager = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+       
+        var perPage = parseInt(req.query._limit);
+        var startPage =  parseInt(req.query._start);
+        var sortField = req.query._sort;
+        var orderBy = parseInt(req.query._order);
+
+        User.find({ reportingmanager: req.params.id, _id: { $ne: req.params.id } }).count(function(err, count){
+            var totalDoc = count;
+            User.find({ reportingmanager: req.params.id, _id: { $ne: req.params.id } }).limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                res.json({success: true, total: totalDoc,  data: user});
+              }
+            });
+        });
+
+
+
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
