@@ -90,6 +90,7 @@ export class ApplyleaveComponent implements OnInit {
             this.leaveForm.value.managerid = this.loginuser.reportingmanager;
             this.leavesService.editLeave(this.leaveForm.value).subscribe(
                 data => {
+                    window.scrollTo(0, 0);
                     if(data.success){
                         this.success = data.msg;
                     }else{
@@ -98,8 +99,9 @@ export class ApplyleaveComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                this.error = error.msg;
-                this.loading = false;
+                    window.scrollTo(0, 0);
+                    this.error = error.msg;
+                    this.loading = false;
                 }
             );
         }else{
@@ -110,6 +112,7 @@ export class ApplyleaveComponent implements OnInit {
             this.leaveForm.value.managerid = this.loginuser.reportingmanager;
             this.leavesService.addLeave(this.leaveForm.value).subscribe(
                 data => {
+                    window.scrollTo(0, 0);
                     if(data.success){
                         this.success = data.msg;
                     }else{
@@ -118,8 +121,9 @@ export class ApplyleaveComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                this.error = error.msg;
-                this.loading = false;
+                    window.scrollTo(0, 0);
+                    this.error = error.msg;
+                    this.loading = false;
                 }
             );
         }

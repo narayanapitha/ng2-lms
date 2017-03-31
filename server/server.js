@@ -56,7 +56,7 @@ app.get('/', function(req, res) {
  
 // Start the server
 app.listen(port);
-console.log('There will be dragons: http://localhost:' + port);
+//console.log('There will be dragons: http://localhost:' + port);
 
 
 mongoose.connect(config.database);
@@ -68,6 +68,7 @@ require('./config/passport')(passport);
 var apiRoutes = express.Router();
 
 apiRoutes.post('/imageupload', function (req, res) {
+ 
   uploadUser(req, res, function (err) {
     if (err) {
       return res.end(err.toString());
@@ -92,6 +93,7 @@ const settingController = require('./app/controllers/setting');
 apiRoutes.get('/users', config.isAuthenticated, userController.listUsers);
 apiRoutes.post('/users', config.isAuthenticated, userController.addUsers);
 apiRoutes.post('/users/edit', config.isAuthenticated, userController.editUsers);
+apiRoutes.post('/users/profile', config.isAuthenticated, userController.editUsersProfile);
 apiRoutes.get('/users/delete/:id', config.isAuthenticated, userController.deleteUsers);
 apiRoutes.get('/users/:id', config.isAuthenticated, userController.getUser);
 apiRoutes.get('/managers', config.isAuthenticated, userController.listManagers);
@@ -153,7 +155,7 @@ apiRoutes.get('/memberinfo', passport.authenticate('jwt', { session: false}), fu
   if (token) {
     // verifies secret and checks exp
     var decoded = jwt.decode(token, config.secret, {complete: true});
-    console.log(decoded._doc);
+    //console.log(decoded._doc);
     jwt.verify(token, config.secret, function(err, decoded) {      
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    

@@ -69,6 +69,13 @@ export class UsersService {
        return this.http.post('http://localhost:9000/api/users/edit', data, options).map(res => res.json());
     }
 
+    editUserProfile(data){ 
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+       return this.http.post('http://localhost:9000/api/users/profile', data, options).map(res => res.json());
+    }
+
     deleteUser(data){ 
         // add authorization header with jwt token
         let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });

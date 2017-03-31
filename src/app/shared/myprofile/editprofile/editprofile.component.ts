@@ -20,6 +20,7 @@ export class EditprofileComponent implements OnInit {
 	userData: any;
     updatePage: boolean = false;
     userid: string;
+    imageupload: number;
     imageUrl: string = '';
 
     constructor(private fb: FormBuilder, private router: Router, private users: UsersService, private user: UserService, private activatedRoute: ActivatedRoute) {
@@ -44,6 +45,7 @@ export class EditprofileComponent implements OnInit {
             var responsePath = JSON.parse(response);
             //console.log(responsePath);// the url will be in the response
             this.imageUrl = responsePath.msg;
+            this.imageupload = 1;
         };
 		
 	}	
@@ -54,17 +56,14 @@ export class EditprofileComponent implements OnInit {
                 if(data.success){
                     this.userData = data.data;
                     this.imageUrl = this.userData.photo;
+                    this.imageupload = 0;
                     this.updatePage = true;
                     this.editUserForm = this.fb.group({
                         firstname: [this.userData.firstname, Validators.required],
                         lastname: [this.userData.lastname, Validators.required],
                         file: [""],
-                        email: [this.userData.emailaddress, Validators.required],
                         birthday: [this.userData.birthday, Validators.required],
-                        role: [this.userData.role, Validators.required],
                         gender: [this.userData.gender, Validators.required],
-                        reportingmanager: [this.userData.reportingmanager, Validators.required],
-                        employmentdate: [this.userData.employmentdate, Validators.required],
                         phone: [this.userData.phone],
                         address: [this.userData.address]
                     });
@@ -86,12 +85,8 @@ export class EditprofileComponent implements OnInit {
         firstname: ["", Validators.required],
         lastname: ["", Validators.required],
         file: [""],
-        email: ["", Validators.required],
         birthday: ["", Validators.required],
-        role: ["", Validators.required],
         gender: ["", Validators.required],
-        reportingmanager: ["", Validators.required],
-        employmentdate: ["", Validators.required],
         phone: [""],
         address: [""]
     });
@@ -104,8 +99,10 @@ export class EditprofileComponent implements OnInit {
         /*-----------edit user data code ----------*/
         this.editUserForm.value.id = this.userid;
         this.editUserForm.value.photo = this.imageUrl;
-        this.users.editUser(this.editUserForm.value).subscribe(
+        this.editUserForm.value.uploadimg = this.imageupload;
+        this.users.editUserProfile(this.editUserForm.value).subscribe(
             data => {
+                window.scrollTo(0, 0);
                 if(data.success){
                     this.success = data.msg;
                 }else{
@@ -114,8 +111,9 @@ export class EditprofileComponent implements OnInit {
                 this.loading = false;
             },
             error => {
-            this.error = error.msg;
-            this.loading = false;
+                window.scrollTo(0, 0);
+                this.error = error.msg;
+                this.loading = false;
             }
         );
     }

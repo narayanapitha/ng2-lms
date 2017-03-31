@@ -25,6 +25,7 @@ export class NewuserComponent implements OnInit {
     managers: any;
     updatePage: boolean = false;
     userid: string;
+    imageupload: number;
     imageUrl: string = '';
     settingData: any;
 
@@ -42,20 +43,7 @@ export class NewuserComponent implements OnInit {
 	ngOnInit() {
         this.loginuser.getSetting().subscribe(data => { 
             this.settingData = data.data;
-            this.userForm = this.fb.group({
-                firstname: ["", Validators.required],
-                lastname: ["", Validators.required],
-                file: [""],
-                email: ["", [Validators.required, ValidationService.emailValidator]],
-                birthday: ["", Validators.required],
-                role: ["", Validators.required],
-                gender: ["", Validators.required],
-                reportingmanager: ["", Validators.required],
-                employmentdate: ["", Validators.required],
-                phone: ["", [ValidationService.phoneValidator]],
-                address: [""],
-                leaveperyearval: [this.settingData.leaveperyear, Validators.required]
-            });
+            this.userForm.patchValue({leaveperyearval: this.settingData.leaveperyear});
          });
 
 		let params: any = this.activatedRoute.snapshot.params;
@@ -74,6 +62,7 @@ export class NewuserComponent implements OnInit {
             var responsePath = JSON.parse(response);
             //console.log(responsePath);// the url will be in the response
             this.imageUrl = responsePath.msg;
+            this.imageupload = 1;
         };
         
 		
@@ -85,6 +74,7 @@ export class NewuserComponent implements OnInit {
                 if(data.success){
                     this.userData = data.data;
                     this.imageUrl = this.userData.photo;
+                    this.imageupload = 0;
                     this.updatePage = true;
                     this.userForm = this.fb.group({
                         firstname: [this.userData.firstname, Validators.required],
@@ -148,8 +138,10 @@ export class NewuserComponent implements OnInit {
             //-----------edit user data code ----------
             this.userForm.value.id = this.userid;
             this.userForm.value.photo = this.imageUrl;
+            this.userForm.value.uploadimg = this.imageupload;
             this.user.editUser(this.userForm.value).subscribe(
                 data => {
+                    window.scrollTo(0, 0);
                     if(data.success){
                         this.success = data.msg;
                     }else{
@@ -158,8 +150,9 @@ export class NewuserComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                this.error = error.msg;
-                this.loading = false;
+                    window.scrollTo(0, 0);
+                    this.error = error.msg;
+                    this.loading = false;
                 }
             );
         }else{
@@ -169,6 +162,7 @@ export class NewuserComponent implements OnInit {
             this.userForm.value.photo = this.imageUrl;
             this.user.addUser(this.userForm.value).subscribe(
                 data => {
+                    window.scrollTo(0, 0);
                     if(data.success){
                         this.success = data.msg;
                     }else{
@@ -177,8 +171,9 @@ export class NewuserComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                this.error = error.msg;
-                this.loading = false;
+                    window.scrollTo(0, 0);
+                    this.error = error.msg;
+                    this.loading = false;
                 }
             );
         }

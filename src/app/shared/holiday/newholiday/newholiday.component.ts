@@ -67,6 +67,7 @@ export class NewholidayComponent implements OnInit {
             this.holidayForm.value.id = this.holidayid;
             this.holidayService.editHoliday(this.holidayForm.value).subscribe(
                 data => {
+                    window.scrollTo(0, 0);
                     if(data.success){
                         this.success = data.msg;
                     }else{
@@ -75,8 +76,9 @@ export class NewholidayComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                this.error = error.msg;
-                this.loading = false;
+                    window.scrollTo(0, 0);
+                    this.error = error.msg;
+                    this.loading = false;
                 }
             );
         }else{
@@ -84,6 +86,7 @@ export class NewholidayComponent implements OnInit {
             /*-----------add user data code ----------*/
             this.holidayService.addHoliday(this.holidayForm.value).subscribe(
                 data => {
+                    window.scrollTo(0, 0);
                     if(data.success){
                         this.success = data.msg;
                     }else{
@@ -92,8 +95,9 @@ export class NewholidayComponent implements OnInit {
                     this.loading = false;
                 },
                 error => {
-                this.error = error.msg;
-                this.loading = false;
+                    window.scrollTo(0, 0);
+                    this.error = error.msg;
+                    this.loading = false;
                 }
             );
         }

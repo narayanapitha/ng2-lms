@@ -1,5 +1,5 @@
 <div class="col-md-12">
-  <h1 class="page-header">Edit user</h1>
+  <h1 class="page-header">Edit Profile</h1>
 
   <div class="error" *ngIf="error">
       <div class="alert alert-danger ng-binding ng-scope">
@@ -81,7 +81,7 @@
       <label class="col-md-2 control-label"></label>
       <div class="col-md-4">
         <button type="submit" [disabled]="!editUserForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Submit</button>
-        <button type="reset" id="clearuser" name="clearuser" class="btn btn-danger">Clear</button>
+        <a routerLink="/myprofile" class="btn btn-default" role="button">Back</a>
       </div>
     </div>
 

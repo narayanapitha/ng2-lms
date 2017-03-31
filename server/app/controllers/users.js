@@ -3,6 +3,7 @@ var config      = require('../../config/database');
 var passport	= require('passport');
 var jwt = require('jsonwebtoken');
 var User        = require('../models/user'); // get the mongoose model
+var fs = require('fs');
 // bundle our routes
 
 
@@ -117,6 +118,21 @@ exports.editUsers = (req, res) => {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
 
+        if(req.body.uploadimg && req.body.uploadimg===1){
+          /*-----delete user image-----*/
+          User.findById(req.body.id, 
+          function(err, response){
+              if(response.photo!=''){
+                var filepath = './uploads/users/'+response.photo;
+                fs.stat(filepath, function(err, stats){
+                      if(err) return console.log(err);
+                      fs.unlink(filepath);
+                });
+              }
+          });
+        }
+        
+
         var reporting = req.body.reportingmanager;  
         var updateData = { 
             firstname: req.body.firstname,
@@ -131,7 +147,9 @@ exports.editUsers = (req, res) => {
             address: req.body.address,
             leaveperyear: req.body.leaveperyear,
             leaveflag: req.body.leaveflag
-        };
+        };  
+
+
         // if everything is good, save to request for use in other routes
         User.findByIdAndUpdate(req.body.id, updateData, function(err, user) {
               if (err) throw err;
@@ -169,6 +187,59 @@ exports.editUsers = (req, res) => {
 };
 
 
+// edit profile data (GET http://localhost:9000/api/users/profile)
+exports.editUsersProfile = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+
+        if(req.body.uploadimg && req.body.uploadimg===1){
+          /*-----delete user image-----*/
+          User.findById(req.body.id, 
+          function(err, response){
+              if(response.photo!=''){
+                var filepath = './uploads/users/'+response.photo;
+                fs.stat(filepath, function(err, stats){
+                      if(err) return console.log(err);
+                      fs.unlink(filepath);
+                });
+              }
+          });
+        }
+        
+        var updateData = { 
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            photo: req.body.photo,
+            birthday: req.body.birthday,
+            gender: req.body.gender,
+            phone: req.body.phone,
+            address: req.body.address
+        };  
+
+
+        // if everything is good, save to request for use in other routes
+        User.findByIdAndUpdate(req.body.id, updateData, function(err, user) {
+              if (err) throw err;
+              if (!user) {
+                return res.json({success: false, msg: 'User not found.'});
+              } else {
+                   res.json({success: true, msg: 'Successful edit user.'});
+              }
+          });
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
+
 // delete user data (GET http://localhost:9000/api/users/delete/123)
 exports.deleteUsers = (req, res) => {
   var token = getToken(req.headers);
@@ -179,8 +250,21 @@ exports.deleteUsers = (req, res) => {
       if (err) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });    
       } else {
-        // if everything is good, save to request for use in other routes
-        User.findByIdAndRemove(req.params.id, function(err, user) {
+
+        
+        /*-----delete user image-----*/
+          User.findById(req.body.id, 
+          function(err, response){
+              if(response.photo!=''){
+                var filepath = './uploads/users/'+response.photo;
+                fs.stat(filepath, function(err, stats){
+                      if(err) return console.log(err);
+                      fs.unlink(filepath);
+                });
+              }
+          });
+        // if everything is good, delete user data from collections
+       User.findByIdAndRemove(req.params.id, function(err, user) {
               if (err) throw err;
       
               if (!user) {

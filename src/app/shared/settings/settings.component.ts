@@ -64,6 +64,7 @@ export class SettingsComponent implements OnInit {
         /*-----------edit user data code ----------*/
         this.user.editSetting(this.settingForm.value).subscribe(
             data => {
+                window.scrollTo(0, 0);
                 if(data.success){
                     this.success = data.msg;
                 }else{
@@ -72,8 +73,9 @@ export class SettingsComponent implements OnInit {
                 this.loading = false;
             },
             error => {
-            this.error = error.msg;
-            this.loading = false;
+                window.scrollTo(0, 0);
+                this.error = error.msg;
+                this.loading = false;
             }
         );
     }
