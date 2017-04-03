@@ -22,7 +22,7 @@
     <label for="password">Password</label>
     <input class="form-control required" type="password" placeholder="Password" formControlName="password">
   </div>
-  <button type="submit" [disabled]="!loginForm.valid || loading" class="btn btn-md btn-primary"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Login</button>
+  <button type="submit" [disabled]="!loginForm.valid || loading" class="btn btn-md btn-success"><i *ngIf="loading" class="glyphicon glyphicon-repeat gly-spin"></i> Login</button>
   <button type="reset" class="btn btn-md btn-default">Clear</button>
 </form>
   </div>

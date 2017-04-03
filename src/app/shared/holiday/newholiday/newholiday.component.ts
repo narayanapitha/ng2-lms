@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HolidayService } from '../../../service/holiday.service';
+import { ValidationService } from '../../validation/validation.service';
 
 @Component({
     selector: 'lms-newholiday',
@@ -36,7 +38,7 @@ export class NewholidayComponent implements OnInit {
                     this.updatePage = true;
                     this.holidayForm = this.fb.group({
                         holidayname: [this.holidayData.holidayname, Validators.required],
-                        holidaydate: [this.holidayData.holidaydate, Validators.required]
+                        holidaydate: [this.holidayData.holidaydate, [Validators.required, ValidationService.dateValidator]]
                     });
                     
                 }else{
@@ -54,7 +56,7 @@ export class NewholidayComponent implements OnInit {
 	public holidayForm = this.fb.group({
         
         holidayname: ["", Validators.required],
-        holidaydate: ["", Validators.required]
+        holidaydate: ["", [Validators.required, ValidationService.dateValidator]]
     });
 
     submitForm() {
