@@ -95,7 +95,7 @@ export class EditprofileComponent implements OnInit {
         this.loading = true;
 		this.error = "";
 		this.success = "";
-
+       
         /*-----------edit user data code ----------*/
         this.editUserForm.value.id = this.userid;
         this.editUserForm.value.photo = this.imageUrl;
@@ -105,6 +105,7 @@ export class EditprofileComponent implements OnInit {
                 window.scrollTo(0, 0);
                 if(data.success){
                     this.success = data.msg;
+                    this.reloadWithNewId();
                 }else{
                     this.error = data.msg;
                 }
@@ -115,6 +116,13 @@ export class EditprofileComponent implements OnInit {
                 this.error = error.msg;
                 this.loading = false;
             }
+            
         );
     }
+
+    reloadWithNewId() {
+        console.log('sagar');
+        this.router.navigateByUrl('myprofile/' + this.userid);
+    }
 }
+

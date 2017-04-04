@@ -29,6 +29,7 @@ import { EditprofileComponent } from './shared/myprofile/editprofile/editprofile
 import { SettingsComponent } from './shared/settings/settings.component';
 import { ControlMessagesComponent } from './shared/validation/message.component';
 import { ValidationService } from './shared/validation/validation.service';
+import { ChangePasswordComponent } from './shared/change-password/change-password.component';
 
 const appRoutes: Routes = [
   {
@@ -116,6 +117,11 @@ const appRoutes: Routes = [
     component: SettingsComponent,
     canActivate: [AuthGuard]
   },
+  {
+    path: 'change-password',
+    component: ChangePasswordComponent,
+    canActivate: [AuthGuard]
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
@@ -150,7 +156,8 @@ const appRoutes: Routes = [
     PandingleaveComponent,
     MyprofileComponent,
     EditprofileComponent,
-    SettingsComponent
+    SettingsComponent,
+    ChangePasswordComponent
   ],
   providers: [
     AUTH_PROVIDERS,

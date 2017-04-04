@@ -32,7 +32,7 @@ export class LoginComponent {
               this.router.navigateByUrl('/');
               this.loading = false;
             }else{
-              this.error = "Invalid token. Try again !!!";
+              this.error = data.msg;
             }
             
         },

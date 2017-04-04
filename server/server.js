@@ -98,6 +98,7 @@ apiRoutes.get('/users/delete/:id', config.isAuthenticated, userController.delete
 apiRoutes.get('/users/:id', config.isAuthenticated, userController.getUser);
 apiRoutes.get('/managers', config.isAuthenticated, userController.listManagers);
 apiRoutes.get('/usersmanager/:id', config.isAuthenticated, userController.usersManager);
+apiRoutes.post('/changeUserPassword', config.isAuthenticated, userController.changeUserPassword);
 
 // holidays routes
 apiRoutes.get('/holidays', config.isAuthenticated, holidayController.listHolidays);
@@ -129,7 +130,7 @@ apiRoutes.post('/login', function(req, res) {
     if (err) throw err;
  
     if (!user) {
-      res.send({success: false, msg: 'Authentication failed. User not found.'});
+      res.send({success: false, msg: 'Authentication failed. Username not found.'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {

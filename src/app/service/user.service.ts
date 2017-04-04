@@ -33,4 +33,11 @@ export class UserService {
         let options = new RequestOptions({ headers: headers });
         return this.http.get('http://localhost:9000/api/settings', options).map(res => res.json());
     }
+
+    changeUserPassword(data){
+        // add authorization header with jwt token
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+       return this.http.post('http://localhost:9000/api/changeUserPassword', data, options).map(res => res.json());
+    }
 }

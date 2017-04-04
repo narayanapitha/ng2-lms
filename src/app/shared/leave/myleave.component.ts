@@ -3,6 +3,7 @@ import { DataTableResource } from 'angular-2-data-table';
 import { LeavesService } from '../../service/leaves.service';
 import { UserService } from '../../service/user.service';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {Observable} from "rxjs/Rx";
 
 @Component({
     selector: 'lms-myleave',
@@ -27,7 +28,8 @@ export class MyleaveComponent implements OnInit {
     constructor(private userService: UserService, private leavesService: LeavesService) {
         // get users from secure api end point
         this.userService.getUser()
-            .subscribe(users => {
+            .toPromise()
+            .then(users => {
                 this.userid = users.data._id,
                 this.isAdmin = users.data.role,
                 this.loggedInData = users.data

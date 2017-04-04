@@ -33,10 +33,7 @@ export class UserComponent implements OnInit {
     }
 
     ngOnInit() {
-		//this.reloadItems();
-        /*if(){
 
-        }*/
 	}
 
     reloadItems(params) {

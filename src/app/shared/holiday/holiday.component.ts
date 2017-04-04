@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { DataTableResource } from 'angular-2-data-table';
 import { HolidayService } from '../../service/holiday.service';
 import { UserService } from '../../service/user.service';
@@ -21,7 +21,7 @@ export class HolidayComponent implements OnInit {
     modalDel: any;
     modalData: any;
 
-    constructor(private holidayService: HolidayService, private userService: UserService) {
+    constructor(private cd: ChangeDetectorRef, private holidayService: HolidayService, private userService: UserService) {
         // get users from secure api end point
         this.userService.getUser()
             .subscribe(users => {
@@ -32,13 +32,6 @@ export class HolidayComponent implements OnInit {
     ngOnInit() {
 		/*this.reloadItems();*/
 	}
-
-   /* reloadItems() {
-        this.holidayService.listHolidays().subscribe(res => {
-			this.items = res.data,
-			this.itemCount = res.data.length
-		});
-    }*/
 
     reloadItems(params) {
         this.holidayService.listHolidays(params).then(result => {

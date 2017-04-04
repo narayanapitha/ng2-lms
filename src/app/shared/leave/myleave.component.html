@@ -39,7 +39,7 @@
         (reload)="reloadItems($event)"
         [rowTooltip]="rowTooltip"
         >
-         <data-table-column
+         <data-table-column *ngIf="isAdmin=='1'"
             [header]="'User'"
             [sortable]="true"
             [resizable]="true">

@@ -24,9 +24,9 @@ exports.listUsers = (req, res) => {
         var sortField = req.query._sort;
         var orderBy = parseInt(req.query._order);
 
-        User.find().count(function(err, count){
+        User.find({'role': {$ne : '1'}}).count(function(err, count){
             var totalDoc = count;
-            User.find().limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
+            User.find({'role': {$ne : '1'}}).limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
               if (err) throw err;
       
               if (!user) {
@@ -371,6 +371,46 @@ exports.usersManager = (req, res) => {
             });
         });
 
+
+
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
+
+exports.changeUserPassword = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        
+        if(req.body.newpassword === req.body.renewpassword){
+            User.findOne({
+              _id: req.body.uid
+            }, function(err, user) {
+              if (err) throw err;
+          
+              if (!user) {
+                res.send({success: false, msg: 'Authentication failed. User not found.'});
+              } else {
+                user.password = req.body.newpassword;
+                user.save(function(err, updateUser) {
+                  if (err) throw err;
+                  res.json({success: true, msg: 'Successful updated new password.'});
+                });
+              }
+            });
+
+        }else{
+          return res.json({ success: false, message: 'New password and re-enter password dosent match.' }); 
+        }
 
 
       }
