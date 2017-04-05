@@ -33,6 +33,7 @@ export class LoginComponent {
               this.loading = false;
             }else{
               this.error = data.msg;
+              this.loading = false;
             }
             
         },

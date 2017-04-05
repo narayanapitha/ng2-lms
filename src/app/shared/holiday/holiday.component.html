@@ -33,7 +33,7 @@
             [sortable]="true"
             [resizable]="true">
             <template #dataTableCell let-item="item">
-                <span>{{item.holidaydate | date:'dd-MM-yyyy'}}</span>
+                <span>{{item.holidaydate.formatted}}</span>
             </template>
         </data-table-column>
         <data-table-column
@@ -74,7 +74,7 @@
             <b>Holiday : </b> {{ modalData?.holidayname }}
         </dl>
         <dl>
-            <b>Date : </b> {{ modalData?.holidaydate }}
+            <b>Date : </b> {{ modalData?.holidaydate.formatted }}
         </dl>
     </div>
     </modal-body>

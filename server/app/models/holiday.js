@@ -12,8 +12,7 @@ var HolidaySchema = new Schema({
         required: true
   },
   holidaydate: {
-        type: String,
-        unique: true,
+        type: Object,
         required: true
   }
 });

@@ -19,19 +19,26 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="holidayname">Holiday Name</label>  
       <div class="col-md-4">
-      <input id="holidayname" required formControlName="holidayname" type="text" tooltip="Holiday Ex. Holi, Diwali" class="form-control input-md">
+      <input id="holidayname" formControlName="holidayname" type="text" tooltip="Holiday Ex. Holi, Diwali" class="form-control input-md required">
         
       </div>
     </div>
-
-    <!-- Date-->
+  
     <div class="form-group">
+      <label class="col-md-2 control-label">Holiday Date</label>  
+      <div class="col-md-4">
+         <my-date-picker (keypress)="onKeyPressDate($event)" name="holidaydate" [options]="myDatePickerOptions" formControlName="holidaydate"></my-date-picker>
+          <control-messages [control]="holidayForm.controls.holidaydate"></control-messages>
+      </div>
+    </div>
+    <!-- Date-->
+    <!--<div class="form-group">
       <label class="col-md-2 control-label">Holiday Date</label>  
       <div class="col-md-4">
           <input required formControlName="holidaydate" type="text" tooltip="Holiday Date DD-MM-YYYY" class="form-control input-md">
           <control-messages [control]="holidayForm.controls.holidaydate"></control-messages>
       </div>
-    </div>
+    </div>-->
 
     <!-- Button -->
     <div class="form-group">
@@ -43,4 +50,6 @@
     </div>
 
   </form>
+
+  
 </div>  

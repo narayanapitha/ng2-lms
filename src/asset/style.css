@@ -2,6 +2,16 @@ body {
     /*background: lightgray;*/
 }
 
+.panel-inverse > .panel-heading {
+    color: #fff;
+    background-color: #242a30;
+    border-color: #242a30;
+}
+
+.panel-inverse {
+    border-color: #242a30;
+}
+
 .navbar-fixed-top {
     top: 0;
     border-width: 0 0 1px;
@@ -94,10 +104,6 @@ body {
     /*color: #428bca;*/
 }
 
-/*.sidebar-nav li:first-child a {
-    background: #92bce0 !important;
-    color: #fff !important;
-}*/
 
 #sidebar-wrapper .sidebar-nav li a .sidebar-icon {
     width: 45px;
@@ -155,30 +161,6 @@ body {
     color: #fff !important;
 }
 
-/*.sidebar-nav li:first-child a {
-    background: #92bce0 !important;
-    color: #fff !important;
-}
-
-.sidebar-nav li:nth-child(2) a {
-    background: #6aa3d5 !important;
-    color: #fff !important;
-}
-
-.sidebar-nav li:nth-child(3) a {
-    background: #428bca !important;
-    color: #fff !important;
-}
-
-.sidebar-nav li:nth-child(4) a {
-    background: #3071a9 !important;
-    color: #fff !important;
-}
-
-.sidebar-nav li:nth-child(5) a {
-    background: #245682 !important;
-    color: #fff !important;
-}*/
 
 .error-template {padding: 40px 15px;text-align: center;}
 .error-actions {margin-top:15px;margin-bottom:15px;}

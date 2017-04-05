@@ -3,6 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HolidayService } from '../../../service/holiday.service';
 import { ValidationService } from '../../validation/validation.service';
+import {IMyOptions, IMyDateModel} from 'mydatepicker';
+
 
 @Component({
     selector: 'lms-newholiday',
@@ -10,7 +12,13 @@ import { ValidationService } from '../../validation/validation.service';
     providers: [HolidayService]
 })
 export class NewholidayComponent implements OnInit {
-  
+    
+    private myDatePickerOptions: IMyOptions = {
+        // other options...
+        dateFormat: 'dd-mm-yyyy',
+        showTodayBtn: false,
+        sunHighlight: false
+    };
     error: string;
     loading: boolean = false;
     success: string;
@@ -37,7 +45,7 @@ export class NewholidayComponent implements OnInit {
                     this.updatePage = true;
                     this.holidayForm = this.fb.group({
                         holidayname: [this.holidayData.holidayname, Validators.required],
-                        holidaydate: [this.holidayData.holidaydate, [Validators.required, ValidationService.dateValidator]]
+                        holidaydate: [this.holidayData.holidaydate]
                     });
                     
                 }else{
@@ -55,8 +63,23 @@ export class NewholidayComponent implements OnInit {
 	public holidayForm = this.fb.group({
         
         holidayname: ["", Validators.required],
-        holidaydate: ["", [Validators.required, ValidationService.dateValidator]]
+        holidaydate: [""]
     });
+
+    setDate(): void {
+        // Set today date using the setValue function
+        let date = new Date();
+        this.holidayForm.setValue({holidaydate: {
+        date: {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day: date.getDate()}
+        }});
+    }
+
+    onKeyPressDate(event) {
+        event.stopPropagation();
+    }
 
     submitForm() {
         this.loading = true;

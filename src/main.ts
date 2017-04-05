@@ -2,6 +2,7 @@ import 'jquery/dist/jquery.min.js';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap/dist/css/bootstrap.css';
 import './asset/style.css';
+import 'mydatepicker/bundles/mydatepicker.umd.js';
 
 
 import { enableProdMode } from '@angular/core';
