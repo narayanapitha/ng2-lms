@@ -27,8 +27,15 @@
       </div>
     </div>
 
-    <!-- Start Date-->
     <div class="form-group">
+      <label class="col-md-2 control-label" for="startdate">Leave Date</label>  
+      <div class="col-md-4">
+     <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    formControlName="leavedate"></my-date-range-picker>
+        
+      </div>
+    </div>
+    <!--<div class="form-group">
       <label class="col-md-2 control-label" for="startdate">Start Date</label>  
       <div class="col-md-4">
       <input id="startdate" required tooltip="Leave Start Date In DD-MM-YYYY" formControlName="startdate" type="date" class="form-control input-md">
@@ -36,14 +43,14 @@
       </div>
     </div>
 
-      <!-- End Date-->
+     
     <div class="form-group">
       <label class="col-md-2 control-label" for="enddate">End Date</label>  
       <div class="col-md-4">
       <input id="enddate" required tooltip="Leave End Date In DD-MM-YYYY" formControlName="enddate" type="date" class="form-control input-md">
         
       </div>
-    </div>
+    </div>-->
 
     <!-- Leave Description  -->
     <div class="form-group">

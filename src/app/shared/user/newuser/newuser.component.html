@@ -44,7 +44,8 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="birthday">Birthday</label>  
       <div class="col-md-4">
-      <input formControlName="birthday" tooltip="Birthdate Ex. DD-MM-YYYY" required type="date" class="form-control input-md">
+      <!--<input formControlName="birthday" tooltip="Birthdate Ex. DD-MM-YYYY" required type="date" class="form-control input-md">-->
+      <my-date-picker name="birthday" [options]="myDatePickerOptions" formControlName="birthday"></my-date-picker>
       <control-messages [control]="userForm.controls.birthday"></control-messages>
       </div>
     </div>
@@ -100,7 +101,8 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="employmentdate">Date Hired/Started</label>  
       <div class="col-md-4">
-      <input formControlName="employmentdate" tooltip="Joined Date Ex. DD-MM-YYYY" required type="date" class="form-control input-md">
+     <!-- <input formControlName="employmentdate" tooltip="Joined Date Ex. DD-MM-YYYY" required type="date" class="form-control input-md">-->
+     <my-date-picker name="employmentdate" [options]="myDatePickerOptions" formControlName="employmentdate"></my-date-picker>
        <control-messages [control]="userForm.controls.employmentdate"></control-messages> 
       </div>
     </div>

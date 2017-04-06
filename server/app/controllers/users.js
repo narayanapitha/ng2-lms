@@ -28,7 +28,6 @@ exports.listUsers = (req, res) => {
             var totalDoc = count;
             User.find({'role': {$ne : '1'}}).limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
               if (err) throw err;
-      
               if (!user) {
                 return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
               } else {

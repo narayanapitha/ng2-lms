@@ -27,7 +27,7 @@ var UserSchema = new Schema({
         type: String
   },
   birthday: {
-        type: String,
+        type: Object,
         required: true
   },
   emailaddress: {
@@ -45,7 +45,7 @@ var UserSchema = new Schema({
   },
   reportingmanager: {type: Schema.Types.ObjectId, ref: 'User' },
   employmentdate: {
-        type: String,
+        type: Object,
         required: true
   },
   phone: {

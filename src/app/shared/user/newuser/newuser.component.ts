@@ -5,6 +5,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { UsersService } from '../../../service/users.service';
 import { UserService } from '../../../service/user.service';
 import { ValidationService } from '../../validation/validation.service';
+import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
 
 const URL = 'http://localhost:9000/api/imageupload';
@@ -16,7 +17,13 @@ const URL = 'http://localhost:9000/api/imageupload';
 })
 export class NewuserComponent implements OnInit {
     
-    
+    private myDatePickerOptions: IMyOptions = {
+        // other options...
+        dateFormat: 'dd-mm-yyyy',
+        showTodayBtn: false,
+        sunHighlight: false,
+        editableDateField : false
+    };
     error: string;
     loading: boolean = false;
     success: string;
@@ -81,11 +88,11 @@ export class NewuserComponent implements OnInit {
                         lastname: [this.userData.lastname, Validators.required],
                         file: [""],
                         email: [this.userData.emailaddress, [Validators.required, ValidationService.emailValidator]],
-                        birthday: [this.userData.birthday, [Validators.required, ValidationService.dateValidator]],
+                        birthday: [this.userData.birthday, Validators.required],
                         role: [this.userData.role, Validators.required],
                         gender: [this.userData.gender, Validators.required],
                         reportingmanager: [this.userData.reportingmanager, Validators.required],
-                        employmentdate: [this.userData.employmentdate, [Validators.required, ValidationService.dateValidator]],
+                        employmentdate: [this.userData.employmentdate],
                         phone: [this.userData.phone, [ValidationService.phoneValidator]],
                         address: [this.userData.address],
                         leaveperyearval: [(this.userData.leaveperyear!= null && this.userData.leaveflag!= 0) ? this.userData.leaveperyear : this.settingData.leaveperyear, Validators.required]
@@ -110,11 +117,11 @@ export class NewuserComponent implements OnInit {
         lastname: ["", Validators.required],
         file: [""],
         email: ["", [Validators.required, ValidationService.emailValidator]],
-        birthday: ["", [Validators.required, ValidationService.dateValidator]],
+        birthday: [""],
         role: ["", Validators.required],
         gender: ["", Validators.required],
         reportingmanager: ["", Validators.required],
-        employmentdate: ["", [Validators.required, ValidationService.dateValidator]],
+        employmentdate: [""],
         phone: ["", [ValidationService.phoneValidator]],
         address: [""],
         leaveperyearval: ["", Validators.required]

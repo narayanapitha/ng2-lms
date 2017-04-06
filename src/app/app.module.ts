@@ -5,6 +5,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TooltipModule  } from 'ng2-bootstrap';
 import { MyDatePickerModule } from 'mydatepicker';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DataTableModule } from 'angular-2-data-table';
@@ -138,7 +139,8 @@ const appRoutes: Routes = [
     FileUploadModule,
     RouterModule.forRoot(appRoutes, { useHash: true }),
     TooltipModule.forRoot(),
-    MyDatePickerModule
+    MyDatePickerModule,
+    MyDateRangePickerModule
   ],
   declarations: [
     ControlMessagesComponent,

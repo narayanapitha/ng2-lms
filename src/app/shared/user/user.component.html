@@ -52,16 +52,15 @@
             [header]="'Birth Date'"
 			[sortable]="true"
 			[resizable]="true">
+            <template #dataTableCell let-item="item">
+                <span>{{ item.birthday.formatted }}</span>
+            </template>
         </data-table-column>
         <data-table-column
             [header]="'Action'" [width]="240" *ngIf="isAdmin!='3'">
-			<template #dataTableHeader let-item="item">
-				<i>Actions</i>
-			</template>
 			<template #dataTableCell let-item="item">
                 <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span> View</button>
 				<a routerLink="/user/{{item._id}}" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-				<!--<button (click)="modal.open()" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>-->
                 <button (click)="openDeleteModal(item)" *ngIf="isAdmin=='1'" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>
 
 			</template>
@@ -98,7 +97,7 @@
             <b>Email : </b> {{ modalData?.emailaddress }}
         </dl>
         <dl>
-            <b>Birth Date : </b> {{ modalData?.birthday }}
+            <b>Birth Date : </b> {{ modalData?.birthday.formatted }}
         </dl>
         <dl>
             <b>Photo : </b>  <img src='../../server/uploads/users/{{!modalData?.photo ? "default.png" : modalData?.photo}}' height="200" width="200">
@@ -115,7 +114,7 @@
                 <span class="label label-warning" *ngIf="modalData?.gender == '2'">Female</span>
         </dl>
         <dl>
-            <b>Employment Date : </b> {{ modalData?.employmentdate }}
+            <b>Employment Date : </b> {{ modalData?.employmentdate.formatted }}
         </dl>
         <dl>
             <b>Phone : </b> {{ modalData?.phone }}

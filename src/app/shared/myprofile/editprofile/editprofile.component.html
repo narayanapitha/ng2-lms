@@ -42,7 +42,8 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="birthday">Birthday</label>  
       <div class="col-md-4">
-      <input formControlName="birthday" required type="date" tooltip="Birthdate Ex. DD-MM-YYYY" class="form-control input-md">
+      <!--<input formControlName="birthday" required type="date" tooltip="Birthdate Ex. DD-MM-YYYY" class="form-control input-md">-->
+      <my-date-picker name="birthday" [options]="myDatePickerOptions" formControlName="birthday"></my-date-picker>
       </div>
     </div>
 

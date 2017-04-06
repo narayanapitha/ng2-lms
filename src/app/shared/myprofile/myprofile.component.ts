@@ -11,6 +11,7 @@ export class MyprofileComponent implements OnInit {
     user : any;
     imageName: string  = '';
 
+
     constructor(
         private userService: UserService
     ) { }

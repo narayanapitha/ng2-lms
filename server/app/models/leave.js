@@ -13,12 +13,8 @@ var LeaveSchema = new Schema({
         type: String,
         required: true
   },
-  startdate: {
-        type: String,
-        required: true
-  },
-  enddate: {
-        type: String,
+  leavedate: {
+        type: Object,
         required: true
   },
   description: {

@@ -35,23 +35,12 @@
             [resizable]="true">
         </data-table-column>
         <data-table-column
-            [property]="'startdate'"
-            [header]="'Start Date'"
+            [property]="'leavedate'"
+            [header]="'Leave Date'"
             [sortable]="true"
-            [resizable]="true"
-            [width]="100">
+            [resizable]="true">
             <template #dataTableCell let-item="item">
-                <span>{{item.startdate | date:'dd-MM-yyyy'}}</span>
-            </template>
-        </data-table-column>
-        <data-table-column
-            [property]="'enddate'"
-            [header]="'End Date'"
-            [sortable]="true"
-            [resizable]="true"
-            [width]="100">
-            <template #dataTableCell let-item="item">
-                <span>{{item.enddate | date:'dd-MM-yyyy'}}</span>
+                <span>{{item.leavedate.formatted}}</span>
             </template>
         </data-table-column>
         <data-table-column
@@ -74,7 +63,6 @@
                 <i>Actions</i>
             </template>
             <template #dataTableCell let-item="item">
-                <!--<button (click)="approveLeave(item)" *ngIf="item.approve_status == '0' && isAdmin!='3'" title="Make Approve" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-ok-sign"></span> Approve</button>-->
                 <button (click)="openConfirmLeaveModal(item)" class="btn btn-sm btn-default">
                     <i *ngIf="item.approve_status == '0' && isAdmin!='3'"><span class="glyphicon glyphicon-ok-sign"></span> Approve</i>
                     <i *ngIf="item.approve_status == '1' && isAdmin!='3'"><span class="glyphicon glyphicon-ok-sign"></span> Reject</i>
@@ -82,7 +70,6 @@
                 </button>
                 <button (click)="openViewModal(item)" title="View" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span> View</button>
                 <a routerLink="/myleave/{{item._id}}" title="Edit" routerLinkActive="active" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                <!--<button (click)="openDeleteModal(item)" title="Delete" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</button>-->
 
             </template>
         </data-table-column>
@@ -115,10 +102,7 @@
                 <b>LeaveType : </b> {{ modalData?.leavetype }}
             </dl>
             <dl>
-                <b>Leave Start Date : </b> {{ modalData?.startdate }}
-            </dl>
-            <dl>
-                <b>Leave End Date : </b> {{ modalData?.enddate }}
+                <b>Leave Date : </b> {{ modalData?.leavedate.formatted }}
             </dl>
             <dl>
                 <b>Description : </b> {{ modalData?.description }}

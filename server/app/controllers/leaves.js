@@ -1,7 +1,7 @@
-var Leave        = require('../models/leave'); // get the mongoose model
-var User        = require('../models/user');
-var mongoose    = require('mongoose');
-var config      = require('../../config/database');
+var Leave = require('../models/leave'); // get the mongoose model
+var User = require('../models/user');
+var mongoose = require('mongoose');
+var config = require('../../config/database');
 var passport	= require('passport');
 var jwt = require('jsonwebtoken');
 // bundle our routes
@@ -167,8 +167,7 @@ exports.addLeaves = (req, res) => {
             userid: req.body.userid,
             managerid: req.body.managerid,
             leavetype: req.body.leavetype,
-            startdate: req.body.startdate,
-            enddate: req.body.enddate,
+            leavedate: req.body.leavedate,
             description: req.body.description,
             approve_status: req.body.approve_status,
           });
@@ -201,8 +200,7 @@ exports.editLeaves = (req, res) => {
         var updateData = { 
             managerid: req.body.managerid,
             leavetype: req.body.leavetype,
-            startdate: req.body.startdate,
-            enddate: req.body.enddate,
+            leavedate: req.body.leavedate,
             description: req.body.description,
             approve_status: req.body.approve_status,
             comment: req.body.comment

@@ -29,6 +29,7 @@
     "datatables.net": "^1.10.13",
     "jquery": "^3.1.1",
     "mydatepicker": "^1.8.0",
+    "mydaterangepicker": "^2.0.1",
     "ng2-bootstrap": "^1.6.1",
     "ng2-bs3-modal": "^0.10.4",
     "ng2-file-upload": "^1.2.0",

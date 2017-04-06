@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { LeavesService } from '../../../service/leaves.service';
 import { UserService } from '../../../service/user.service';
+import {IMyOptions} from 'mydaterangepicker';
 
 
 @Component({
@@ -11,7 +12,11 @@ import { UserService } from '../../../service/user.service';
     providers: [LeavesService, UserService]
 })
 export class ApplyleaveComponent implements OnInit {
-    
+    private myDateRangePickerOptions: IMyOptions = {
+        // other options...
+        dateFormat: 'dd-mm-yyyy',
+        editableDateRangeField : false
+    };
     error: string;
     loading: boolean = false;
     success: string;
@@ -50,8 +55,8 @@ export class ApplyleaveComponent implements OnInit {
                     this.updatePage = true;
                     this.leaveForm = this.fb.group({
                         leavetype: [this.leaveData.leavetype, Validators.required],
-                        startdate: [this.leaveData.startdate, Validators.required],
-                        enddate: [this.leaveData.enddate, Validators.required],
+                        leavedate: [this.leaveData.leavedate, Validators.required],
+                        /*enddate: [this.leaveData.enddate, Validators.required],*/
                         description: [this.leaveData.description, Validators.required],
                         approve_status: [this.leaveData.approve_status],
                         comment: [this.leaveData.comment]
@@ -71,8 +76,8 @@ export class ApplyleaveComponent implements OnInit {
 	public leaveForm = this.fb.group({
         
         leavetype: ["", Validators.required],
-        startdate: ["", Validators.required],
-        enddate: ["", Validators.required],
+        leavedate: ["", Validators.required],
+        /*enddate: ["", Validators.required],*/
         description: ["", Validators.required],
         approve_status: [""],
         comment: [""]

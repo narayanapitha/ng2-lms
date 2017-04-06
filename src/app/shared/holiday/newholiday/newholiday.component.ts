@@ -17,7 +17,8 @@ export class NewholidayComponent implements OnInit {
         // other options...
         dateFormat: 'dd-mm-yyyy',
         showTodayBtn: false,
-        sunHighlight: false
+        sunHighlight: false,
+        editableDateField : false
     };
     error: string;
     loading: boolean = false;
@@ -45,7 +46,7 @@ export class NewholidayComponent implements OnInit {
                     this.updatePage = true;
                     this.holidayForm = this.fb.group({
                         holidayname: [this.holidayData.holidayname, Validators.required],
-                        holidaydate: [this.holidayData.holidaydate]
+                        holidaydate: [this.holidayData.holidaydate, Validators.required]
                     });
                     
                 }else{
@@ -63,10 +64,10 @@ export class NewholidayComponent implements OnInit {
 	public holidayForm = this.fb.group({
         
         holidayname: ["", Validators.required],
-        holidaydate: [""]
+        holidaydate: ["", Validators.required]
     });
 
-    setDate(): void {
+    /*setDate(): void {
         // Set today date using the setValue function
         let date = new Date();
         this.holidayForm.setValue({holidaydate: {
@@ -75,11 +76,7 @@ export class NewholidayComponent implements OnInit {
             month: date.getMonth() + 1,
             day: date.getDate()}
         }});
-    }
-
-    onKeyPressDate(event) {
-        event.stopPropagation();
-    }
+    }*/
 
     submitForm() {
         this.loading = true;

@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FileUploader } from 'ng2-file-upload';
 import { UsersService } from '../../../service/users.service';
 import { UserService } from '../../../service/user.service';
+import { ValidationService } from '../../validation/validation.service';
+import {IMyOptions, IMyDateModel} from 'mydatepicker';
 
 const URL = 'http://localhost:9000/api/imageupload';
 
@@ -22,6 +24,13 @@ export class EditprofileComponent implements OnInit {
     userid: string;
     imageupload: number;
     imageUrl: string = '';
+    private myDatePickerOptions: IMyOptions = {
+        // other options...
+        dateFormat: 'dd-mm-yyyy',
+        showTodayBtn: false,
+        sunHighlight: false,
+        editableDateField : false
+    };
 
     constructor(private fb: FormBuilder, private router: Router, private users: UsersService, private user: UserService, private activatedRoute: ActivatedRoute) {
     }
@@ -64,7 +73,7 @@ export class EditprofileComponent implements OnInit {
                         file: [""],
                         birthday: [this.userData.birthday, Validators.required],
                         gender: [this.userData.gender, Validators.required],
-                        phone: [this.userData.phone],
+                        phone: [this.userData.phone, [ValidationService.phoneValidator]],
                         address: [this.userData.address]
                     });
                     
@@ -87,7 +96,7 @@ export class EditprofileComponent implements OnInit {
         file: [""],
         birthday: ["", Validators.required],
         gender: ["", Validators.required],
-        phone: [""],
+        phone: ["", [ValidationService.phoneValidator]],
         address: [""]
     });
 
