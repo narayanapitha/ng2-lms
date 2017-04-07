@@ -4,6 +4,10 @@ var passport	= require('passport');
 var jwt = require('jsonwebtoken');
 var User        = require('../models/user'); // get the mongoose model
 var fs = require('fs');
+var nodemailer = require('nodemailer');
+var Setting = require('../models/setting');
+var sendEmailController = require('./sendemail');
+
 // bundle our routes
 
 
@@ -95,7 +99,8 @@ exports.addUsers = (req, res) => {
                 if (!user) {
                   return res.json({success: false, msg: 'User not created successfully.'});
                 } else {
-                  res.json({success: true, msg: 'Successful created new user.'});
+                    sendEmailController.sendRegistrationUser(req, res);
+                    res.json({success: true, msg: 'Successful created new user.'});
                 }
               });
           });
@@ -105,6 +110,7 @@ exports.addUsers = (req, res) => {
     return res.status(403).send({success: false, msg: 'No token provided.'});
   }
 };
+
 
 // edit user data (GET http://localhost:9000/api/users/edit)
 exports.editUsers = (req, res) => {

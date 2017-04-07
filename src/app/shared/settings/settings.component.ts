@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../service/user.service';
+import { ValidationService } from '../validation/validation.service';
 
 
 @Component({
@@ -33,6 +34,10 @@ export class SettingsComponent implements OnInit {
                 if(data.success){
                     this.settingData = data.data;
                     this.settingForm = this.fb.group({
+                        smtpusername: [this.settingData.smtpusername, [Validators.required, ValidationService.emailValidator]],
+                        smtppassword: [this.settingData.smtppassword, Validators.required],
+                        smtpfromemail: [this.settingData.smtpfromemail, [Validators.required, ValidationService.emailValidator]],
+                        smtpfromname: [this.settingData.smtpfromname, Validators.required],
                         leavepermonth: [this.settingData.leavepermonth, Validators.required],
                         leaveperyear: [this.settingData.leaveperyear, Validators.required],
                         leavesstartmonth: [this.settingData.leavesstartmonth, Validators.required]
@@ -51,6 +56,10 @@ export class SettingsComponent implements OnInit {
     }
     
     public settingForm = this.fb.group({
+        smtpusername: ['', [Validators.required, ValidationService.emailValidator]],
+        smtppassword: ['', Validators.required],
+        smtpfromemail: ['', [Validators.required, ValidationService.emailValidator]],
+        smtpfromname: ['', Validators.required],
         leavepermonth: ["", Validators.required],
         leaveperyear: ["", Validators.required],
         leavesstartmonth: ["", Validators.required]

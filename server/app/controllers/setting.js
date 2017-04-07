@@ -50,10 +50,15 @@ exports.editSetting = (req, res) => {
 
 
            var updateData = { 
+              smtpusername: req.body.smtpusername,
+              smtppassword: req.body.smtppassword,
+              smtpfromemail: req.body.smtpfromemail,
+              smtpfromname: req.body.smtpfromname,
               leavepermonth: req.body.leavepermonth,
               leaveperyear: req.body.leaveperyear,
               leavesstartmonth: req.body.leavesstartmonth
           };
+
          
           Setting.findByIdAndUpdate("58d39e3d4c5bbb40411de9e2", updateData, function(err, setting) {
               if (err) throw err;

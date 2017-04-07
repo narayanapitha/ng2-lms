@@ -55,6 +55,7 @@ export class NewuserComponent implements OnInit {
 
 		let params: any = this.activatedRoute.snapshot.params;
         if(params.id){
+            this.updatePage = true;
             this.getUserData(params.id);
             this.userid = params.id;
         }
@@ -82,7 +83,6 @@ export class NewuserComponent implements OnInit {
                     this.userData = data.data;
                     this.imageUrl = this.userData.photo;
                     this.imageupload = 0;
-                    this.updatePage = true;
                     this.userForm = this.fb.group({
                         firstname: [this.userData.firstname, Validators.required],
                         lastname: [this.userData.lastname, Validators.required],
@@ -117,6 +117,7 @@ export class NewuserComponent implements OnInit {
         lastname: ["", Validators.required],
         file: [""],
         email: ["", [Validators.required, ValidationService.emailValidator]],
+        password: ["", Validators.required],
         birthday: [""],
         role: ["", Validators.required],
         gender: ["", Validators.required],
@@ -165,7 +166,7 @@ export class NewuserComponent implements OnInit {
         }else{
             //-----------add user data code ----------
             this.userForm.value.username = this.userForm.value.email;
-            this.userForm.value.password = "test";
+            //this.userForm.value.password = "test";
             this.userForm.value.photo = this.imageUrl;
             this.user.addUser(this.userForm.value).subscribe(
                 data => {

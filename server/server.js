@@ -11,7 +11,8 @@ var port        = process.env.PORT || 9000;
 var jwt = require('jsonwebtoken');
 var multer = require('multer');
 var fs = require('fs');
-var cors = require('cors')
+var cors = require('cors');
+var nodemailer = require('nodemailer');
 
 var storageUser = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
@@ -88,6 +89,7 @@ const userController = require('./app/controllers/users');
 const holidayController = require('./app/controllers/holidays');
 const leaveController = require('./app/controllers/leaves');
 const settingController = require('./app/controllers/setting');
+const sendEmailController = require('./app/controllers/sendemail');
 
 // users routes
 apiRoutes.get('/users', config.isAuthenticated, userController.listUsers);

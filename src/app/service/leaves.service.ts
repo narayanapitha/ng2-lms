@@ -53,7 +53,7 @@ export class LeavesService {
 		// add authorization header with jwt token
         let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
         let options = new RequestOptions({ headers: headers });
-        if(user.role==1){
+        /*if(user.role==1){
             //return this.http.get('http://localhost:9000/api/leaves', options).map(res => res.json());
             return this.http.get('http://localhost:9000/api/leaves?' + paramsToQueryString(params), options).toPromise()
             .then((resp: Response) => ({
@@ -61,14 +61,14 @@ export class LeavesService {
                 count: resp.json().total
             }));
 
-        }else{
+        }else{*/
             //return this.http.get('http://localhost:9000/api/leavesuser/'+user._id, options).map(res => res.json());
             return this.http.get('http://localhost:9000/api/leavesuser/'+user._id+'?' + paramsToQueryString(params), options).toPromise()
             .then((resp: Response) => ({
                 items: resp.json().data,
                 count: resp.json().total
             }));
-        }
+        /*}*/
     }
 
     listLeavesByManager(user, params: DataTableParams){

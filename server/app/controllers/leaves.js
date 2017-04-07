@@ -4,6 +4,10 @@ var mongoose = require('mongoose');
 var config = require('../../config/database');
 var passport	= require('passport');
 var jwt = require('jsonwebtoken');
+var fs = require('fs');
+var nodemailer = require('nodemailer');
+var Setting = require('../models/setting');
+var sendEmailController = require('./sendemail');
 // bundle our routes
 
 
@@ -174,9 +178,10 @@ exports.addLeaves = (req, res) => {
           // save the user
           newLeave.save(function(err) {
             if (err) {
-              return res.json({success: false, msg: 'Holiday name or date already exists.'});
+              return res.json({success: false, msg: 'Some error occure while adding leave.'});
             }
-            return res.json({success: true, msg: 'Successful created new Holiday.'});
+            sendEmailController.sendAddLeave(req, res);
+            return res.json({success: true, msg: 'Successful added new leave.'});
           });
         }
       });

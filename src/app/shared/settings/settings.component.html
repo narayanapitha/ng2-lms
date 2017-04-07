@@ -13,20 +13,64 @@
       </div>
   </div>
   <form class="form-horizontal" [formGroup]="settingForm" (ngSubmit)="submitForm($event)">
- 
-    <!-- Text input-->
+    
     <div class="form-group">
-      <label class="col-md-3 control-label">Leave Per Month</label>  
+      <label class="col-md-3 control-label"></label>  
       <div class="col-md-4">
-          <input type="number" tooltip="Leave per Month" class="form-control input-md" required formControlName="leavepermonth">
+          <h3>SMTP Gmail Settings</h3>
       </div>
     </div>
 
     <!-- Text input-->
     <div class="form-group">
+      <label class="col-md-3 control-label">SMTP Username Email</label>  
+      <div class="col-md-4">
+          <input type="email" class="form-control input-md required" formControlName="smtpusername">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">SMTP Password</label>  
+      <div class="col-md-4">
+          <input type="password" class="form-control input-md required" formControlName="smtppassword">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">SMTP From Email</label>  
+      <div class="col-md-4">
+          <input type="email" class="form-control input-md required" formControlName="smtpfromemail">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">SMTP From Name</label>  
+      <div class="col-md-4">
+          <input type="text" class="form-control input-md required" formControlName="smtpfromname">
+      </div>
+    </div>
+
+    <hr/>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label"></label>  
+      <div class="col-md-4">
+          <h3>Leave Settings</h3>
+      </div>
+    </div>
+
+    <!-- Text input-->
+    <div class="form-group">
+      <label class="col-md-3 control-label">Leave Per Month</label>  
+      <div class="col-md-4">
+          <input type="number" tooltip="Leave per Month" class="form-control input-md required" required formControlName="leavepermonth">
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="col-md-3 control-label">Leave Per Year</label>  
       <div class="col-md-4">
-          <input type="number" tooltip="Leave per Year" class="form-control input-md" required formControlName="leaveperyear">
+          <input type="number" tooltip="Leave per Year" class="form-control input-md required" required formControlName="leaveperyear">
       </div>
     </div>
 
@@ -35,7 +79,7 @@
       <label class="col-md-3 control-label">Leaves Start Month</label>  
       <div class="col-md-4">
           <!--<input type="number" class="form-control input-md" formControlName="leavesstartmonth">-->
-          <select formControlName="leavesstartmonth" tooltip="Leave Start Month" class="form-control" required>
+          <select formControlName="leavesstartmonth" tooltip="Leave Start Month" class="form-control required" required>
             <option value="">Select Month</option>
             <option value="0">January</option>
             <option value="1">February</option>

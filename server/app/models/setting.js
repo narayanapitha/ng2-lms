@@ -6,6 +6,21 @@ var bcrypt = require('bcrypt');
  
 // set up a mongoose model
 var SettingSchema = new Schema({
+  smtpusername: {
+      type: String,
+      required: true
+  },
+  smtppassword: {
+      type: String
+  },
+  smtpfromemail: {
+      type: String,
+      required: true
+  },
+  smtpfromname: {
+      type: String,
+      required: true
+  },
   leavepermonth: {
         type: Number,
         required: true
