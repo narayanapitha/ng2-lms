@@ -11,7 +11,7 @@
     "build": "webpack --progress",
     "build:prod": "cross-env APP_ENVIRONMENT=production webpack -p --progress",
     "postinstall": "typings install",
-    "serve": "webpack-dev-server --inline --progress"
+    "serve": "webpack-dev-server --inline --progress --port 8000"
   },
   "dependencies": {
     "@angular/common": "2.3.0",

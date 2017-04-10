@@ -12,7 +12,7 @@ var jwt = require('jsonwebtoken');
 var multer = require('multer');
 var fs = require('fs');
 var cors = require('cors');
-var nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer'); 
 
 var storageUser = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {

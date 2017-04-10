@@ -8,7 +8,6 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 var Setting = require('../models/setting');
 
-
 exports.sendRegistrationUser = (req, res) => {
 
     Setting.findById("58d39e3d4c5bbb40411de9e2", function(err, setting) {
@@ -72,6 +71,9 @@ exports.sendAddLeave = (req, res) => {
         if (setting) {
 
             var mailOpts, smtpTrans;
+
+            User.find({ $or:[ {'role': "1"},  { _id: { $in: [req.body.userid , req.body.managerid] } }] }, 'emailaddress', function(err, user) {
+            });
 
             fs.readFile("app/templates/leave.html", "utf8", function(err, templateHtml) {
                 if (err) throw err;

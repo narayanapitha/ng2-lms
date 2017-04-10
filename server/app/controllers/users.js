@@ -100,7 +100,7 @@ exports.addUsers = (req, res) => {
                   return res.json({success: false, msg: 'User not created successfully.'});
                 } else {
                     sendEmailController.sendRegistrationUser(req, res);
-                    res.json({success: true, msg: 'Successful created new user.'});
+                    return res.json({success: true, msg: 'Successful created new user.'});
                 }
               });
           });
