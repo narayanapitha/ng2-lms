@@ -111,5 +111,11 @@ export class LeavesService {
         let options = new RequestOptions({ headers: headers });
        return this.http.post('http://localhost:9000/api/leaves/confirm', data, options).map(res => res.json());
     }
+
+    addCountLeave(id){
+        let headers = new Headers({ 'Authorization': 'JWT ' + localStorage.getItem('id_token') });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get('http://localhost:9000/api/addCountleaves/'+id, options).map(res => res.json());
+    }
 	
 }

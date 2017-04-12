@@ -24,6 +24,7 @@ export class PandingleaveComponent implements OnInit {
     modalId: string;
     modalDel: any;
     modalData: any;
+    leaveData : any;
 
     constructor(private fb: FormBuilder, private userService: UserService, private leavesService: LeavesService) {
         // get users from secure api end point
@@ -106,7 +107,8 @@ export class PandingleaveComponent implements OnInit {
         this.error = "";
 		this.success = "";
         this.confirmLeaveForm.value.id = this.modalId;
-        this.leavesService.confirmLeave(this.confirmLeaveForm.value).subscribe(
+        this.leaveCalculation(this.confirmLeaveForm.value);
+        /*this.leavesService.confirmLeave(this.confirmLeaveForm.value).subscribe(
 			data => {
                 this.loading = false;
                 if(data.success){
@@ -120,9 +122,36 @@ export class PandingleaveComponent implements OnInit {
             error => {
             this.error = error.msg;
             this.loading = false;
-        });	
+        });*/	
         //this.reloadItems();
     }
+
+    leaveCalculation(formdata){
+        if(formdata.approve_status==1){
+
+            this.leavesService.getLeaves(formdata.id)
+            .flatMap(ret => this.leavesService.addCountLeave(ret.data.userid))
+            .subscribe(res => {
+                if(res.success){
+                    
+                }else{
+                    this.error = res.msg;
+                }
+            }); 
+
+
+            this.leavesService.getLeaves(formdata.id).subscribe(data => { this.leaveData = data.data });
+            this.leavesService.addCountLeave( this.leaveData.userid).subscribe(
+                data => {
+                    if(data.success){
+                       
+                    }else{
+                        this.error = data.msg;
+                    }
+                });
+        }
+    }
+
 
     @ViewChild('modalView')
     modalView: ModalComponent;

@@ -71,43 +71,72 @@ exports.sendAddLeave = (req, res) => {
         if (setting) {
 
             var mailOpts, smtpTrans;
-
-            User.find({ $or:[ {'role': "1"},  { _id: { $in: [req.body.userid , req.body.managerid] } }] }, 'emailaddress', function(err, user) {
+             //Setup Nodemailer transport, I chose gmail. Create an application-specific password to avoid problems.
+            smtpTrans = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: setting.smtpusername,
+                    pass: setting.smtppassword
+                }
             });
 
             fs.readFile("app/templates/leave.html", "utf8", function(err, templateHtml) {
                 if (err) throw err;
 
-                var mailHtml = templateHtml.replace("$fullname", req.body.firstname).replace("$email", req.body.lastname).replace("$reportingmanager", req.body.email).replace("$leavetype", req.body.password).replace("$leaveduration", userRole).replace("$leavedescription", userRole);
+                User.find({ $or:[ {'role': "1"},  { _id: { $in: [req.body.userid , req.body.managerid] } }] }, { "firstname": true, "emailaddress": true, "lastname": true, "role": true }, function(err, user) {
 
-                //Setup Nodemailer transport, I chose gmail. Create an application-specific password to avoid problems.
-                smtpTrans = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: setting.smtpusername,
-                        pass: setting.smtppassword
-                    }
+            
+                    var leaveUserArr = user.filter(function(item) {
+                        return item._id == req.body.userid;
+                    });
+                    var userName = leaveUserArr[0].firstname +' '+ leaveUserArr[0].lastname;
+                    var userEmail = leaveUserArr[0].emailaddress;
+
+                    var managerArr = user.filter(function(item) {
+                        return item._id == req.body.managerid;
+                    });
+                    var managerName = managerArr[0].firstname +' '+ managerArr[0].lastname;
+                    var managerEmail = managerArr[0].emailaddress;
+
+                    var otherRecipient = user.filter(function(item) {
+                            return item.role == '1';
+                        }).map(function(elem){
+                            return elem.emailaddress;
+                        }).join(",");
+
+
+                    var mailHtml = templateHtml.replace("$fullname", userName).replace("$email", userEmail).replace("$reportingmanager", managerName).replace("$leavetype", req.body.leavetype).replace("$leaveduration", req.body.leavedate.formatted).replace("$leavedescription", req.body.description);
+
+                    mailOpts = {
+                        from: 'Leave Management System <' + setting.smtpfromemail + '>',
+                        to: userEmail +','+ managerEmail,
+                        cc: otherRecipient,
+                        subject: 'Leave Request',
+                        html: mailHtml
+                    };
+
+                    smtpTrans.sendMail(mailOpts, function(error, response) {
+                        console.log('sucess');
+                        //Email not sent
+                        if (error) {
+                            res.json({
+                                success: false,
+                                msg: 'Error occured while sending email to user.'
+                            });
+                        }
+                    });
+                    
+                
+                    /*user.forEach(function (recipient, i) {
+                        console.log(email.emailaddress);
+                        console.log(", ");
+                        console.log(email.firstname);
+                        console.log(email.lastname);
+                        console.log(", ");
+                    });*/
+            
                 });
-                //Mail options
-                mailOpts = {
-                    from: 'Leave Management System <' + setting.smtpfromemail + '>',
-                    to: req.body.email,
-                    subject: 'Leave Request',
-                    html: mailHtml
-                };
-
-                smtpTrans.sendMail(mailOpts, function(error, response) {
-                    //Email not sent
-                    if (error) {
-                        res.json({
-                            success: false,
-                            msg: 'Error occured while sending email to user.'
-                        });
-                    }
-                });
-
             });
-
         }
     });
 };

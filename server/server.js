@@ -101,6 +101,7 @@ apiRoutes.get('/users/:id', config.isAuthenticated, userController.getUser);
 apiRoutes.get('/managers', config.isAuthenticated, userController.listManagers);
 apiRoutes.get('/usersmanager/:id', config.isAuthenticated, userController.usersManager);
 apiRoutes.post('/changeUserPassword', config.isAuthenticated, userController.changeUserPassword);
+apiRoutes.get('/addCountleaves', config.isAuthenticated, userController.addCountleaves);
 
 // holidays routes
 apiRoutes.get('/holidays', config.isAuthenticated, holidayController.listHolidays);

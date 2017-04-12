@@ -28,9 +28,9 @@ exports.listUsers = (req, res) => {
         var sortField = req.query._sort;
         var orderBy = parseInt(req.query._order);
 
-        User.find({'role': {$ne : '1'}}).count(function(err, count){
+        User.find().count(function(err, count){
             var totalDoc = count;
-            User.find({'role': {$ne : '1'}}).limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
+            User.find().limit(perPage).skip(startPage).sort({ '_id': -1 }).exec(function(err, user) {
               if (err) throw err;
               if (!user) {
                 return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
@@ -418,6 +418,33 @@ exports.changeUserPassword = (req, res) => {
         }
 
 
+      }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'No token provided.'});
+  }
+};
+
+exports.addCountleaves = (req, res) => {
+  var token = getToken(req.headers);
+  if (token) {
+    // verifies secret and checks exp
+    var decoded = jwt.decode(token, config.secret, {complete: true});
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        
+         User.findById(req.params.id, function(err, user) {
+              if (err) throw err;
+      
+              if (!user) {
+                return res.json({success: false, msg: 'error occured while updating data.'});
+              } else {
+                //res.json({success: true, data: user});
+                console.log(user.emailaddress);
+              }
+            });
       }
     });
   } else {

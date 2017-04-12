@@ -24,16 +24,24 @@
         [rowTooltip]="rowTooltip"
         >
         <data-table-column
-            [property]="'firstname'"
+            [property]="'fullname'"
             [header]="'First Name'"
             [sortable]="true"
             [resizable]="true">
+            <template #dataTableCell let-item="item">
+                <span>{{ item.firstname }} {{ item.lastname }}</span>
+            </template>
         </data-table-column>
         <data-table-column
-            [property]="'lastname'"
-            [header]="'Last Name'"
+            [property]="'role'"
+            [header]="'Role'"
             [sortable]="true"
 			[resizable]="true">
+             <template #dataTableCell let-item="item">
+                <span class="label label-success" *ngIf="item.role == '1'">Admin</span>
+                <span class="label label-warning" *ngIf="item.role == '2'">Manager</span>
+                <span class="label label-primary" *ngIf="item.role == '3'">User</span>
+            </template>
         </data-table-column>
         <data-table-column
             [property]="'username'"
